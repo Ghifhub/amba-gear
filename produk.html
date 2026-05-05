@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Semua Produk Gaming AMBA GEAR - Mouse, Keyboard, Headset gaming premium terbaik di Indonesia." />
+  <title>Produk – AMBA GEAR</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
+    <div class="topbar-right">
+      <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
+      <a href="#"><i class="fas fa-user"></i> Sign In / Register</a>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" />
+        <span class="logo-text"><span class="amba-text">amba</span> gear</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="produk.html" class="active">Shop</a></li>
+        <li><a href="tentang.html">Tentang Kami</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+        <a href="kontak.html" class="icon-btn wa-icon"><i class="fab fa-whatsapp"></i></a>
+        <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <input type="text" placeholder="Cari produk gaming..." />
+      <button><i class="fas fa-search"></i></button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>SEMUA <span class="accent">PRODUK</span></h1>
+    <p class="breadcrumb"><a href="index.html">Home</a> / Shop</p>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="container">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all">Semua</button>
+      <button class="filter-btn" data-filter="mouse">Mouse</button>
+      <button class="filter-btn" data-filter="keyboard">Keyboard</button>
+      <button class="filter-btn" data-filter="headset">Headset</button>
+    </div>
+  </div>
+
+  <!-- PRODUCTS FULL LIST -->
+  <section class="section" style="background: var(--bg-2);">
+    <div class="container">
+      <div class="product-grid" style="grid-template-columns: repeat(3,1fr);">
+
+        <!-- MOUSE PRODUCTS -->
+        <div class="product-card" data-cat="mouse">
+          <div class="product-badge">HOT</div>
+          <div class="product-img">
+            <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400" alt="ProStrike X1" />
+          </div>
+          <div class="product-info">
+            <h4>ProStrike X1 Superlight</h4>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">Sensor 25.600 DPI • Wireless • RGB</p>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (128)</div>
+            <div class="price">Rp449.000</div>
+            <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-cat="mouse">
+          <div class="product-img">
+            <img src="https://images.unsplash.com/photo-1623820919239-0d0ff10797a1?w=400" alt="Viper Elite V3" />
+          </div>
+          <div class="product-info">
+            <h4>Viper Elite V3 Pro</h4>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">Sensor 30.000 DPI • Kabel • RGB</p>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (94)</div>
+            <div class="price">Rp479.000</div>
+            <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-cat="mouse">
+          <div class="product-badge sale">SALE</div>
+          <div class="product-img">
+            <img src="https://images.unsplash.com/photo-1610735843870-9ebfa8e09e42?w=400" alt="Shadow X Wireless" />
+          </div>
+          <div class="product-info">
+            <h4>Shadow X Wireless</h4>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">Sensor 18.000 DPI • Wireless • Ergonomik</p>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> (67)</div>
+            <div class="price"><span class="old">Rp520.000</span> Rp389.000</div>
+            <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <!-- KEYBOARD PRODUCTS -->
+        <div class="product-card" data-cat="keyboard">
+          <div class="product-badge">HOT</div>
+          <div class="product-img">
+            <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400" alt="MechTactical K7" />
+          </div>
+          <div class="product-info">
+            <h4>MechTactical K7 Pro</h4>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">Switch Red • Full Size • RGB Backlit</p>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (156)</div>
+            <div class="price">Rp509.000</div>
+            <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-cat="keyboard">
+          <div class="product-img">
+            <img src="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?w=400" alt="NeonBoard RGB" />
+          </div>
+          <div class="product-info">
+            <h4>NeonBoard RGB TKL</h4>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">Switch Blue • TKL Form • Per-Key RGB</p>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (89)</div>
+            <div class="price">Rp509.000</div>
+            <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-cat="keyboard">
+          <div class="product-img">
+            <img src="https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400" alt="BladeKey Apex TKL" />
+          </div>
+          <div class="product-info">
+            <h4>BladeKey Apex TKL</h4>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">Switch Brown • TKL • Wireless</p>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> (54)</div>
+            <div class="price">Rp599.000</div>
+            <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <!-- HEADSET PRODUCTS -->
+        <div class="product-card" data-cat="headset">
+          <div class="product-img">
+            <img src="https://images.unsplash.com/photo-1599669454699-248893623440?w=400" alt="SoundWave 7.1" />
+          </div>
+          <div class="product-info">
+            <h4>SoundWave 7.1 Surround</h4>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">7.1 Surround • Noise Cancel • USB</p>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (203)</div>
+            <div class="price">Rp299.000</div>
+            <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-cat="headset">
+          <div class="product-badge">HOT</div>
+          <div class="product-img">
+            <img src="https://images.unsplash.com/photo-1585298723682-7115561c51b7?w=400" alt="BassArena Pro" />
+          </div>
+          <div class="product-info">
+            <h4>BassArena Pro Wireless</h4>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">Wireless • 50mm Driver • 40hr Battery</p>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (177)</div>
+            <div class="price">Rp389.000</div>
+            <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-cat="headset">
+          <div class="product-badge sale">SALE</div>
+          <div class="product-img">
+            <img src="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=400" alt="HyperAudio X V2 Pro" />
+          </div>
+          <div class="product-info">
+            <h4>HyperAudio X V2 Pro</h4>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">Surround Sound • Noise Cancel • RGB</p>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> (88)</div>
+            <div class="price"><span class="old">Rp699.000</span> Rp599.000</div>
+            <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Pesan Sekarang</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo"><img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" /></a>
+            <p>Premium gaming gear untuk mereka yang menuntut performa terbaik. Play harder. Win more.</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-tiktok"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+              <a href="kontak.html"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h5>SHOP</h5>
+            <ul>
+              <li><a href="produk.html">Semua Produk</a></li>
+              <li><a href="produk.html?cat=mouse">Mouse Gaming</a></li>
+              <li><a href="produk.html?cat=keyboard">Keyboard Gaming</a></li>
+              <li><a href="produk.html?cat=headset">Headset Gaming</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>CUSTOMER SERVICE</h5>
+            <ul>
+              <li><a href="#">Shipping &amp; Delivery</a></li>
+              <li><a href="#">Returns &amp; Refunds</a></li>
+              <li><a href="kontak.html">Kontak Kami</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>NEWSLETTER</h5>
+            <p>Subscribe untuk promo spesial dan deals eksklusif!</p>
+            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+              <div class="newsletter-input">
+                <input type="email" placeholder="Email kamu..." required />
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2024 AMBA GEAR. All Rights Reserved.</p>
+        <div class="payment-icons">
+          <span>VISA</span><span>Mastercard</span><span>GoPay</span><span>OVO</span><span>DANA</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/6281234567890?text=Halo%20AMBA%20GEAR!%20Saya%20ingin%20tanya%20tentang%20produk..." class="wa-float" target="_blank" rel="noopener">
+    <i class="fab fa-whatsapp"></i>
+    <span class="wa-tooltip">Chat Admin</span>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
