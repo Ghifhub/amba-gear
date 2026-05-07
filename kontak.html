@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kontak AMBA GEAR - Hubungi kami via WhatsApp atau form pemesanan untuk order gaming gear premium." />
+  <title>Kontak & Order – AMBA GEAR</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
+    <div class="topbar-right">
+      <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
+      <a href="login.html"><i class="fas fa-user"></i> Sign In / Register</a>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" />
+        <span class="logo-text"><span class="amba-text">amba</span> gear</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="produk.html">Shop</a></li>
+        <li><a href="tentang.html">Tentang Kami</a></li>
+        <li><a href="kontak.html" class="active">Kontak</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+        <a href="kontak.html" class="icon-btn wa-icon"><i class="fab fa-whatsapp"></i></a>
+        <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <input type="text" placeholder="Cari produk gaming..." />
+      <button><i class="fas fa-search"></i></button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>KONTAK & <span class="accent">ORDER</span></h1>
+    <p class="breadcrumb"><a href="index.html">Home</a> / Kontak</p>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="section" style="background:var(--bg);">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- LEFT: INFO -->
+        <div>
+          <div class="contact-info-box">
+            <h3>Hubungi <span class="accent">Kami</span></h3>
+            <div class="info-item">
+              <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+              <div>
+                <h5>WhatsApp Admin</h5>
+                <p><a href="https://wa.me/6283896431050" target="_blank">+62 838-9643-1050</a></p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fab fa-instagram"></i></div>
+              <div>
+                <h5>Instagram</h5>
+                <p><a href="#" target="_blank">@ambagear.id</a></p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-envelope"></i></div>
+              <div>
+                <h5>Email</h5>
+                <p><a href="mailto:cs@ambagear.id">cs@ambagear.id</a></p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-clock"></i></div>
+              <div>
+                <h5>Jam Operasional</h5>
+                <p>Senin – Minggu, 08.00 – 22.00 WIB</p>
+              </div>
+            </div>
+            <a href="https://wa.me/6283896431050?text=Halo%20AMBA%20GEAR!%20Saya%20ingin%20tanya%20tentang%20produk..." target="_blank" class="wa-big-btn">
+              <i class="fab fa-whatsapp" style="font-size:1.4rem;"></i>
+              CHAT ADMIN SEKARANG
+            </a>
+          </div>
+
+          <!-- CARA ORDER -->
+          <div class="contact-info-box" style="margin-top:24px;">
+            <h3>Cara <span class="accent">Order</span></h3>
+            <ol style="counter-reset:step;padding:0;list-style:none;">
+              <li style="display:flex;gap:14px;margin-bottom:18px;align-items:flex-start;">
+                <span style="background:var(--pink);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;">1</span>
+                <div><strong>Pilih Produk</strong><br/><span style="color:var(--text-muted);font-size:0.85rem;">Browse katalog dan pilih gear impianmu</span></div>
+              </li>
+              <li style="display:flex;gap:14px;margin-bottom:18px;align-items:flex-start;">
+                <span style="background:var(--pink);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;">2</span>
+                <div><strong>Isi Form Pemesanan</strong><br/><span style="color:var(--text-muted);font-size:0.85rem;">Lengkapi data diri dan alamat pengiriman</span></div>
+              </li>
+              <li style="display:flex;gap:14px;margin-bottom:18px;align-items:flex-start;">
+                <span style="background:var(--pink);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;">3</span>
+                <div><strong>Konfirmasi via WhatsApp</strong><br/><span style="color:var(--text-muted);font-size:0.85rem;">Admin akan mengirim invoice dan total harga</span></div>
+              </li>
+              <li style="display:flex;gap:14px;align-items:flex-start;">
+                <span style="background:var(--pink);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;">4</span>
+                <div><strong>Pembayaran & Pengiriman</strong><br/><span style="color:var(--text-muted);font-size:0.85rem;">Transfer, lalu barang dikirim hari itu juga!</span></div>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- RIGHT: ORDER FORM -->
+        <div class="order-form">
+          <h3>Form <span class="accent">Pemesanan</span></h3>
+          <div id="formSuccess" class="success-msg">
+            ✅ Pesananmu berhasil dikirim! Cek WhatsApp kamu ya, admin kami akan segera menghubungi.
+          </div>
+          <form id="orderForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Nama Lengkap *</label>
+                <input type="text" id="name" name="name" placeholder="Nama kamu" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">No. WhatsApp *</label>
+                <input type="tel" id="phone" name="phone" placeholder="08xxxxxxxxxx" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="product">Produk yang Diminati *</label>
+              <select id="product" name="product" required>
+                <option value="">-- Pilih Produk --</option>
+                <optgroup label="🖱️ Mouse Gaming">
+                  <option value="ProStrike X1 Superlight - Rp449.000">ProStrike X1 Superlight – Rp449.000</option>
+                  <option value="Viper Elite V3 Pro - Rp479.000">Viper Elite V3 Pro – Rp479.000</option>
+                  <option value="Shadow X Wireless - Rp389.000">Shadow X Wireless – Rp389.000 (SALE)</option>
+                </optgroup>
+                <optgroup label="⌨️ Keyboard Gaming">
+                  <option value="MechTactical K7 Pro - Rp509.000">MechTactical K7 Pro – Rp509.000</option>
+                  <option value="NeonBoard RGB TKL - Rp509.000">NeonBoard RGB TKL – Rp509.000</option>
+                  <option value="BladeKey Apex TKL - Rp599.000">BladeKey Apex TKL – Rp599.000</option>
+                </optgroup>
+                <optgroup label="🎧 Headset Gaming">
+                  <option value="SoundWave 7.1 Surround - Rp299.000">SoundWave 7.1 Surround – Rp299.000</option>
+                  <option value="BassArena Pro Wireless - Rp389.000">BassArena Pro Wireless – Rp389.000</option>
+                  <option value="HyperAudio X V2 Pro - Rp599.000">HyperAudio X V2 Pro – Rp599.000 (SALE)</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="qty">Jumlah *</label>
+                <input type="number" id="qty" name="qty" min="1" max="99" value="1" required />
+              </div>
+              <div class="form-group">
+                <label for="city">Kota / Kab *</label>
+                <input type="text" id="city" name="city" placeholder="Contoh: Jakarta Selatan" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address">Alamat Lengkap *</label>
+              <textarea id="address" name="address" placeholder="Jl. xxx No. xxx, RT/RW, Kelurahan, Kecamatan..." rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="message">Catatan Tambahan (opsional)</label>
+              <textarea id="message" name="message" placeholder="Warna, varian, pertanyaan khusus, dll." rows="3"></textarea>
+            </div>
+            <button type="submit" class="form-submit">
+              <i class="fab fa-whatsapp"></i>&nbsp; KIRIM PESANAN VIA WHATSAPP
+            </button>
+            <p style="text-align:center;color:var(--text-muted);font-size:0.8rem;margin-top:14px;">
+              Dengan menekan tombol di atas, kamu akan diarahkan ke WhatsApp admin kami.
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" style="background:var(--bg-2);">
+    <div class="container">
+      <div class="section-header">
+        <h2>FAQ – Pertanyaan yang <span class="accent">Sering Ditanya</span></h2>
+        <div class="underline"></div>
+      </div>
+      <div style="max-width:800px;margin:0 auto;">
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q"><span>Berapa lama proses pengiriman?</span><i class="fas fa-chevron-down"></i></div>
+          <div class="faq-a">Pengiriman biasanya 1–3 hari kerja untuk Pulau Jawa, dan 3–7 hari kerja untuk luar Jawa. Kami menggunakan ekspedisi terpercaya seperti JNE, J&T, dan SiCepat.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q"><span>Apakah produk bergaransi?</span><i class="fas fa-chevron-down"></i></div>
+          <div class="faq-a">Ya! Semua produk kami bergaransi resmi minimal 1 tahun. Jika ada kerusakan dalam masa garansi, kami siap membantu proses klaim.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q"><span>Metode pembayaran apa saja yang tersedia?</span><i class="fas fa-chevron-down"></i></div>
+          <div class="faq-a">Kami menerima transfer bank (BCA, Mandiri, BNI), dompet digital (GoPay, OVO, DANA, ShopeePay), dan COD untuk area tertentu.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q"><span>Apakah bisa retur atau tukar produk?</span><i class="fas fa-chevron-down"></i></div>
+          <div class="faq-a">Ya, kami memiliki kebijakan retur 30 hari untuk produk cacat atau tidak sesuai deskripsi. Hubungi kami via WhatsApp untuk proses lebih lanjut.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q"><span>Apakah ada diskon untuk pembelian dalam jumlah besar?</span><i class="fas fa-chevron-down"></i></div>
+          <div class="faq-a">Tentu! Untuk pembelian 5 unit ke atas, kami memberikan harga spesial. Hubungi admin kami via WhatsApp untuk mendapatkan penawaran terbaik.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo"><img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" /></a>
+            <p>Premium gaming gear untuk mereka yang menuntut performa terbaik. Play harder. Win more.</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-tiktok"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+              <a href="kontak.html"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h5>SHOP</h5>
+            <ul>
+              <li><a href="produk.html">Semua Produk</a></li>
+              <li><a href="produk.html">Mouse Gaming</a></li>
+              <li><a href="produk.html">Keyboard Gaming</a></li>
+              <li><a href="produk.html">Headset Gaming</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>CUSTOMER SERVICE</h5>
+            <ul>
+              <li><a href="#">Shipping &amp; Delivery</a></li>
+              <li><a href="#">Returns &amp; Refunds</a></li>
+              <li><a href="kontak.html">Kontak Kami</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>NEWSLETTER</h5>
+            <p>Subscribe untuk promo spesial dan deals eksklusif!</p>
+            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+              <div class="newsletter-input">
+                <input type="email" placeholder="Email kamu..." required />
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2024 AMBA GEAR. All Rights Reserved.</p>
+        <div class="payment-icons">
+          <span>VISA</span><span>Mastercard</span><span>GoPay</span><span>OVO</span><span>DANA</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/6283896431050?text=Halo%20AMBA%20GEAR!" class="wa-float" target="_blank" rel="noopener">
+    <i class="fab fa-whatsapp"></i>
+    <span class="wa-tooltip">Chat Admin</span>
+  </a>
+
+  <style>
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: border-color var(--transition);
+      overflow: hidden;
+    }
+    .faq-item:hover, .faq-item.open { border-color: var(--pink); }
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px;
+      font-family: var(--heading);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .faq-q i { color: var(--pink); transition: transform var(--transition); }
+    .faq-item.open .faq-q i { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      padding: 0 22px;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding: 0 22px 18px; }
+  </style>
+
+  <script src="script.js"></script>
+  <script>
+    function toggleFaq(el) {
+      const isOpen = el.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+      if (!isOpen) el.classList.add('open');
+    }
+  </script>
+</body>
+</html>

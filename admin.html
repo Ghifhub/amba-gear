@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Admin Panel AMBA GEAR - Manage Products" />
+  <title>Admin Panel – AMBA GEAR</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span><i class="fas fa-crown"></i> Admin Panel - AMBA GEAR</span>
+    <div class="topbar-right">
+      <a href="index.html"><i class="fas fa-home"></i> Back to Site</a>
+      <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" />
+        <span class="logo-text"><span class="amba-text">amba</span> gear</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#products">Products</a></li>
+        <li><a href="#add-product">Add Product</a></li>
+        <li><a href="#orders">Orders</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+        <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <input type="text" placeholder="Search products..." onkeyup="filterProducts(this.value)" />
+      <button><i class="fas fa-search"></i></button>
+    </div>
+  </nav>
+
+  <!-- ADMIN DASHBOARD -->
+  <section class="section">
+    <div class="container">
+      <h1 style="text-align: center; margin-bottom: 40px;">Admin Dashboard</h1>
+
+      <!-- STATS CARDS -->
+      <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
+        <div class="stat-box" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 20px; text-align: center;">
+          <i class="fas fa-box" style="font-size: 2rem; color: var(--pink); margin-bottom: 10px;"></i>
+          <h3 id="totalProducts">0</h3>
+          <p>Total Products</p>
+        </div>
+        <div class="stat-box" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 20px; text-align: center;">
+          <i class="fas fa-mouse" style="font-size: 2rem; color: var(--blue); margin-bottom: 10px;"></i>
+          <h3 id="mouseCount">0</h3>
+          <p>Mice</p>
+        </div>
+        <div class="stat-box" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 20px; text-align: center;">
+          <i class="fas fa-keyboard" style="font-size: 2rem; color: var(--green); margin-bottom: 10px;"></i>
+          <h3 id="keyboardCount">0</h3>
+          <p>Keyboards</p>
+        </div>
+        <div class="stat-box" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 20px; text-align: center;">
+          <i class="fas fa-headphones" style="font-size: 2rem; color: var(--purple); margin-bottom: 10px;"></i>
+          <h3 id="headsetCount">0</h3>
+          <p>Headsets</p>
+        </div>
+      </div>
+
+      <!-- ADD PRODUCT FORM -->
+      <div id="add-product" class="admin-section" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 40px;">
+        <h2 style="margin-bottom: 20px;">Add New Product</h2>
+        <form id="addProductForm" onsubmit="addProduct(event)">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div class="form-group">
+              <label for="name">Product Name</label>
+              <input type="text" id="name" required />
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" required>
+                <option value="mouse">Mouse</option>
+                <option value="keyboard">Keyboard</option>
+                <option value="headset">Headset</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="brand">Brand</label>
+              <input type="text" id="brand" required />
+            </div>
+            <div class="form-group">
+              <label for="price">Price (Rp)</label>
+              <input type="number" id="price" required />
+            </div>
+            <div class="form-group">
+              <label for="old_price">Old Price (Rp) - Optional</label>
+              <input type="number" id="old_price" />
+            </div>
+            <div class="form-group">
+              <label for="image_url">Image URL</label>
+              <input type="url" id="image_url" required />
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label for="description">Description</label>
+              <textarea id="description" rows="3" required></textarea>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label for="specs">Specifications</label>
+              <textarea id="specs" rows="2" placeholder="e.g. Sensor HERO 25K • Wireless • 63g"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="badge">Badge (Optional)</label>
+              <select id="badge">
+                <option value="">No Badge</option>
+                <option value="HOT">HOT</option>
+                <option value="SALE">SALE</option>
+                <option value="NEW">NEW</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Add Product</button>
+        </form>
+      </div>
+
+      <!-- PRODUCTS MANAGEMENT -->
+      <div id="products" class="admin-section">
+        <h2 style="margin-bottom: 20px;">Manage Products</h2>
+        <div id="productsGrid" class="products-grid">
+          <!-- Products will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDIT PRODUCT MODAL -->
+  <div id="editModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: var(--card); border-radius: var(--radius-lg); padding: 30px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
+      <h3 style="margin-bottom: 20px;">Edit Product</h3>
+      <form id="editProductForm" onsubmit="updateProduct(event)">
+        <input type="hidden" id="editId" />
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+          <div class="form-group">
+            <label for="editName">Product Name</label>
+            <input type="text" id="editName" required />
+          </div>
+          <div class="form-group">
+            <label for="editCategory">Category</label>
+            <select id="editCategory" required>
+              <option value="mouse">Mouse</option>
+              <option value="keyboard">Keyboard</option>
+              <option value="headset">Headset</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editBrand">Brand</label>
+            <input type="text" id="editBrand" required />
+          </div>
+          <div class="form-group">
+            <label for="editPrice">Price (Rp)</label>
+            <input type="number" id="editPrice" required />
+          </div>
+          <div class="form-group">
+            <label for="editOldPrice">Old Price (Rp)</label>
+            <input type="number" id="editOldPrice" />
+          </div>
+          <div class="form-group">
+            <label for="editImageUrl">Image URL</label>
+            <input type="url" id="editImageUrl" required />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="editDescription">Description</label>
+            <textarea id="editDescription" rows="3" required></textarea>
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="editSpecs">Specifications</label>
+            <textarea id="editSpecs" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="editBadge">Badge</label>
+            <select id="editBadge">
+              <option value="">No Badge</option>
+              <option value="HOT">HOT</option>
+              <option value="SALE">SALE</option>
+              <option value="NEW">NEW</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top: 20px; display: flex; gap: 10px;">
+          <button type="submit" class="btn btn-primary">Update Product</button>
+          <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo"><img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" /></a>
+            <p>Admin Panel - AMBA GEAR Gaming Store</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Check admin access
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (!user || user.role !== 'admin') {
+      alert('Access denied! Admin only.');
+      window.location.href = 'login.html';
+    }
+
+    // Load products on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProducts();
+    });
+
+    // Load products from API
+    async function loadProducts() {
+      try {
+        const response = await fetch('http://localhost:5000/api/products');
+        const products = await response.json();
+
+        displayProducts(products);
+        updateStats(products);
+      } catch (error) {
+        console.error('Error loading products:', error);
+        document.getElementById('productsGrid').innerHTML = '<p>Error loading products</p>';
+      }
+    }
+
+    // Display products in grid
+    function displayProducts(products) {
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = '';
+
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.setAttribute('data-cat', product.category);
+
+        productCard.innerHTML = `
+          <div class="product-image">
+            <img src="${product.image_url}" alt="${product.name}" />
+            ${product.badge ? `<span class="badge ${product.badge.toLowerCase()}">${product.badge}</span>` : ''}
+            <div class="product-actions">
+              <button onclick="editProduct('${product.id}')" class="btn-icon"><i class="fas fa-edit"></i></button>
+              <button onclick="deleteProduct('${product.id}')" class="btn-icon delete"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p class="brand">${product.brand}</p>
+            <p class="specs">${product.specs || ''}</p>
+            <div class="price">
+              <span class="current">Rp${product.price.toLocaleString()}</span>
+              ${product.old_price ? `<span class="old">Rp${product.old_price.toLocaleString()}</span>` : ''}
+            </div>
+            <div class="rating">
+              <div class="stars">${'★'.repeat(Math.floor(product.rating || 0))}${'☆'.repeat(5 - Math.floor(product.rating || 0))}</div>
+              <span>(${product.reviews_count || 0})</span>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(productCard);
+      });
+    }
+
+    // Update stats
+    function updateStats(products) {
+      document.getElementById('totalProducts').textContent = products.length;
+      document.getElementById('mouseCount').textContent = products.filter(p => p.category === 'mouse').length;
+      document.getElementById('keyboardCount').textContent = products.filter(p => p.category === 'keyboard').length;
+      document.getElementById('headsetCount').textContent = products.filter(p => p.category === 'headset').length;
+    }
+
+    // Add new product
+    async function addProduct(event) {
+      event.preventDefault();
+
+      const formData = {
+        name: document.getElementById('name').value,
+        category: document.getElementById('category').value,
+        brand: document.getElementById('brand').value,
+        price: parseInt(document.getElementById('price').value),
+        old_price: document.getElementById('old_price').value ? parseInt(document.getElementById('old_price').value) : null,
+        description: document.getElementById('description').value,
+        specs: document.getElementById('specs').value,
+        image_url: document.getElementById('image_url').value,
+        badge: document.getElementById('badge').value
+      };
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:5000/api/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          alert('Product added successfully!');
+          document.getElementById('addProductForm').reset();
+          loadProducts(); // Reload products
+        } else {
+          const error = await response.json();
+          alert('Error: ' + error.error);
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    // Edit product
+    async function editProduct(id) {
+      try {
+        const response = await fetch(`http://localhost:5000/api/products/${id}`);
+        const product = await response.json();
+
+        // Fill edit form
+        document.getElementById('editId').value = product.id;
+        document.getElementById('editName').value = product.name;
+        document.getElementById('editCategory').value = product.category;
+        document.getElementById('editBrand').value = product.brand;
+        document.getElementById('editPrice').value = product.price;
+        document.getElementById('editOldPrice').value = product.old_price || '';
+        document.getElementById('editDescription').value = product.description;
+        document.getElementById('editSpecs').value = product.specs || '';
+        document.getElementById('editImageUrl').value = product.image_url;
+        document.getElementById('editBadge').value = product.badge || '';
+
+        // Show modal
+        document.getElementById('editModal').style.display = 'flex';
+      } catch (error) {
+        alert('Error loading product: ' + error.message);
+      }
+    }
+
+    // Update product
+    async function updateProduct(event) {
+      event.preventDefault();
+
+      const id = document.getElementById('editId').value;
+      const formData = {
+        name: document.getElementById('editName').value,
+        category: document.getElementById('editCategory').value,
+        brand: document.getElementById('editBrand').value,
+        price: parseInt(document.getElementById('editPrice').value),
+        old_price: document.getElementById('editOldPrice').value ? parseInt(document.getElementById('editOldPrice').value) : null,
+        description: document.getElementById('editDescription').value,
+        specs: document.getElementById('editSpecs').value,
+        image_url: document.getElementById('editImageUrl').value,
+        badge: document.getElementById('editBadge').value
+      };
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          alert('Product updated successfully!');
+          closeEditModal();
+          loadProducts();
+        } else {
+          const error = await response.json();
+          alert('Error: ' + error.error);
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    // Delete product
+    async function deleteProduct(id) {
+      if (!confirm('Are you sure you want to delete this product?')) return;
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          alert('Product deleted successfully!');
+          loadProducts();
+        } else {
+          const error = await response.json();
+          alert('Error: ' + error.error);
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    // Close edit modal
+    function closeEditModal() {
+      document.getElementById('editModal').style.display = 'none';
+    }
+
+    // Filter products
+    function filterProducts(query) {
+      const cards = document.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        const name = card.querySelector('h3').textContent.toLowerCase();
+        const brand = card.querySelector('.brand').textContent.toLowerCase();
+        card.style.display = (name.includes(query.toLowerCase()) || brand.includes(query.toLowerCase())) ? '' : 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Login AMBA GEAR - Akses akun customer atau admin" />
+  <title>Login – AMBA GEAR</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
+    <div class="topbar-right">
+      <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
+      <a href="login.html"><i class="fas fa-user"></i> Sign In / Register</a>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" />
+        <span class="logo-text"><span class="amba-text">amba</span> gear</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="produk.html">Shop</a></li>
+        <li><a href="tentang.html">Tentang Kami</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+        <a href="kontak.html" class="icon-btn wa-icon"><i class="fab fa-whatsapp"></i></a>
+        <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <input type="text" placeholder="Cari produk gaming..." />
+      <button><i class="fas fa-search"></i></button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>LOGIN <span class="accent">AKUN</span></h1>
+    <p class="breadcrumb"><a href="index.html">Home</a> / Login</p>
+  </section>
+
+  <!-- LOGIN FORM -->
+  <section class="section" style="background: var(--bg-2);">
+    <div class="container">
+      <div style="max-width: 400px; margin: 0 auto;">
+        <div style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-card);">
+          <h3 style="text-align: center; margin-bottom: 30px; color: var(--text);">Masuk ke Akun Anda</h3>
+          <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="Masukkan password" required />
+            </div>
+            <div class="form-group">
+              <label for="role">Role</label>
+              <select id="role" name="role" required>
+                <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Login</button>
+          </form>
+          <p style="text-align: center; margin-top: 20px; color: var(--text-muted); font-size: 0.9rem;">
+            Belum punya akun? <a href="#" style="color: var(--pink);">Daftar Sekarang</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo"><img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" /></a>
+            <p>Premium gaming gear untuk mereka yang menuntut performa terbaik. Play harder. Win more.</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-tiktok"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+              <a href="kontak.html"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h5>SHOP</h5>
+            <ul>
+              <li><a href="produk.html">Semua Produk</a></li>
+              <li><a href="produk.html?cat=mouse">Mouse Gaming</a></li>
+              <li><a href="produk.html?cat=keyboard">Keyboard Gaming</a></li>
+              <li><a href="produk.html?cat=headset">Headset Gaming</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>CUSTOMER SERVICE</h5>
+            <ul>
+              <li><a href="#">Shipping &amp; Delivery</a></li>
+              <li><a href="#">Returns &amp; Refunds</a></li>
+              <li><a href="kontak.html">Kontak Kami</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>NEWSLETTER</h5>
+            <p>Subscribe untuk promo spesial dan deals eksklusif!</p>
+            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+              <div class="newsletter-input">
+                <input type="email" placeholder="Email kamu..." required />
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2024 AMBA GEAR. All Rights Reserved.</p>
+        <div class="payment-icons">
+          <span>VISA</span><span>Mastercard</span><span>GoPay</span><span>OVO</span><span>DANA</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/6281234567890?text=Halo%20AMBA%20GEAR!%20Saya%20ingin%20tanya%20tentang%20produk..." class="wa-float" target="_blank" rel="noopener">
+    <i class="fab fa-whatsapp"></i>
+    <span class="wa-tooltip">Chat Admin</span>
+  </a>
+
+  <script src="script.js"></script>
+  <script>
+    function handleLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('role').value;
+
+      fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          alert('Login berhasil!');
+          window.location.href = 'index.html';
+        } else {
+          alert(data.error || 'Login gagal');
+        }
+      })
+      .catch(error => {
+        alert('Error: ' + error.message);
+      });
+    }
+  </script>
+</body>
+</html>

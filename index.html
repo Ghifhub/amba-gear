@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AMBA GEAR - Premium Gaming Gear Indonesia. Mouse, Keyboard, Headset gaming terbaik untuk anak muda yang ingin menang. Free shipping di atas Rp500.000!" />
+  <meta name="keywords" content="gaming gear, mouse gaming, keyboard gaming, headset gaming, gaming indonesia" />
+  <meta name="author" content="AMBA GEAR" />
+  <meta property="og:title" content="AMBA GEAR - Premium Gaming Gear" />
+  <meta property="og:description" content="Gear gaming terbaik untuk para pemenang. Beli sekarang, gratis ongkir!" />
+  <meta property="og:image" content="assets/og-image.jpg" />
+  <title>AMBA GEAR – Premium Gaming Gear Indonesia</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
+    <div class="topbar-right">
+      <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
+      <a href="login.html"><i class="fas fa-user"></i> Sign In / Register</a>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo">
+        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" />
+        <span class="logo-text"><span class="amba-text">amba</span> gear</span>
+        </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="produk.html">Shop</a></li>
+        <li><a href="tentang.html">Tentang Kami</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+        <a href="kontak.html" class="icon-btn wa-icon"><i class="fab fa-whatsapp"></i></a>
+        <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <input type="text" placeholder="Cari produk gaming..." />
+      <button><i class="fas fa-search"></i></button>
+    </div>
+  </nav>
+
+  <!-- BRAND MARQUEE -->
+  <div class="brand-marquee">
+    <div class="marquee-content">
+      <img src="assets/logitech-logo.png" alt="Logitech" onerror="this.src='https://via.placeholder.com/100x50?text=Logitech'">
+      <img src="assets/razer-logo.png" alt="Razer" onerror="this.src='https://via.placeholder.com/100x50?text=Razer'">
+      <img src="assets/hyperx-logo.png" alt="HyperX" onerror="this.src='https://via.placeholder.com/100x50?text=HyperX'">
+      <img src="assets/steelseries-logo.png" alt="SteelSeries" onerror="this.src='https://via.placeholder.com/100x50?text=SteelSeries'">
+      <img src="assets/corsair-logo.png" alt="Corsair" onerror="this.src='https://via.placeholder.com/100x50?text=Corsair'">
+      <img src="assets/asus-logo.png" alt="ASUS ROG" onerror="this.src='https://via.placeholder.com/100x50?text=ASUS+ROG'">
+      <img src="assets/msi-logo.png" alt="MSI" onerror="this.src='https://via.placeholder.com/100x50?text=MSI'">
+      <img src="assets/logitech-logo.png" alt="Logitech" onerror="this.src='https://via.placeholder.com/100x50?text=Logitech'">
+      <img src="assets/razer-logo.png" alt="Razer" onerror="this.src='https://via.placeholder.com/100x50?text=Razer'">
+      <img src="assets/hyperx-logo.png" alt="HyperX" onerror="this.src='https://via.placeholder.com/100x50?text=HyperX'">
+    </div>
+  </div>
+
+  <!-- HERO SLIDER -->
+  <section class="hero" id="hero">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
+      <!-- Fallback image if video fails -->
+      <img src="assets/headset.jpg" alt="Gaming Background" style="width:100%; height:100%; object-fit:cover;">
+    </video>
+    <div class="hero-slides">
+      <div class="hero-slide active">
+       <div class="hero-content">
+          <span class="hero-tag"><span class="line"></span> PREMIUM GAMING GEAR</span>
+          <h1>ELEVATE YOUR<br /><span class="accent">GAMING EXPERIENCE</span></h1>
+           <p>High performance gear yang dirancang untuk para gamer sejati.<br />Built to win. Built for you.</p>
+          <div class="hero-btns">
+            <a href="produk.html" class="btn btn-primary">SHOP NOW <i class="fas fa-arrow-right"></i></a>
+              <a href="tentang.html" class="btn btn-ghost">Tentang Kami</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <div class="hero-content">
+          <span class="hero-tag"><span class="line"></span> MECHANICAL KEYBOARD</span>
+          <h1>FEEL EVERY<br /><span class="accent">KEYSTROKE</span></h1>
+          <p>Keyboard mekanikal premium dengan RGB yang memukau.<br />Respons cepat, feel sempurna.</p>
+          <div class="hero-btns">
+            <a href="produk.html" class="btn btn-primary">LIHAT KEYBOARD <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <div class="hero-content">
+          <span class="hero-tag"><span class="line"></span> GAMING MOUSE</span>
+          <h1>PRECISION<br /><span class="accent">ENGINEERED</span></h1>
+          <p>Mouse gaming dengan sensor ultra-presisi.<br />Gerakan akurat, kill lebih banyak.</p>
+          <div class="hero-btns">
+            <a href="produk.html" class="btn btn-primary">LIHAT MOUSE <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="slide-btn prev" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+    <button class="slide-btn next" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+    <div class="slide-dots" id="slideDots"></div>
+    <div class="hero-overlay"></div>
+  </section>
+
+  <!-- BENEFITS BAR -->
+  <section class="benefits">
+    <div class="container">
+      <div class="benefit-item">
+        <div class="benefit-icon"><i class="fas fa-shipping-fast"></i></div>
+        <div>
+          <h4>Free Shipping</h4>
+          <p>Gratis ongkir pesanan di atas Rp500.000 ke seluruh Indonesia</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
+        <div>
+          <h4>Easy Returns</h4>
+          <p>Kebijakan pengembalian 30 hari tanpa ribet</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><i class="fas fa-tag"></i></div>
+        <div>
+          <h4>Best Prices</h4>
+          <p>Harga terbaik untuk gear gaming premium</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><i class="fas fa-headset"></i></div>
+        <div>
+          <h4>24/7 Support</h4>
+          <p>Tim support siap membantu kapan saja kamu butuh</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP BY CATEGORY -->
+  <section class="categories section">
+    <div class="container">
+      <div class="section-header">
+        <h2>SHOP BY <span class="accent">CATEGORY</span></h2>
+        <div class="underline"></div>
+      </div>
+      <div class="category-grid">
+        <div class="category-card" onclick="location.href='produk.html?cat=mouse'">
+          <div class="cat-img-wrap">
+            <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400" alt="Gaming Mouse" />
+            <div class="cat-overlay"></div>
+          </div>
+          <div class="cat-info">
+            <div class="cat-label">
+              <i class="fas fa-mouse"></i>
+              <span>MOUSE</span>
+            </div>
+            <p>3 Produk</p>
+            <a href="produk.html" class="btn btn-outline">SHOP NOW <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="category-card" onclick="location.href='produk.html?cat=keyboard'">
+          <div class="cat-img-wrap">
+            <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400" alt="Gaming Keyboard" />
+            <div class="cat-overlay"></div>
+          </div>
+          <div class="cat-info">
+            <div class="cat-label">
+              <i class="fas fa-keyboard"></i>
+              <span>KEYBOARD</span>
+            </div>
+            <p>3 Produk</p>
+            <a href="produk.html" class="btn btn-outline">SHOP NOW <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="category-card" onclick="location.href='produk.html?cat=headset'">
+          <div class="cat-img-wrap">
+            <img src="https://images.unsplash.com/photo-1599669454699-248893623440?w=400" alt="Gaming Headset" />
+            <div class="cat-overlay"></div>
+          </div>
+          <div class="cat-info">
+            <div class="cat-label">
+              <i class="fas fa-headphones"></i>
+              <span>HEADSET</span>
+            </div>
+            <p>3 Produk</p>
+            <a href="produk.html" class="btn btn-outline">SHOP NOW <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="cta-content">
+      <h2>SIAP UNTUK LEVEL UP?</h2>
+      <p>Bergabung dengan ribuan gamer Indonesia yang sudah pakai AMBA GEAR</p>
+      <a href="kontak.html" class="btn btn-primary btn-lg">
+        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+      </a>
+    </div>
+    <div class="cta-overlay"></div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo"><img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" /></a>
+            <p>Premium gaming gear untuk mereka yang menuntut performa terbaik. Play harder. Win more.</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-tiktok"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+              <a href="kontak.html"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h5>SHOP</h5>
+            <ul>
+              <li><a href="produk.html">Semua Produk</a></li>
+              <li><a href="produk.html">Mouse Gaming</a></li>
+              <li><a href="produk.html">Keyboard Gaming</a></li>
+              <li><a href="produk.html">Headset Gaming</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>CUSTOMER SERVICE</h5>
+            <ul>
+              <li><a href="#">Shipping &amp; Delivery</a></li>
+              <li><a href="#">Returns &amp; Refunds</a></li>
+              <li><a href="#">Track Order</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="kontak.html">Kontak Kami</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>NEWSLETTER</h5>
+            <p>Subscribe untuk promo spesial, giveaway, dan deals eksklusif!</p>
+            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+              <div class="newsletter-input">
+                <input type="email" placeholder="Masukkan email kamu..." required />
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2024 AMBA GEAR. All Rights Reserved.</p>
+        <div class="payment-icons">
+          <span>VISA</span><span>Mastercard</span><span>GoPay</span><span>OVO</span><span>DANA</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOATING BUTTON -->
+  <a href="https://wa.me/6283896431050?text=Halo%20AMBA%20GEAR!%20Saya%20ingin%20tanya%20tentang%20produk..." class="wa-float" target="_blank" rel="noopener">
+    <i class="fab fa-whatsapp"></i>
+    <span class="wa-tooltip">Chat Admin</span>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
