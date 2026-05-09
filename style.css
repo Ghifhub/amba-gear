@@ -218,7 +218,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   flex-shrink: 0;
 }
 .marquee-set img {
-  height: 36px;
+  height: 48px;
   width: auto;
   object-fit: contain;
   filter: brightness(0) invert(1) opacity(0.65);
@@ -229,7 +229,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 @keyframes marquee-scroll {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-33.33%); }
 }
 
 /* Hero */

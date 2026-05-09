@@ -215,7 +215,7 @@ function displayProducts(products) {
         <h4>${product.name}</h4>
         <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">${product.description}</p>
         <div class="stars">${generateStars(product.rating || 5)} (${product.reviews_count || 0})</div>
-        <div class="price">${product.price}</div>
+        <div class="price">Rp${parseInt(product.price).toLocaleString('id-ID')}</div>
         <div style="display: flex; gap: 8px; margin-top: 8px;">
           <button class="btn btn-primary" style="flex: 1;" onclick="viewProduct('${product.id}')">Detail</button>
           <button class="icon-btn" onclick="toggleWishlistItem('${product.id}')" style="width: 40px; height: 40px; border: 1px solid var(--card-border); border-radius: var(--radius);">
@@ -466,7 +466,7 @@ function updateCartDisplay() {
       <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
       <div style="flex: 1;">
         <h4 style="margin: 0 0 5px 0; font-size: 1rem;">${item.name}</h4>
-        <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">${item.price}</p>
+        <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Rp${parseInt(item.price).toLocaleString('id-ID')}</p>
         <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
           <button onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})" style="width: 25px; height: 25px; border: 1px solid var(--card-border); background: var(--bg); border-radius: var(--radius); cursor: pointer;">-</button>
           <span>${item.quantity}</span>
@@ -497,7 +497,7 @@ function updateWishlistDisplay() {
       <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
       <div style="flex: 1;">
         <h4 style="margin: 0 0 5px 0; font-size: 1rem;">${item.name}</h4>
-        <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">${item.price}</p>
+        <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Rp${parseInt(item.price).toLocaleString('id-ID')}</p>
       </div>
       <div style="display: flex; flex-direction: column; gap: 5px;">
         <button onclick="addToCart(${item.id})" class="btn btn-primary" style="font-size: 0.8rem; padding: 5px 10px;">Add to Cart</button>

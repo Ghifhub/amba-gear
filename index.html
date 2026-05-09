@@ -147,20 +147,28 @@
   <div class="brand-marquee">
     <div class="marquee-track">
       <div class="marquee-set">
-        <img src="assets/logo-logitech.png" alt="Logitech" />
-        <img src="assets/logo-rexus.png" alt="Rexus" />
-        <img src="assets/logo-hyperx.png" alt="HyperX" />
-        <img src="assets/logo-logitech.png" alt="Logitech" />
-        <img src="assets/logo-rexus.png" alt="Rexus" />
-        <img src="assets/logo-hyperx.png" alt="HyperX" />
+        <img src="assets/logitech logo.png" alt="Logitech" />
+        <img src="assets/logo rexus.png" alt="Rexus" />
+        <img src="assets/logo hyperx.png" alt="HyperX" />
+        <img src="assets/logitech logo.png" alt="Logitech" />
+        <img src="assets/logo rexus.png" alt="Rexus" />
+        <img src="assets/logo hyperx.png" alt="HyperX" />
       </div>
       <div class="marquee-set" aria-hidden="true">
-        <img src="assets/logo-logitech.png" alt="Logitech" />
-        <img src="assets/logo-rexus.png" alt="Rexus" />
-        <img src="assets/logo-hyperx.png" alt="HyperX" />
-        <img src="assets/logo-logitech.png" alt="Logitech" />
-        <img src="assets/logo-rexus.png" alt="Rexus" />
-        <img src="assets/logo-hyperx.png" alt="HyperX" />
+        <img src="assets/logitech logo.png" alt="Logitech" />
+        <img src="assets/logo rexus.png" alt="Rexus" />
+        <img src="assets/logo hyperx.png" alt="HyperX" />
+        <img src="assets/logitech logo.png" alt="Logitech" />
+        <img src="assets/logo rexus.png" alt="Rexus" />
+        <img src="assets/logo hyperx.png" alt="HyperX" />
+      </div>
+      <div class="marquee-set" aria-hidden="true">
+        <img src="assets/logitech logo.png" alt="Logitech" />
+        <img src="assets/logo rexus.png" alt="Rexus" />
+        <img src="assets/logo hyperx.png" alt="HyperX" />
+        <img src="assets/logitech logo.png" alt="Logitech" />
+        <img src="assets/logo rexus.png" alt="Rexus" />
+        <img src="assets/logo hyperx.png" alt="HyperX" />
       </div>
     </div>
   </div>
@@ -229,6 +237,42 @@
     <i class="fab fa-whatsapp"></i>
     <span class="wa-tooltip">Chat Admin</span>
   </a>
+
+  <!-- CART SIDEBAR -->
+  <div id="cartSidebar" class="sidebar" style="display: none; position: fixed; top: 0; right: 0; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h3 style="margin: 0;">Shopping Cart</h3>
+      <button onclick="toggleCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="cartItems">
+      <p style="text-align: center; color: var(--text-muted); margin: 40px 0;">Your cart is empty</p>
+    </div>
+    <div id="cartTotal" style="border-top: 1px solid var(--card-border); padding-top: 20px; margin-top: 20px; display: none;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <strong>Total:</strong>
+        <strong id="totalPrice">Rp0</strong>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- WISHLIST SIDEBAR -->
+  <div id="wishlistSidebar" class="sidebar" style="display: none; position: fixed; top: 0; right: 0; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h3 style="margin: 0;">Wishlist</h3>
+      <button onclick="toggleWishlist()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="wishlistItems">
+      <p style="text-align: center; color: var(--text-muted); margin: 40px 0;">Your wishlist is empty</p>
+    </div>
+  </div>
+
+  <!-- OVERLAY -->
+  <div id="overlay" class="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeAllSidebars()"></div>
 
   <script src="script.js"></script>
 </body>
