@@ -47,19 +47,19 @@ ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 -- Sample Products Data
 INSERT INTO products (name, category, brand, price, description, specs, image_url, rating, reviews_count, badge) VALUES
 -- Mouse
-('Logitech G Pro X Superlight', 'mouse', 'Logitech', 1299000, 'Mouse gaming wireless ultra-lightweight', 'Sensor HERO 25K • Wireless • 63g', 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400', 4.8, 128, 'HOT'),
-('Razer Viper Ultimate', 'mouse', 'Razer', 1499000, 'Mouse gaming wireless premium', 'Sensor Focus+ 20K • Wireless • RGB', 'https://images.unsplash.com/photo-1623820919239-0d0ff10797a1?w=400', 4.7, 94, NULL),
-('SteelSeries Aerox 3', 'mouse', 'SteelSeries', 699000, 'Mouse gaming wireless ergonomic', 'Sensor TrueMove Pro • Wireless • 57g', 'https://images.unsplash.com/photo-1610735843870-9ebfa8e09e42?w=400', 4.5, 67, 'SALE'),
+('Logitech G Pro X Superlight', 'mouse', 'Logitech', 1299000, 'Mouse gaming wireless ultra-lightweight dengan presisi tingkat pro.', 'Sensor HERO 25K • Wireless • 63g', 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400', 4.8, 128, 'HOT'),
+('Rexus Daxa Air III', 'mouse', 'Rexus', 599000, 'Mouse gaming ringan dengan sensor akurat untuk performa optimal.', 'Sensor PAW3370 • Wireless • 72g', 'https://images.unsplash.com/photo-1623820919239-0d0ff10797a1?w=400', 4.6, 85, NULL),
+('HyperX Pulsefire Dart', 'mouse', 'HyperX', 1399000, 'Mouse gaming wireless premium dengan kenyamanan maksimal.', 'Sensor Pixart 3389 • Wireless Qi Charging', 'https://images.unsplash.com/photo-1610735843870-9ebfa8e09e42?w=400', 4.7, 92, 'SALE'),
 
 -- Keyboard
-('Logitech G915 TKL', 'keyboard', 'Logitech', 2499000, 'Mechanical keyboard wireless premium', 'Lightspeed Wireless • Low Profile • RGB', 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400', 4.9, 156, 'HOT'),
-('Razer BlackWidow V3', 'keyboard', 'Razer', 1899000, 'Mechanical keyboard RGB', 'Green Switch • Full Size • RGB', 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?w=400', 4.6, 89, NULL),
-('HyperX Alloy Origins', 'keyboard', 'HyperX', 1299000, 'Mechanical keyboard gaming', 'Red Switch • TKL • RGB', 'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400', 4.4, 54, NULL),
+('Logitech G915 TKL', 'keyboard', 'Logitech', 2499000, 'Mechanical keyboard wireless premium, ultra-tipis.', 'Lightspeed Wireless • Low Profile • RGB', 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400', 4.9, 156, 'HOT'),
+('Rexus Daiva', 'keyboard', 'Rexus', 799000, 'Keyboard mekanikal kokoh dengan pencahayaan RGB.', 'Outemu Switch • Full Size • RGB', 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?w=400', 4.5, 64, NULL),
+('HyperX Alloy Origins', 'keyboard', 'HyperX', 1299000, 'Mechanical keyboard gaming dengan switch kustom.', 'HyperX Red Switch • TKL • RGB', 'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400', 4.8, 112, NULL),
 
 -- Headset
-('Logitech G Pro X', 'headset', 'Logitech', 1499000, 'Gaming headset 7.1 surround', '7.1 Surround • Detachable Mic • USB', 'https://images.unsplash.com/photo-1599669454699-248893623440?w=400', 4.8, 203, NULL),
-('Razer Kraken Ultimate', 'headset', 'Razer', 1799000, 'Gaming headset THX spatial audio', '7.1 Surround • THX • RGB', 'https://images.unsplash.com/photo-1585298723682-7115561c51b7?w=400', 4.7, 177, 'HOT'),
-('HyperX Cloud II', 'headset', 'HyperX', 999000, 'Gaming headset comfort+', '7.1 Surround • Memory Foam • USB', 'https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=400', 4.3, 88, 'SALE');
+('Logitech G Pro X', 'headset', 'Logitech', 1499000, 'Gaming headset dengan teknologi Blue VO!CE.', '7.1 Surround • Detachable Mic • USB', 'https://images.unsplash.com/photo-1599669454699-248893623440?w=400', 4.8, 203, NULL),
+('Rexus Thundervox', 'headset', 'Rexus', 499000, 'Headset gaming virtual 7.1 dengan bass tebal.', 'Virtual 7.1 • RGB • Braided Cable', 'https://images.unsplash.com/photo-1585298723682-7115561c51b7?w=400', 4.4, 150, 'SALE'),
+('HyperX Cloud II', 'headset', 'HyperX', 999000, 'Headset legendaris dengan kenyamanan busa memory foam.', '7.1 Surround • Memory Foam • USB', 'https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=400', 4.9, 310, 'HOT');
 
 -- Sample Admin User (password: admin123)
 -- Password hash untuk 'admin123' (generate dengan bcrypt)
