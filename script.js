@@ -441,3 +441,15 @@ function fastCheckout(id) {
   const p = allProducts.find(x => x.id == id);
   if (p) window.open(`https://wa.me/6283896431050?text=Order: ${p.name}`, '_blank');
 }
+
+// === NEWSLETTER ===
+function subscribeNewsletter(event) {
+  event.preventDefault();
+  const input = event.target.querySelector('input');
+  const email = input.value;
+  
+  if (email) {
+    alert(`Terima kasih! Email ${email} telah terdaftar untuk promo eksklusif.`);
+    input.value = '';
+  }
+}

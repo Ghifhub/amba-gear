@@ -681,7 +681,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   gap: 32px;
 }
 .footer-brand p,
-.footer-col p { color: var(--text-muted); }
+.footer-col p { color: var(--text-muted); margin-bottom: 16px; }
 .footer-col h5,
 .footer-brand h5 { color: #fff; margin-bottom: 18px; font-size: 1rem; }
 .footer-col ul { gap: 12px; display: grid; }
@@ -712,6 +712,60 @@ ul { list-style: none; padding: 0; margin: 0; }
   gap: 12px;
 }
 .payment-methods img { height: 32px; border-radius: 8px; }
+
+/* Newsletter Form */
+.newsletter-form {
+  margin-top: 15px;
+}
+.newsletter-input {
+  display: flex;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 4px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+.newsletter-input:focus-within {
+  border-color: var(--pink);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 20px rgba(233, 30, 140, 0.2);
+}
+.newsletter-input input {
+  background: transparent;
+  border: none;
+  padding: 10px 14px;
+  color: #fff;
+  flex: 1;
+  outline: none;
+  font-family: var(--body);
+  font-size: 0.9rem;
+  width: 100%;
+}
+.newsletter-input input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+.newsletter-input button {
+  background: var(--pink);
+  color: #fff;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.newsletter-input button:hover {
+  background: var(--pink-dark);
+  transform: scale(1.05) rotate(5deg);
+}
+.newsletter-input button i {
+  font-size: 0.9rem;
+}
 
 .wa-float {
   position: fixed;
