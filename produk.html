@@ -9,208 +9,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    /* === PRODUK PAGE STYLES === */
-    .page-hero {
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border);
-      padding: 40px 20px;
-      text-align: center;
-    }
-    .page-hero h1 {
-      font-family: var(--font-heading);
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      margin-bottom: 8px;
-    }
-    .breadcrumb {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-    }
-    .breadcrumb a { color: var(--accent); }
-    .breadcrumb a:hover { text-decoration: underline; }
-
-    /* Filter bar */
-    .filter-bar {
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 0;
-      position: sticky;
-      top: var(--navbar-h);
-      z-index: 50;
-      backdrop-filter: blur(10px);
-    }
-    .filter-bar .container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .filter-label {
-      font-family: var(--font-heading);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-right: 4px;
-    }
-    .filter-btn {
-      padding: 8px 18px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-family: var(--font-heading);
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.25s ease;
-      white-space: nowrap;
-    }
-    .filter-btn:hover {
-      color: var(--text-primary);
-      border-color: var(--accent);
-    }
-    .filter-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-    .filter-count {
-      font-size: 0.75rem;
-      margin-left: 4px;
-      opacity: 0.7;
-    }
-
-    /* Products section */
-    .products-section {
-      padding: 48px 0;
-      background: var(--bg-primary);
-      min-height: 400px;
-    }
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    /* Product card — override for full list page */
-    .products-grid .product-card {
-      position: relative;
-    }
-    .products-grid .product-card.hidden-by-filter {
-      display: none !important;
-    }
-
-    /* Section title when filter active */
-    .filter-heading {
-      font-family: var(--font-heading);
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .filter-heading span { color: var(--accent); }
-    .filter-heading .count-badge {
-      padding: 2px 10px;
-      background: var(--accent-glow);
-      border: 1px solid var(--accent);
-      border-radius: 10px;
-      font-size: 0.78rem;
-      color: var(--accent);
-    }
-
-    /* No results */
-    .no-results {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-muted);
-    }
-    .no-results i { font-size: 3rem; display: block; margin-bottom: 16px; }
-
-    /* Wishlist heart on product cards */
-    .btn-wishlist {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 32px;
-      height: 32px;
-      background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255,255,255,0.5);
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      z-index: 3;
-      backdrop-filter: blur(4px);
-    }
-    .btn-wishlist:hover, .btn-wishlist.active {
-      color: #ff6b6b;
-      background: rgba(255,53,53,0.2);
-      border-color: rgba(255,53,53,0.4);
-    }
-    .btn-wishlist.active i { font-weight: 900; }
-
-    /* Brand badge on produk page */
-    .products-grid .brand-badge {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      z-index: 2;
-      padding: 3px 10px;
-      font-family: var(--font-heading);
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      border-radius: 4px;
-      text-transform: uppercase;
-    }
-    .products-grid .brand-badge.logitech { background: rgba(0,185,107,0.2); color: #00B96B; border: 1px solid rgba(0,185,107,0.4); }
-    .products-grid .brand-badge.razer    { background: rgba(68,214,44,0.2);  color: #44D62C; border: 1px solid rgba(68,214,44,0.4); }
-    .products-grid .brand-badge.hyperx   { background: rgba(224,32,32,0.2);  color: #FF6B6B; border: 1px solid rgba(224,32,32,0.4); }
-
-    @media (max-width: 1024px) {
-      .products-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .filter-bar .container { gap: 8px; }
-      .filter-btn { padding: 7px 14px; font-size: 0.8rem; }
-    }
-    @media (max-width: 400px) {
-      .products-grid { grid-template-columns: 1fr; max-width: 300px; margin: 0 auto; }
-    }
-  </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
-  <div class="topbar-right">
-    <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
-    <a href="#" id="topbarAuthBtn" onclick="openModal('loginModal')"><i class="fas fa-user"></i> Sign In / Register</a>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
+    <div class="topbar-right">
+      <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
+      <a href="login.html"><i class="fas fa-user"></i> Sign In / Register</a>
+    </div>
   </div>
-</div>
 
-<!-- NAVBAR -->
-<nav class="navbar" id="navbar">
-  <div class="nav-container">
-    <div class="nav-left">
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
       <a href="index.html" class="logo">
-        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px;width:auto;max-width:150px;object-fit:contain;display:block;" />
+        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" />
         <span class="logo-text"><span class="amba-text">amba</span> gear</span>
       </a>
       <ul class="nav-links" id="navLinks">
@@ -219,535 +34,196 @@
         <li><a href="tentang.html">Tentang Kami</a></li>
         <li><a href="kontak.html">Kontak</a></li>
       </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fas fa-search"></i></button>
+        <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist" style="position: relative;"><i class="fas fa-heart"></i> <span id="wishlistCount" class="cart-count">0</span></button>
+        <button class="icon-btn" onclick="toggleCart()" title="Cart" style="position: relative;"><i class="fas fa-shopping-cart"></i> <span id="cartCount" class="cart-count">0</span></button>
+        <a href="kontak.html" class="icon-btn wa-icon"><i class="fab fa-whatsapp"></i></a>
+        <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+      </div>
     </div>
-    <div class="nav-actions">
-      <button class="icon-btn" onclick="toggleSearch()" title="Cari"><i class="fas fa-search"></i></button>
-      <div class="wishlist-wrap">
-        <button class="icon-btn wishlist-btn" onclick="toggleWishlistPanel()" title="Wishlist">
-          <i class="fas fa-heart"></i>
-          <span class="wishlist-count hidden" id="wishlistCount">0</span>
-        </button>
-        <div class="wishlist-panel" id="wishlistPanel">
-          <div class="wishlist-panel-header">
-            <span><i class="fas fa-heart" style="color:var(--accent);margin-right:6px"></i> WISHLIST</span>
-            <button onclick="clearWishlist()">Hapus Semua</button>
-          </div>
-          <div class="wishlist-panel-body" id="wishlistBody">
-            <div class="wishlist-empty"><i class="far fa-heart"></i>Wishlist kamu kosong</div>
-          </div>
-          <div class="wishlist-panel-footer">
-            <a href="produk.html">Lihat Semua Produk <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-      </div>
-      <a href="kontak.html" class="icon-btn wa-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <div class="nav-auth" id="navAuth">
-        <button class="btn-login-nav" onclick="openModal('loginModal')">
-          <i class="fas fa-user"></i> <span>Login</span>
-        </button>
-      </div>
-      <div class="nav-user hidden" id="navUser">
-        <div class="user-dropdown" onclick="toggleUserMenu()">
-          <div class="user-avatar" id="userAvatar">G</div>
-          <span id="userName">Gamer</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="user-menu" id="userMenu">
-          <a href="#" id="adminPanelLink" class="hidden"><i class="fas fa-cog"></i> Admin Panel</a>
-          <a href="#" onclick="showOrderHistory()"><i class="fas fa-box"></i> My Orders</a>
-          <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
-      </div>
-      <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+    <div class="search-bar" id="searchBar">
+      <input type="text" placeholder="Cari produk gaming..." />
+      <button><i class="fas fa-search"></i></button>
     </div>
-  </div>
-  <div class="search-bar" id="searchBar">
-    <input type="text" placeholder="Cari produk gaming..." id="searchInput" onkeypress="handleSearch(event)" />
-    <button onclick="doSearch()"><i class="fas fa-search"></i></button>
-  </div>
-</nav>
+  </nav>
 
-<!-- PAGE HERO -->
-<section class="page-hero">
-  <h1>SEMUA <span class="accent">PRODUK</span></h1>
-  <p class="breadcrumb"><a href="index.html">Home</a> / <span id="heroCategory">Shop</span></p>
-</section>
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>SEMUA <span class="accent">PRODUK</span></h1>
+    <p class="breadcrumb"><a href="index.html">Home</a> / Shop</p>
+  </section>
 
-<!-- FILTER BAR -->
-<div class="filter-bar">
-  <div class="container">
-    <span class="filter-label"><i class="fas fa-filter" style="margin-right:4px"></i>Filter:</span>
-    <button class="filter-btn" data-filter="all" onclick="applyFilter('all')">
-      Semua <span class="filter-count" id="countAll"></span>
-    </button>
-    <button class="filter-btn" data-filter="mouse" onclick="applyFilter('mouse')">
-      <i class="fas fa-mouse"></i> Mouse <span class="filter-count" id="countMouse"></span>
-    </button>
-    <button class="filter-btn" data-filter="keyboard" onclick="applyFilter('keyboard')">
-      <i class="fas fa-keyboard"></i> Keyboard <span class="filter-count" id="countKeyboard"></span>
-    </button>
-    <button class="filter-btn" data-filter="headset" onclick="applyFilter('headset')">
-      <i class="fas fa-headphones"></i> Headset <span class="filter-count" id="countHeadset"></span>
-    </button>
-  </div>
-</div>
-
-<!-- PRODUCTS GRID -->
-<section class="products-section">
-  <div class="container">
-    <!-- Filter heading (tampil saat filter aktif) -->
-    <div class="filter-heading" id="filterHeading" style="display:none">
-      Menampilkan: <span id="filterHeadingLabel">Semua</span>
-      <span class="count-badge" id="filterHeadingCount">0 produk</span>
-    </div>
-
-    <div class="products-grid" id="productsGrid">
-
-      <!-- ===== MOUSE ===== -->
-      <div class="product-card" data-cat="mouse" data-id="1" data-name="Logitech G Pro X Superlight 2" data-price="1299000" data-img="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400">
-        <div class="product-badge">HOT</div>
-        <div class="brand-badge logitech">Logitech</div>
-        <button class="btn-wishlist" onclick="toggleWishlistItem(this)" title="Tambah ke Wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-        <div class="product-img">
-          <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400" alt="Logitech G Pro X Superlight 2" loading="lazy" />
-        </div>
-        <div class="product-info">
-          <h4>Logitech G Pro X Superlight 2</h4>
-          <p style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:8px;">Sensor HERO 2 • 63g • Wireless</p>
-          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <div class="price">Rp1.299.000</div>
-          <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px;">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
-          </a>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="mouse" data-id="2" data-name="Razer DeathAdder V3 HyperSpeed" data-price="899000" data-img="https://images.unsplash.com/photo-1623820919239-0d0ff10797a1?w=400">
-        <div class="brand-badge razer">Razer</div>
-        <button class="btn-wishlist" onclick="toggleWishlistItem(this)" title="Tambah ke Wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-        <div class="product-img">
-          <img src="https://images.unsplash.com/photo-1623820919239-0d0ff10797a1?w=400" alt="Razer DeathAdder V3 HyperSpeed" loading="lazy" />
-        </div>
-        <div class="product-info">
-          <h4>Razer DeathAdder V3 HyperSpeed</h4>
-          <p style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:8px;">Focus X • 90hr Battery • Wireless</p>
-          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-          <div class="price">Rp899.000</div>
-          <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px;">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
-          </a>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="mouse" data-id="3" data-name="HyperX Pulsefire Haste 2 Wireless" data-price="799000" data-img="https://images.unsplash.com/photo-1610735843870-9ebfa8e09e42?w=400">
-        <div class="product-badge sale">SALE</div>
-        <div class="brand-badge hyperx">HyperX</div>
-        <button class="btn-wishlist" onclick="toggleWishlistItem(this)" title="Tambah ke Wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-        <div class="product-img">
-          <img src="https://images.unsplash.com/photo-1610735843870-9ebfa8e09e42?w=400" alt="HyperX Pulsefire Haste 2 Wireless" loading="lazy" />
-        </div>
-        <div class="product-info">
-          <h4>HyperX Pulsefire Haste 2 Wireless</h4>
-          <p style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:8px;">26K DPI • 100hr Battery • RGB</p>
-          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
-          <div class="price"><span class="old">Rp999.000</span> Rp799.000</div>
-          <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px;">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
-          </a>
-        </div>
-      </div>
-
-      <!-- ===== KEYBOARD ===== -->
-      <div class="product-card" data-cat="keyboard" data-id="4" data-name="Logitech G Pro X Keyboard TKL" data-price="1599000" data-img="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400">
-        <div class="product-badge">HOT</div>
-        <div class="brand-badge logitech">Logitech</div>
-        <button class="btn-wishlist" onclick="toggleWishlistItem(this)" title="Tambah ke Wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-        <div class="product-img">
-          <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400" alt="Logitech G Pro X Keyboard TKL" loading="lazy" />
-        </div>
-        <div class="product-info">
-          <h4>Logitech G Pro X Keyboard TKL</h4>
-          <p style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:8px;">GX Clicky • TKL • RGB Lightsync</p>
-          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <div class="price">Rp1.599.000</div>
-          <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px;">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
-          </a>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="keyboard" data-id="5" data-name="Razer Huntsman V3 Pro TKL" data-price="2199000" data-img="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?w=400">
-        <div class="brand-badge razer">Razer</div>
-        <button class="btn-wishlist" onclick="toggleWishlistItem(this)" title="Tambah ke Wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-        <div class="product-img">
-          <img src="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?w=400" alt="Razer Huntsman V3 Pro TKL" loading="lazy" />
-        </div>
-        <div class="product-info">
-          <h4>Razer Huntsman V3 Pro TKL</h4>
-          <p style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:8px;">Analog Optical • TKL • Per-Key RGB</p>
-          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-          <div class="price">Rp2.199.000</div>
-          <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px;">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
-          </a>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="keyboard" data-id="6" data-name="HyperX Alloy Origins Core" data-price="899000" data-img="https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400">
-        <div class="brand-badge hyperx">HyperX</div>
-        <button class="btn-wishlist" onclick="toggleWishlistItem(this)" title="Tambah ke Wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-        <div class="product-img">
-          <img src="https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400" alt="HyperX Alloy Origins Core" loading="lazy" />
-        </div>
-        <div class="product-info">
-          <h4>HyperX Alloy Origins Core</h4>
-          <p style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:8px;">HyperX Aqua • TKL • RGB Proof</p>
-          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
-          <div class="price">Rp899.000</div>
-          <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px;">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
-          </a>
-        </div>
-      </div>
-
-      <!-- ===== HEADSET ===== -->
-      <div class="product-card" data-cat="headset" data-id="7" data-name="Logitech G733 Lightspeed Wireless" data-price="1599000" data-img="https://images.unsplash.com/photo-1599669454699-248893623440?w=400">
-        <div class="brand-badge logitech">Logitech</div>
-        <button class="btn-wishlist" onclick="toggleWishlistItem(this)" title="Tambah ke Wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-        <div class="product-img">
-          <img src="https://images.unsplash.com/photo-1599669454699-248893623440?w=400" alt="Logitech G733 Lightspeed Wireless" loading="lazy" />
-        </div>
-        <div class="product-info">
-          <h4>Logitech G733 Lightspeed Wireless</h4>
-          <p style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:8px;">Wireless • 29hr Battery • Lightspeed</p>
-          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <div class="price">Rp1.599.000</div>
-          <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px;">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
-          </a>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="headset" data-id="8" data-name="Razer BlackShark V2 Pro Wireless" data-price="1999000" data-img="https://images.unsplash.com/photo-1585298723682-7115561c51b7?w=400">
-        <div class="product-badge">HOT</div>
-        <div class="brand-badge razer">Razer</div>
-        <button class="btn-wishlist" onclick="toggleWishlistItem(this)" title="Tambah ke Wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-        <div class="product-img">
-          <img src="https://images.unsplash.com/photo-1585298723682-7115561c51b7?w=400" alt="Razer BlackShark V2 Pro Wireless" loading="lazy" />
-        </div>
-        <div class="product-info">
-          <h4>Razer BlackShark V2 Pro Wireless</h4>
-          <p style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:8px;">THX Spatial • 70hr Battery • HyperClear</p>
-          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-          <div class="price">Rp1.999.000</div>
-          <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px;">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
-          </a>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="headset" data-id="9" data-name="HyperX Cloud Alpha Wireless" data-price="1899000" data-img="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=400">
-        <div class="product-badge sale">SALE</div>
-        <div class="brand-badge hyperx">HyperX</div>
-        <button class="btn-wishlist" onclick="toggleWishlistItem(this)" title="Tambah ke Wishlist">
-          <i class="far fa-heart"></i>
-        </button>
-        <div class="product-img">
-          <img src="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=400" alt="HyperX Cloud Alpha Wireless" loading="lazy" />
-        </div>
-        <div class="product-info">
-          <h4>HyperX Cloud Alpha Wireless</h4>
-          <p style="color:var(--text-secondary);font-size:0.78rem;margin-bottom:8px;">DTS • 300hr Battery • Dual Chamber</p>
-          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
-          <div class="price"><span class="old">Rp2.299.000</span> Rp1.899.000</div>
-          <a href="kontak.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px;">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
-          </a>
-        </div>
-      </div>
-
-    </div><!-- end .products-grid -->
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-top">
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="index.html" class="logo">
-            <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px;width:auto;max-width:150px;object-fit:contain;display:block;" />
-          </a>
-          <p>Premium gaming gear dari brand terbaik dunia. Play harder. Win more.</p>
-          <div class="social-links">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-tiktok"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-            <a href="kontak.html"><i class="fab fa-whatsapp"></i></a>
-          </div>
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all" onclick="filterProducts('all')">Semua</button>
+      <button class="filter-btn" data-filter="mouse" onclick="filterProducts('mouse')">Mouse</button>
+      <button class="filter-btn" data-filter="keyboard" onclick="filterProducts('keyboard')">Keyboard</button>
+      <button class="filter-btn" data-filter="headset" onclick="filterProducts('headset')">Headset</button>
+    </div>
+  </div>
+
+  <!-- PRODUCTS FULL LIST -->
+  <section class="section" style="background: var(--bg-2);">
+    <div class="container">
+      <div id="productsGrid" class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+        <!-- Products will be loaded dynamically -->
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--pink);"></i>
+          <p style="margin-top: 10px; color: var(--text-muted);">Loading products...</p>
         </div>
-        <div class="footer-col">
-          <h5>SHOP</h5>
-          <ul>
-            <li><a href="produk.html">Semua Produk</a></li>
-            <li><a href="produk.html?cat=mouse">Mouse Gaming</a></li>
-            <li><a href="produk.html?cat=keyboard">Keyboard Gaming</a></li>
-            <li><a href="produk.html?cat=headset">Headset Gaming</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>CUSTOMER SERVICE</h5>
-          <ul>
-            <li><a href="#">Shipping &amp; Delivery</a></li>
-            <li><a href="#">Returns &amp; Refunds</a></li>
-            <li><a href="kontak.html">Kontak Kami</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>NEWSLETTER</h5>
-          <p>Subscribe untuk promo spesial dan deals eksklusif!</p>
-          <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
-            <div class="newsletter-input">
-              <input type="email" placeholder="Email kamu..." required />
-              <button type="submit"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="productModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: var(--bg-2); border-radius: var(--radius-lg); max-width: 1100px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative;">
+      <button onclick="closeProductModal()" style="position: absolute; top: 15px; right: 15px; background: var(--bg-2); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; z-index: 10;">
+        <i class="fas fa-times" style="color: var(--text);"></i>
+      </button>
+      <div id="productDetail" style="padding: 30px;">
+        <!-- Product detail will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CART SIDEBAR -->
+  <div id="cartSidebar" class="sidebar" style="display: none; position: fixed; top: 0; right: 0; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h3 style="margin: 0;">Shopping Cart</h3>
+      <button onclick="toggleCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="cartItems">
+      <p style="text-align: center; color: var(--text-muted); margin: 40px 0;">Your cart is empty</p>
+    </div>
+    <div id="cartTotal" style="border-top: 1px solid var(--card-border); padding-top: 20px; margin-top: 20px; display: none;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <strong>Total:</strong>
+        <strong id="totalPrice">Rp0</strong>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- WISHLIST SIDEBAR -->
+  <div id="wishlistSidebar" class="sidebar" style="display: none; position: fixed; top: 0; right: 0; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h3 style="margin: 0;">Wishlist</h3>
+      <button onclick="toggleWishlist()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="wishlistItems">
+      <p style="text-align: center; color: var(--text-muted); margin: 40px 0;">Your wishlist is empty</p>
+    </div>
+  </div>
+
+  <!-- OVERLAY -->
+  <div id="overlay" class="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeAllSidebars()"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo"><img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" /></a>
+            <p>Premium gaming gear untuk mereka yang menuntut performa terbaik. Play harder. Win more.</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-tiktok"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+              <a href="kontak.html"><i class="fab fa-whatsapp"></i></a>
             </div>
-          </form>
+          </div>
+          <div class="footer-col">
+            <h5>SHOP</h5>
+            <ul>
+              <li><a href="produk.html">Semua Produk</a></li>
+              <li><a href="produk.html?cat=mouse">Mouse Gaming</a></li>
+              <li><a href="produk.html?cat=keyboard">Keyboard Gaming</a></li>
+              <li><a href="produk.html?cat=headset">Headset Gaming</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>SUPPORT</h5>
+            <ul>
+              <li><a href="tentang.html">Tentang Kami</a></li>
+              <li><a href="kontak.html">Kontak</a></li>
+              <li><a href="kontak.html">Customer Service</a></li>
+              <li><a href="kontak.html">Warranty</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>PAYMENT</h5>
+            <div class="payment-methods">
+              <img src="https://via.placeholder.com/40x25/fff/000?text=BCA" alt="BCA" />
+              <img src="https://via.placeholder.com/40x25/fff/000?text=MANDIRI" alt="Mandiri" />
+              <img src="https://via.placeholder.com/40x25/fff/000?text=GOPAY" alt="GoPay" />
+              <img src="https://via.placeholder.com/40x25/fff/000?text=DANA" alt="DANA" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="container">
-      <p>&copy; 2025 AMBA GEAR. All Rights Reserved.</p>
-      <div class="payment-icons">
-        <span>VISA</span><span>Mastercard</span><span>GoPay</span><span>OVO</span><span>DANA</span>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2024 AMBA GEAR. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--pink);"></i> for gamers.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PRODUCT MODAL -->
+  <div id="productModal" class="modal" style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; z-index: 1000; padding: 20px;">
+    <div class="modal-content" style="background: var(--card); width: 100%; max-width: 900px; border-radius: var(--radius); border: 1px solid var(--card-border); position: relative; max-height: 90vh; overflow-y: auto;">
+      <button class="modal-close" onclick="closeProductModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; z-index: 10;"><i class="fas fa-times"></i></button>
+      <div id="productDetail" class="product-detail-container">
+        <!-- Content injected via JS -->
       </div>
     </div>
   </div>
-</footer>
 
-<a href="https://wa.me/6283896431050?text=Halo%20AMBA%20GEAR!%20Saya%20ingin%20tanya%20tentang%20produk..." class="wa-float" target="_blank" rel="noopener">
-  <i class="fab fa-whatsapp"></i>
-  <span class="wa-tooltip">Chat Admin</span>
-</a>
-
-<!-- LOGIN MODAL -->
-<div class="modal-overlay hidden" id="loginModal" onclick="handleOverlayClick(event, 'loginModal')">
-  <div class="modal" id="loginModalBox">
-    <button class="modal-close" onclick="closeModal('loginModal')"><i class="fas fa-times"></i></button>
-    <div class="modal-header">
-      <div class="modal-logo"><span class="amba-text">amba</span> gear</div>
-      <div class="modal-tabs">
-        <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Login</button>
-        <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">Register</button>
-      </div>
+  <!-- CART SIDEBAR -->
+  <div id="cartSidebar" class="sidebar">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h3 style="margin: 0;">Shopping Cart</h3>
+      <button onclick="toggleCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: white;">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-    <div class="modal-body">
-      <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
-        <div class="form-group">
-          <label>Email</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-envelope"></i>
-            <input type="email" id="loginEmail" placeholder="email@kamu.com" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="loginPassword" placeholder="••••••••" required />
-            <button type="button" class="toggle-pw" onclick="togglePassword('loginPassword')"><i class="fas fa-eye"></i></button>
-          </div>
-        </div>
-        <div class="form-error hidden" id="loginError"></div>
-        <button type="submit" class="btn-submit"><span>MASUK</span><i class="fas fa-arrow-right"></i></button>
-        <p class="switch-tab">Belum punya akun? <a href="#" onclick="switchTab('register')">Daftar sekarang</a></p>
-      </form>
-      <form id="registerForm" class="auth-form hidden" onsubmit="handleRegister(event)">
-        <div class="form-group">
-          <label>Nama Lengkap</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-user"></i>
-            <input type="text" id="regName" placeholder="Nama kamu" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-envelope"></i>
-            <input type="email" id="regEmail" placeholder="email@kamu.com" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="regPassword" placeholder="Min. 6 karakter" required minlength="6" />
-            <button type="button" class="toggle-pw" onclick="togglePassword('regPassword')"><i class="fas fa-eye"></i></button>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Konfirmasi Password</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="regPasswordConfirm" placeholder="Ulangi password" required />
-          </div>
-        </div>
-        <div class="form-error hidden" id="regError"></div>
-        <button type="submit" class="btn-submit"><span>DAFTAR SEKARANG</span><i class="fas fa-arrow-right"></i></button>
-        <p class="switch-tab">Sudah punya akun? <a href="#" onclick="switchTab('login')">Login di sini</a></p>
-      </form>
+    <div id="cartItems">
+      <p style="text-align: center; color: var(--text-muted); margin: 40px 0;">Your cart is empty</p>
+    </div>
+    <div id="cartTotal" style="border-top: 1px solid var(--card-border); padding-top: 20px; margin-top: 20px; display: none;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <strong>Total:</strong>
+        <strong id="totalPrice">Rp0</strong>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="checkout()">Checkout</button>
     </div>
   </div>
-</div>
 
-<div class="toast hidden" id="toast"></div>
+  <!-- WISHLIST SIDEBAR -->
+  <div id="wishlistSidebar" class="sidebar">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h3 style="margin: 0;">Wishlist</h3>
+      <button onclick="toggleWishlist()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: white;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="wishlistItems">
+      <p style="text-align: center; color: var(--text-muted); margin: 40px 0;">Your wishlist is empty</p>
+    </div>
+  </div>
 
-<script src="script.js"></script>
-<script>
-/* =====================================================
-   FILTER SYSTEM — PRODUK.HTML
-   Membaca URL parameter ?cat= dan memfilter produk
-   ===================================================== */
+  <!-- OVERLAY -->
+  <div id="overlay" class="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeAllSidebars()"></div>
 
-let activeFilter = 'all';
-
-function applyFilter(cat) {
-  activeFilter = cat;
-
-  // Update URL tanpa reload (optional, buat browser history)
-  const url = new URL(window.location);
-  if (cat === 'all') {
-    url.searchParams.delete('cat');
-  } else {
-    url.searchParams.set('cat', cat);
-  }
-  window.history.replaceState({}, '', url);
-
-  // Update tombol aktif
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.filter === cat);
-  });
-
-  // Show/hide product cards
-  const cards = document.querySelectorAll('#productsGrid .product-card');
-  let visibleCount = 0;
-
-  cards.forEach(card => {
-    const cardCat = card.dataset.cat;
-    const isVisible = cat === 'all' || cardCat === cat;
-    card.classList.toggle('hidden-by-filter', !isVisible);
-    if (isVisible) visibleCount++;
-  });
-
-  // Update filter heading
-  const heading = document.getElementById('filterHeading');
-  const headingLabel = document.getElementById('filterHeadingLabel');
-  const headingCount = document.getElementById('filterHeadingCount');
-  const heroCategory = document.getElementById('heroCategory');
-  const catNames = { all: 'Semua', mouse: 'Mouse', keyboard: 'Keyboard', headset: 'Headset' };
-
-  if (cat !== 'all') {
-    heading.style.display = 'flex';
-    headingLabel.textContent = catNames[cat] || cat;
-    headingCount.textContent = visibleCount + ' produk';
-    if (heroCategory) heroCategory.textContent = catNames[cat];
-  } else {
-    heading.style.display = 'none';
-    if (heroCategory) heroCategory.textContent = 'Shop';
-  }
-
-  // Scroll ke produk grid
-  const grid = document.getElementById('productsGrid');
-  if (grid && cat !== 'all') {
-    setTimeout(() => {
-      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
-  }
-}
-
-function initCounts() {
-  const cards = document.querySelectorAll('#productsGrid .product-card');
-  let counts = { all: 0, mouse: 0, keyboard: 0, headset: 0 };
-  cards.forEach(c => {
-    counts.all++;
-    const cat = c.dataset.cat;
-    if (counts[cat] !== undefined) counts[cat]++;
-  });
-  const el = id => document.getElementById(id);
-  if (el('countAll'))      el('countAll').textContent      = '(' + counts.all + ')';
-  if (el('countMouse'))    el('countMouse').textContent    = '(' + counts.mouse + ')';
-  if (el('countKeyboard')) el('countKeyboard').textContent = '(' + counts.keyboard + ')';
-  if (el('countHeadset'))  el('countHeadset').textContent  = '(' + counts.headset + ')';
-}
-
-function initFilterFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const cat = params.get('cat') || 'all';
-  // Langsung apply filter tanpa scroll (baru load page)
-  activeFilter = cat;
-
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.filter === cat);
-  });
-
-  const cards = document.querySelectorAll('#productsGrid .product-card');
-  let visibleCount = 0;
-  cards.forEach(card => {
-    const isVisible = cat === 'all' || card.dataset.cat === cat;
-    card.classList.toggle('hidden-by-filter', !isVisible);
-    if (isVisible) visibleCount++;
-  });
-
-  const heading = document.getElementById('filterHeading');
-  const headingLabel = document.getElementById('filterHeadingLabel');
-  const headingCount = document.getElementById('filterHeadingCount');
-  const heroCategory = document.getElementById('heroCategory');
-  const catNames = { all: 'Semua', mouse: 'Mouse', keyboard: 'Keyboard', headset: 'Headset' };
-
-  if (cat !== 'all') {
-    if (heading) { heading.style.display = 'flex'; }
-    if (headingLabel) headingLabel.textContent = catNames[cat] || cat;
-    if (headingCount) headingCount.textContent = visibleCount + ' produk';
-    if (heroCategory) heroCategory.textContent = catNames[cat];
-  }
-}
-
-/* Wishlist state per card on page load */
-function initWishlistButtons() {
-  const wishlist = JSON.parse(localStorage.getItem('amba_wishlist') || '[]');
-  document.querySelectorAll('.product-card').forEach(card => {
-    const id = card.dataset.id;
-    const btn = card.querySelector('.btn-wishlist');
-    if (!btn) return;
-    const isInWishlist = wishlist.some(w => w.id === id);
-    btn.classList.toggle('active', isInWishlist);
-    btn.innerHTML = isInWishlist ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  initCounts();
-  initFilterFromURL();
-  initWishlistButtons();
-});
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
