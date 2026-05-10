@@ -384,14 +384,13 @@ function toggleCart() {
   const sidebar = document.getElementById('cartSidebar');
   const overlay = getOverlay();
 
-  if (sidebar.style.right === '0px') {
-    sidebar.style.right = '-420px';
-    overlay.style.display = 'none';
+  if (sidebar.classList.contains('open')) {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
   } else {
     updateCartDisplay();
-    sidebar.style.display = 'block'; // ensure it's block
-    setTimeout(() => { sidebar.style.right = '0px'; }, 10);
-    overlay.style.display = 'block';
+    sidebar.classList.add('open');
+    overlay.classList.add('open');
   }
 }
 
@@ -399,14 +398,13 @@ function toggleWishlist() {
   const sidebar = document.getElementById('wishlistSidebar');
   const overlay = getOverlay();
 
-  if (sidebar.style.right === '0px') {
-    sidebar.style.right = '-420px';
-    overlay.style.display = 'none';
+  if (sidebar.classList.contains('open')) {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
   } else {
     updateWishlistDisplay();
-    sidebar.style.display = 'block'; // ensure it's block
-    setTimeout(() => { sidebar.style.right = '0px'; }, 10);
-    overlay.style.display = 'block';
+    sidebar.classList.add('open');
+    overlay.classList.add('open');
   }
 }
 
@@ -441,7 +439,7 @@ function getOverlay() {
   if (!overlay) {
     overlay = document.createElement('div');
     overlay.id = 'overlay';
-    overlay.style.cssText = 'display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; backdrop-filter: blur(4px);';
+    overlay.className = 'overlay';
     overlay.onclick = closeAllSidebars;
     document.body.appendChild(overlay);
   }
@@ -553,13 +551,13 @@ function checkout() {
 
 function closeAllSidebars() {
   const cs = document.getElementById('cartSidebar');
-  if (cs) cs.style.right = '-420px';
+  if (cs) cs.classList.remove('open');
   const ws = document.getElementById('wishlistSidebar');
-  if (ws) ws.style.right = '-420px';
+  if (ws) ws.classList.remove('open');
   const pm = document.getElementById('productModal');
   if (pm) pm.style.display = 'none';
   const overlay = document.getElementById('overlay');
-  if (overlay) overlay.style.display = 'none';
+  if (overlay) overlay.classList.remove('open');
 }
 
 // === ORDER FORM ===
