@@ -224,6 +224,15 @@ ul { list-style: none; padding: 0; margin: 0; }
   filter: brightness(0) invert(1) opacity(0.65);
   transition: filter 0.3s ease;
 }
+.marquee-set img[alt="Logitech"] {
+  height: 65px;
+}
+.marquee-set img[alt="Rexus"] {
+  height: 55px;
+}
+.marquee-set img[alt="HyperX"] {
+  height: 42px;
+}
 .marquee-set img:hover {
   filter: brightness(0) invert(1) opacity(1);
 }

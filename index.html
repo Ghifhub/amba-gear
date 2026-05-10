@@ -39,6 +39,8 @@
       </ul>
       <div class="nav-actions">
         <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fas fa-search"></i></button>
+        <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist" style="position: relative;"><i class="fas fa-heart"></i> <span id="wishlistCount" class="cart-count">0</span></button>
+        <button class="icon-btn" onclick="toggleCart()" title="Cart" style="position: relative;"><i class="fas fa-shopping-cart"></i> <span id="cartCount" class="cart-count">0</span></button>
         <a href="kontak.html" class="icon-btn wa-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
       </div>
@@ -55,7 +57,7 @@
       Your browser does not support HTML5 video.
     </video>
     <div class="hero-overlay"></div>
-    <div class="hero-content logitech-style" style="cursor: pointer;" onclick="location.href='produk.html'">
+    <div class="hero-content logitech-style">
       <span class="hero-subtitle" style="color: #fff;"><span class="line"></span> PREMIUM GAMING GEAR</span>
       <h1 class="hero-title" style="color: #fff;">ELEVATE YOUR<br /><span class="accent">GAMING EXPERIENCE</span></h1>
       <p class="hero-desc" style="color: #fff;">High performance gear untuk gamer sejati. Didesain untuk menang di setiap sesi permainan.</p>
