@@ -178,6 +178,52 @@
     </div>
   </footer>
 
+  <!-- PRODUCT MODAL -->
+  <div id="productModal" class="modal" style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; z-index: 1000; padding: 20px;">
+    <div class="modal-content" style="background: var(--card); width: 100%; max-width: 900px; border-radius: var(--radius); border: 1px solid var(--card-border); position: relative; max-height: 90vh; overflow-y: auto;">
+      <button class="modal-close" onclick="closeProductModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; z-index: 10;"><i class="fas fa-times"></i></button>
+      <div id="productDetail" class="product-detail-container">
+        <!-- Content injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CART SIDEBAR -->
+  <div id="cartSidebar" class="sidebar" style="position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto; transition: right 0.3s ease; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h3 style="margin: 0;">Shopping Cart</h3>
+      <button onclick="toggleCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: white;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="cartItems">
+      <p style="text-align: center; color: var(--text-muted); margin: 40px 0;">Your cart is empty</p>
+    </div>
+    <div id="cartTotal" style="border-top: 1px solid var(--card-border); padding-top: 20px; margin-top: 20px; display: none;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <strong>Total:</strong>
+        <strong id="totalPrice">Rp0</strong>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- WISHLIST SIDEBAR -->
+  <div id="wishlistSidebar" class="sidebar" style="position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto; transition: right 0.3s ease; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h3 style="margin: 0;">Wishlist</h3>
+      <button onclick="toggleWishlist()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: white;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="wishlistItems">
+      <p style="text-align: center; color: var(--text-muted); margin: 40px 0;">Your wishlist is empty</p>
+    </div>
+  </div>
+
+  <!-- OVERLAY -->
+  <div id="overlay" class="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeAllSidebars()"></div>
+
   <script src="script.js"></script>
 </body>
 </html>

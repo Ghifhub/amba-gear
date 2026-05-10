@@ -241,10 +241,10 @@
   </a>
 
   <!-- CART SIDEBAR -->
-  <div id="cartSidebar" class="sidebar" style="display: none; position: fixed; top: 0; right: 0; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto;">
+  <div id="cartSidebar" class="sidebar" style="position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto; transition: right 0.3s ease; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
       <h3 style="margin: 0;">Shopping Cart</h3>
-      <button onclick="toggleCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+      <button onclick="toggleCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: white;">
         <i class="fas fa-times"></i>
       </button>
     </div>
@@ -261,10 +261,10 @@
   </div>
 
   <!-- WISHLIST SIDEBAR -->
-  <div id="wishlistSidebar" class="sidebar" style="display: none; position: fixed; top: 0; right: 0; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto;">
+  <div id="wishlistSidebar" class="sidebar" style="position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: var(--card); border-left: 1px solid var(--card-border); z-index: 1000; padding: 30px; overflow-y: auto; transition: right 0.3s ease; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
       <h3 style="margin: 0;">Wishlist</h3>
-      <button onclick="toggleWishlist()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+      <button onclick="toggleWishlist()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: white;">
         <i class="fas fa-times"></i>
       </button>
     </div>

@@ -245,7 +245,7 @@ async function filterProducts(category) {
   });
 
   let filteredProducts = allProducts;
-  if (category !== 'all') {
+  if (category !== 'all' && category !== 'Semua') {
     filteredProducts = allProducts.filter(product => product.category === category);
   }
 
@@ -384,12 +384,13 @@ function toggleCart() {
   const sidebar = document.getElementById('cartSidebar');
   const overlay = getOverlay();
 
-  if (sidebar.style.display === 'block') {
-    sidebar.style.display = 'none';
+  if (sidebar.style.right === '0px') {
+    sidebar.style.right = '-420px';
     overlay.style.display = 'none';
   } else {
     updateCartDisplay();
-    sidebar.style.display = 'block';
+    sidebar.style.display = 'block'; // ensure it's block
+    setTimeout(() => { sidebar.style.right = '0px'; }, 10);
     overlay.style.display = 'block';
   }
 }
@@ -398,12 +399,13 @@ function toggleWishlist() {
   const sidebar = document.getElementById('wishlistSidebar');
   const overlay = getOverlay();
 
-  if (sidebar.style.display === 'block') {
-    sidebar.style.display = 'none';
+  if (sidebar.style.right === '0px') {
+    sidebar.style.right = '-420px';
     overlay.style.display = 'none';
   } else {
     updateWishlistDisplay();
-    sidebar.style.display = 'block';
+    sidebar.style.display = 'block'; // ensure it's block
+    setTimeout(() => { sidebar.style.right = '0px'; }, 10);
     overlay.style.display = 'block';
   }
 }
@@ -440,12 +442,7 @@ function getOverlay() {
     overlay = document.createElement('div');
     overlay.id = 'overlay';
     overlay.style.cssText = 'display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; backdrop-filter: blur(4px);';
-    overlay.onclick = () => {
-      const cs = document.getElementById('cartSidebar'); if(cs) cs.style.display = 'none';
-      const ws = document.getElementById('wishlistSidebar'); if(ws) ws.style.display = 'none';
-      const pm = document.getElementById('productModal'); if(pm) pm.style.display = 'none';
-      overlay.style.display = 'none';
-    };
+    overlay.onclick = closeAllSidebars;
     document.body.appendChild(overlay);
   }
   return overlay;
@@ -463,24 +460,24 @@ function updateCartDisplay() {
 
   cartItems.innerHTML = cart.map(item => `
     <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--card-border);">
-      <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
+      <img src="${item.image_url}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
       <div style="flex: 1;">
         <h4 style="margin: 0 0 5px 0; font-size: 1rem;">${item.name}</h4>
         <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Rp${parseInt(item.price).toLocaleString('id-ID')}</p>
         <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
-          <button onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})" style="width: 25px; height: 25px; border: 1px solid var(--card-border); background: var(--bg); border-radius: var(--radius); cursor: pointer;">-</button>
+          <button onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})" style="width: 25px; height: 25px; border: 1px solid var(--card-border); background: var(--bg); border-radius: var(--radius); cursor: pointer; color: white;">-</button>
           <span>${item.quantity}</span>
-          <button onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})" style="width: 25px; height: 25px; border: 1px solid var(--card-border); background: var(--bg); border-radius: var(--radius); cursor: pointer;">+</button>
+          <button onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})" style="width: 25px; height: 25px; border: 1px solid var(--card-border); background: var(--bg); border-radius: var(--radius); cursor: pointer; color: white;">+</button>
         </div>
       </div>
-      <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">
+      <button onclick="removeFromCart('${item.id}')" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">
         <i class="fas fa-times"></i>
       </button>
     </div>
   `).join('');
 
-  const total = cart.reduce((sum, item) => sum + (parseInt(item.price.replace(/[^\d]/g, '')) * item.quantity), 0);
-  document.getElementById('totalPrice').textContent = `Rp${total.toLocaleString()}`;
+  const total = cart.reduce((sum, item) => sum + (parseInt(item.price) * item.quantity), 0);
+  document.getElementById('totalPrice').textContent = `Rp${total.toLocaleString('id-ID')}`;
   cartTotal.style.display = 'block';
 }
 
@@ -494,14 +491,14 @@ function updateWishlistDisplay() {
 
   wishlistItems.innerHTML = wishlist.map(item => `
     <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--card-border);">
-      <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
+      <img src="${item.image_url}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
       <div style="flex: 1;">
         <h4 style="margin: 0 0 5px 0; font-size: 1rem;">${item.name}</h4>
         <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Rp${parseInt(item.price).toLocaleString('id-ID')}</p>
       </div>
       <div style="display: flex; flex-direction: column; gap: 5px;">
-        <button onclick="addToCart(${item.id})" class="btn btn-primary" style="font-size: 0.8rem; padding: 5px 10px;">Add to Cart</button>
-        <button onclick="removeFromWishlist(${item.id})" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem;">
+        <button onclick="addToCart('${item.id}')" class="btn btn-primary" style="font-size: 0.8rem; padding: 5px 10px;">Add to Cart</button>
+        <button onclick="removeFromWishlist('${item.id}')" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem;">
           <i class="fas fa-times"></i> Remove
         </button>
       </div>
@@ -547,18 +544,22 @@ function checkout() {
   // For now, redirect to WhatsApp with order details
   const orderText = encodeURIComponent(
     `Halo AMBA GEAR! Saya ingin checkout:\n\n` +
-    cart.map(item => `${item.name} x${item.quantity} - ${item.price}`).join('\n') +
-    `\n\nTotal: Rp${cart.reduce((sum, item) => sum + (parseInt(item.price.replace(/[^\d]/g, '')) * item.quantity), 0).toLocaleString()}`
+    cart.map(item => `${item.name} x${item.quantity} - Rp${parseInt(item.price).toLocaleString('id-ID')}`).join('\n') +
+    `\n\nTotal: Rp${cart.reduce((sum, item) => sum + (parseInt(item.price) * item.quantity), 0).toLocaleString('id-ID')}`
   );
 
   window.open(`https://wa.me/6283896431050?text=${orderText}`, '_blank');
 }
 
 function closeAllSidebars() {
-  document.getElementById('cartSidebar').style.display = 'none';
-  document.getElementById('wishlistSidebar').style.display = 'none';
-  document.getElementById('productModal').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
+  const cs = document.getElementById('cartSidebar');
+  if (cs) cs.style.right = '-420px';
+  const ws = document.getElementById('wishlistSidebar');
+  if (ws) ws.style.right = '-420px';
+  const pm = document.getElementById('productModal');
+  if (pm) pm.style.display = 'none';
+  const overlay = document.getElementById('overlay');
+  if (overlay) overlay.style.display = 'none';
 }
 
 // === ORDER FORM ===
