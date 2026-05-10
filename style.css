@@ -254,7 +254,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .sidebar {
   position: fixed;
   top: 0;
-  right: -420px;
+  right: -450px;
   width: 400px;
   max-width: 100vw;
   height: 100vh;
@@ -263,11 +263,16 @@ ul { list-style: none; padding: 0; margin: 0; }
   z-index: 1000;
   padding: 30px;
   overflow-y: auto;
-  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: none;
+  visibility: hidden;
+  pointer-events: none;
 }
 .sidebar.open {
   right: 0;
+  visibility: visible;
+  pointer-events: all;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
 }
 .overlay {
   display: none;
