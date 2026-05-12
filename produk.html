@@ -44,7 +44,7 @@
     </div>
     <div class="search-bar" id="searchBar">
       <input type="text" placeholder="Cari produk gaming..." />
-      <button><i class="fas fa-search"></i></button>
+      <button onclick="performSearch()"><i class="fas fa-search"></i></button>
     </div>
   </nav>
 
@@ -68,7 +68,7 @@
   <!-- PRODUCTS FULL LIST -->
   <section class="section" style="background: var(--bg-2);">
     <div class="container">
-      <div id="productsGrid" class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+      <div id="productsGrid" class="product-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
         <!-- Products will be loaded dynamically -->
         <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
           <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--pink);"></i>

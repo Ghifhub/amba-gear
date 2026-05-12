@@ -19,7 +19,35 @@ function toggleSearch() {
   const bar = document.getElementById('searchBar');
   if (!bar) return;
   bar.classList.toggle('open');
-  if (bar.classList.contains('open')) bar.querySelector('input')?.focus();
+  if (bar.classList.contains('open')) {
+    const input = bar.querySelector('input');
+    input?.focus();
+    // Add enter key listener
+    input.onkeyup = (e) => {
+      if (e.key === 'Enter') performSearch();
+    };
+  }
+}
+
+function performSearch() {
+  const input = document.querySelector('#searchBar input');
+  if (!input) return;
+  const query = input.value.trim();
+  if (!query) return;
+
+  // If on products page, filter locally. Otherwise, redirect.
+  if (window.location.pathname.includes('produk.html')) {
+    const filtered = allProducts.filter(p => 
+      p.name.toLowerCase().includes(query.toLowerCase()) || 
+      p.brand.toLowerCase().includes(query.toLowerCase()) ||
+      p.category.toLowerCase().includes(query.toLowerCase())
+    );
+    displayProducts(filtered);
+    // Update active filter button
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  } else {
+    window.location.href = `produk.html?search=${encodeURIComponent(query)}`;
+  }
 }
 
 // Sticky navbar shadow
@@ -223,13 +251,22 @@ async function loadProducts() {
     return p;
   });
 
-  const params = new URLSearchParams(window.location.search);
-  const catParam = params.get('cat');
-  if (catParam) {
-    filterProducts(catParam);
-  } else {
-    displayProducts(allProducts);
-  }
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('cat');
+    const searchParam = params.get('search');
+
+    if (searchParam) {
+      const filtered = allProducts.filter(p => 
+        p.name.toLowerCase().includes(searchParam.toLowerCase()) || 
+        p.brand.toLowerCase().includes(searchParam.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchParam.toLowerCase())
+      );
+      displayProducts(filtered);
+    } else if (catParam) {
+      filterProducts(catParam);
+    } else {
+      displayProducts(allProducts);
+    }
 }
 
 function displayProducts(products) {
