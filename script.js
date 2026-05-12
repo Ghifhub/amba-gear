@@ -139,83 +139,96 @@ async function loadProducts() {
   const productsGrid = document.getElementById('productsGrid');
   if (!productsGrid) return;
 
+  // Fallback data if backend is offline
+  const fallbackProducts = [
+    { id: 1, name: 'Logitech G403 HERO', category: 'mouse', brand: 'Logitech', price: 699000, description: 'Gaming mouse dengan sensor HERO 25K.', rating: 4.8, reviews_count: 128, badge: 'HOT' },
+    { id: 2, name: 'Rexus Daxa Air III', category: 'mouse', brand: 'Rexus', price: 599000, description: 'Mouse gaming ringan performa optimal.', rating: 4.6, reviews_count: 85 },
+    { id: 3, name: 'HyperX Pulsefire Dart', category: 'mouse', brand: 'HyperX', price: 1399000, description: 'Mouse gaming wireless premium.', rating: 4.7, reviews_count: 92, badge: 'SALE' },
+    { id: 4, name: 'Logitech G915 TKL', category: 'keyboard', brand: 'Logitech', price: 2499000, description: 'Mechanical keyboard wireless premium.', rating: 4.9, reviews_count: 156, badge: 'HOT' },
+    { id: 5, name: 'Rexus Daiva', category: 'keyboard', brand: 'Rexus', price: 799000, description: 'Keyboard mekanikal kokoh RGB.', rating: 4.5, reviews_count: 64 },
+    { id: 6, name: 'HyperX Alloy Origins', category: 'keyboard', brand: 'HyperX', price: 1299000, description: 'Mechanical keyboard gaming switch kustom.', rating: 4.8, reviews_count: 112 },
+    { id: 7, name: 'Logitech G Pro X', category: 'headset', brand: 'Logitech', price: 1499000, description: 'Gaming headset teknologi Blue VO!CE.', rating: 4.8, reviews_count: 203 },
+    { id: 8, name: 'Rexus Thundervox', category: 'headset', brand: 'Rexus', price: 499000, description: 'Headset gaming virtual 7.1 bass tebal.', rating: 4.4, reviews_count: 150, badge: 'SALE' },
+    { id: 9, name: 'HyperX Cloud II', category: 'headset', brand: 'HyperX', price: 999000, description: 'Headset legendaris kenyamanan maksimal.', rating: 4.9, reviews_count: 310, badge: 'HOT' }
+  ];
+
   try {
     const response = await fetch('http://127.0.0.1:5000/api/products');
+    if (!response.ok) throw new Error('Server response not ok');
     const data = await response.json();
     allProducts = Array.isArray(data) ? data : (data.products || []);
-
-    // ==========================================
-    // PUSAT DATA PRODUK (Override Database)
-    // Edit di sini untuk ganti Gambar/Deskripsi
-    // ==========================================
-    allProducts = allProducts.map(p => {
-      const name = p.name || "";
-      
-      // --- MOUSE ---
-      if (name.includes('G403 HERO')) {
-        p.image_url = 'assets/logitech_g403_hero_tampak_atas-removebg.png';
-        p.description = 'Didesain untuk kenyamanan, G403 dibuat berkontur dengan pegangan karet untuk kontrol tambahan. Sensor HERO 25K memungkinkanmu untuk menelusuri dengan sangat akurat.';
-        p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Sensor: HERO 25K (25.600 DPI)</li><li>Berat: 87.3g</li><li>Report Rate: 1ms</li><li>RGB: LIGHTSYNC RGB</li></ul></div></div>`;
-      } 
-      else if (name.includes('Daxa Air III')) {
-        p.name = 'DAXA Air IV Pro Wireless Gen 2';
-        p.image_url = 'assets/rexus_daxa_air_3_tampak_atas-removebg.png';
-        p.description = 'Mouse gaming Wireless Gen 2 dengan sensor Pixart PAW3395 26.000 DPI. Dilengkapi switch Kailh GM 8.0, baterai tahan lama ±44 jam, dan 4 pilihan casing eksklusif.';
-        p.specs = `<div class="specs-content"><div class="spec-group"><h4>Fitur Utama</h4><ul><li>Sensor: Pixart PAW3395 (26.000 DPI)</li><li>Switch: Kailh GM 8.0 (80jt Klik)</li><li>Berat: 66 gram</li><li>Baterai: 300mAh (±44 jam)</li></ul></div></div>`;
-      }
-      else if (name.includes('Pulsefire Dart')) {
-        p.image_url = 'assets/hyperx_pulsefire_dart_top_view-removebg.png';
-        p.description = 'Mouse gaming wireless premium dengan koneksi 2.4GHz RF (1ms response) dan daya tahan baterai hingga 50 jam. Didesain ergonomis dengan side grips leatherette empuk.';
-        p.specs = `<div class="specs-content"><div class="spec-group"><h4>Fitur Utama</h4><ul><li>Koneksi: Wireless 2.4GHz RF</li><li>Baterai: Hingga 50 Jam</li><li>Side Grips: Padded Leatherette</li><li>Software: HyperX NGENUITY</li></ul></div></div>`;
-      }
-
-      // --- KEYBOARD ---
-      else if (name.includes('G915 TKL')) {
-        p.image_url = 'assets/Logitech_g915_tkl-removebg-preview.png';
-        p.description = 'Keyboard mekanikal wireless premium ultra-tipis dengan teknologi Lightspeed Wireless 1ms dan RGB LIGHTSYNC.';
-        p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Koneksi: Lightspeed Wireless & Bluetooth</li><li>Switch: Low Profile GL (Tactile/Linear/Clicky)</li><li>Material: Aircraft-grade Aluminum Alloy</li><li>Baterai: Hingga 40 Jam</li></ul></div></div>`;
-      }
-      else if (name.includes('Daiva')) {
-        p.image_url = 'assets/Rexus_daiva-removebg-preview.png';
-        p.description = 'Keyboard mekanikal TKL yang kokoh dengan switch Outemu dan pencahayaan RGB yang bisa dikustomisasi.';
-        p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Switch: Outemu Mechanical (Removable)</li><li>Layout: TKL (87 Keys)</li><li>LED: RGB Lighting</li><li>Koneksi: Wired Braided Cable</li></ul></div></div>`;
-      }
-      else if (name.includes('Alloy Origins')) {
-        p.image_url = 'assets/HyperX_Alloy_Origins-removebg-preview.png';
-        p.description = 'Keyboard gaming ringkas dengan switch mekanikal HyperX kustom dan bodi full aluminum.';
-        p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Switch: HyperX Mechanical Switch</li><li>Body: Full Aircraft-grade Aluminum</li><li>Software: HyperX NGENUITY</li><li>Kabel: Detachable USB-C</li></ul></div></div>`;
-      }
-
-      // --- HEADSET ---
-      else if (name.includes('G Pro X')) {
-        p.image_url = 'assets/Logitech G Refurbished PRO X 2 LIGHTSPEED.png';
-        p.description = 'Headset gaming kelas profesional dengan teknologi mikrofon Blue VO!CE untuk komunikasi yang jernih.';
-        p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Driver: PRO-G 50mm</li><li>Surround: DTS Headphone:X 2.0</li><li>Mic: Blue VO!CE Technology</li><li>Material: Aluminum & Steel</li></ul></div></div>`;
-      }
-      else if (name.includes('Thundervox')) {
-        p.image_url = 'assets/Rexus Thundervox HX25.png';
-        p.description = 'Headset gaming virtual 7.1 dengan driver 50mm yang menghasilkan suara bass mendalam dan detail.';
-        p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Sound: Virtual 7.1 Surround</li><li>Driver: 50mm Driver</li><li>Earpad: Protein Leather yang Nyaman</li><li>LED: RGB Breathing</li></ul></div></div>`;
-      }
-      else if (name.includes('Cloud II')) {
-        p.image_url = 'assets/HyperX Cloud II Gaming Headset.png';
-        p.description = 'Headset gaming legendaris dengan busa memory foam yang sangat nyaman untuk sesi gaming lama.';
-        p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Sound: Virtual 7.1 Surround Sound</li><li>Mic: Noise-cancelling Detachable</li><li>Frame: Solid Aluminum</li><li>Earpad: Signature Memory Foam</li></ul></div></div>`;
-      }
-
-      return p;
-    });
-
-    const params = new URLSearchParams(window.location.search);
-    const catParam = params.get('cat');
-    if (catParam) {
-      filterProducts(catParam);
-    } else {
-      displayProducts(allProducts);
-    }
   } catch (error) {
-    console.error('Error loading products:', error);
-    productsGrid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;"><p>Error loading products. Please try again later.</p></div>';
+    console.warn('Backend offline, using fallback data. Error:', error);
+    allProducts = fallbackProducts;
+  }
+
+  // ==========================================
+  // PUSAT DATA PRODUK (Override/Enrichment)
+  // ==========================================
+  allProducts = allProducts.map(p => {
+    const name = p.name || "";
+    
+    // --- MOUSE ---
+    if (name.includes('G403 HERO')) {
+      p.image_url = 'assets/logitech_g403_hero_tampak_atas-removebg.png';
+      p.description = 'Didesain untuk kenyamanan, G403 dibuat berkontur dengan pegangan karet untuk kontrol tambahan. Sensor HERO 25K memungkinkanmu untuk menelusuri dengan sangat akurat.';
+      p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Sensor: HERO 25K (25.600 DPI)</li><li>Berat: 87.3g</li><li>Report Rate: 1ms</li><li>RGB: LIGHTSYNC RGB</li></ul></div></div>`;
+    } 
+    else if (name.includes('Daxa Air III')) {
+      p.name = 'DAXA Air IV Pro Wireless Gen 2';
+      p.image_url = 'assets/rexus_daxa_air_3_tampak_atas-removebg.png';
+      p.description = 'Mouse gaming Wireless Gen 2 dengan sensor Pixart PAW3395 26.000 DPI. Dilengkapi switch Kailh GM 8.0, baterai tahan lama ±44 jam, dan 4 pilihan casing eksklusif.';
+      p.specs = `<div class="specs-content"><div class="spec-group"><h4>Fitur Utama</h4><ul><li>Sensor: Pixart PAW3395 (26.000 DPI)</li><li>Switch: Kailh GM 8.0 (80jt Klik)</li><li>Berat: 66 gram</li><li>Baterai: 300mAh (±44 jam)</li></ul></div></div>`;
+    }
+    else if (name.includes('Pulsefire Dart')) {
+      p.image_url = 'assets/hyperx_pulsefire_dart_top_view-removebg.png';
+      p.description = 'Mouse gaming wireless premium dengan koneksi 2.4GHz RF (1ms response) dan daya tahan baterai hingga 50 jam. Didesain ergonomis dengan side grips leatherette empuk.';
+      p.specs = `<div class="specs-content"><div class="spec-group"><h4>Fitur Utama</h4><ul><li>Koneksi: Wireless 2.4GHz RF</li><li>Baterai: Hingga 50 Jam</li><li>Side Grips: Padded Leatherette</li><li>Software: HyperX NGENUITY</li></ul></div></div>`;
+    }
+
+    // --- KEYBOARD ---
+    else if (name.includes('G915 TKL')) {
+      p.image_url = 'assets/Logitech_g915_tkl-removebg-preview.png';
+      p.description = 'Keyboard mekanikal wireless premium ultra-tipis dengan teknologi Lightspeed Wireless 1ms dan RGB LIGHTSYNC.';
+      p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Koneksi: Lightspeed Wireless & Bluetooth</li><li>Switch: Low Profile GL (Tactile/Linear/Clicky)</li><li>Material: Aircraft-grade Aluminum Alloy</li><li>Baterai: Hingga 40 Jam</li></ul></div></div>`;
+    }
+    else if (name.includes('Daiva')) {
+      p.image_url = 'assets/Rexus_daiva-removebg-preview.png';
+      p.description = 'Keyboard mekanikal TKL yang kokoh dengan switch Outemu dan pencahayaan RGB yang bisa dikustomisasi.';
+      p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Switch: Outemu Mechanical (Removable)</li><li>Layout: TKL (87 Keys)</li><li>LED: RGB Lighting</li><li>Koneksi: Wired Braided Cable</li></ul></div></div>`;
+    }
+    else if (name.includes('Alloy Origins')) {
+      p.image_url = 'assets/HyperX_Alloy_Origins-removebg-preview.png';
+      p.description = 'Keyboard gaming ringkas dengan switch mekanikal HyperX kustom dan bodi full aluminum.';
+      p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Switch: HyperX Mechanical Switch</li><li>Body: Full Aircraft-grade Aluminum</li><li>Software: HyperX NGENUITY</li><li>Kabel: Detachable USB-C</li></ul></div></div>`;
+    }
+
+    // --- HEADSET ---
+    else if (name.includes('G Pro X')) {
+      p.image_url = 'assets/Logitech G Refurbished PRO X 2 LIGHTSPEED.png';
+      p.description = 'Headset gaming kelas profesional dengan teknologi mikrofon Blue VO!CE untuk komunikasi yang jernih.';
+      p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Driver: PRO-G 50mm</li><li>Surround: DTS Headphone:X 2.0</li><li>Mic: Blue VO!CE Technology</li><li>Material: Aluminum & Steel</li></ul></div></div>`;
+    }
+    else if (name.includes('Thundervox')) {
+      p.image_url = 'assets/Rexus Thundervox HX25.png';
+      p.description = 'Headset gaming virtual 7.1 dengan driver 50mm yang menghasilkan suara bass mendalam dan detail.';
+      p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Sound: Virtual 7.1 Surround</li><li>Driver: 50mm Driver</li><li>Earpad: Protein Leather yang Nyaman</li><li>LED: RGB Breathing</li></ul></div></div>`;
+    }
+    else if (name.includes('Cloud II')) {
+      p.image_url = 'assets/HyperX Cloud II Gaming Headset.png';
+      p.description = 'Headset gaming legendaris dengan busa memory foam yang sangat nyaman untuk sesi gaming lama.';
+      p.specs = `<div class="specs-content"><div class="spec-group"><h4>Spesifikasi</h4><ul><li>Sound: Virtual 7.1 Surround Sound</li><li>Mic: Noise-cancelling Detachable</li><li>Frame: Solid Aluminum</li><li>Earpad: Signature Memory Foam</li></ul></div></div>`;
+    }
+
+    return p;
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const catParam = params.get('cat');
+  if (catParam) {
+    filterProducts(catParam);
+  } else {
+    displayProducts(allProducts);
   }
 }
 
