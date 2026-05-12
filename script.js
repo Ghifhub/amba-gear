@@ -565,3 +565,92 @@ function subscribeNewsletter(event) {
     input.value = '';
   }
 }
+
+// ============================================
+//   MOBILE-FIRST ENHANCEMENTS
+// ============================================
+
+// Touch Ripple Effect on buttons & cards
+function createRipple(e) {
+  const el = e.currentTarget;
+  const existing = el.querySelector('.ripple');
+  if (existing) existing.remove();
+
+  const circle = document.createElement('span');
+  const d = Math.max(el.clientWidth, el.clientHeight);
+  const rect = el.getBoundingClientRect();
+  const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left - d / 2;
+  const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top  - d / 2;
+
+  circle.className = 'ripple';
+  circle.style.cssText = `
+    position:absolute; width:${d}px; height:${d}px;
+    left:${x}px; top:${y}px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.18);
+    transform:scale(0);
+    animation:ripple-anim 0.55s linear;
+    pointer-events:none;
+    z-index:99;
+  `;
+  el.style.position = el.style.position || 'relative';
+  el.style.overflow  = 'hidden';
+  el.appendChild(circle);
+  circle.addEventListener('animationend', () => circle.remove());
+}
+
+// Inject ripple keyframe once
+(function injectRippleCSS() {
+  if (document.getElementById('ripple-style')) return;
+  const s = document.createElement('style');
+  s.id = 'ripple-style';
+  s.textContent = '@keyframes ripple-anim{to{transform:scale(3);opacity:0}}';
+  document.head.appendChild(s);
+})();
+
+// Apply ripple to all primary buttons & filter buttons
+function applyRippleToButtons() {
+  document.querySelectorAll('.btn-primary, .btn-cyan, .filter-btn, .cat-circle-item, .mobile-cat-card').forEach(el => {
+    el.removeEventListener('pointerdown', createRipple);
+    el.addEventListener('pointerdown', createRipple);
+  });
+}
+
+// Navbar scroll shadow (mobile + desktop)
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
+}, { passive: true });
+
+// Mobile toast — move to bottom on small screens
+function showToastMobile(msg) {
+  let container = document.getElementById('toastContainer');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toastContainer';
+    document.body.appendChild(container);
+  }
+  const isMobile = window.innerWidth <= 560;
+  container.style.cssText = isMobile
+    ? 'position:fixed;bottom:80px;left:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:10px;'
+    : 'position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;';
+  showToast(msg);
+}
+
+// Re-apply ripple after products load
+const _origDisplay = typeof displayProducts === 'function' ? displayProducts : null;
+
+// Re-init mobile UX after DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  applyRippleToButtons();
+
+  // Re-apply after products are injected
+  const grid = document.getElementById('productsGrid');
+  if (grid) {
+    const obs = new MutationObserver(() => applyRippleToButtons());
+    obs.observe(grid, { childList: true });
+  }
+
+  // Prevent horizontal scroll bleed on body
+  document.body.style.overflowX = 'hidden';
+});

@@ -51,6 +51,36 @@
     </div>
   </nav>
 
+  <!-- CATEGORY CIRCLE SLIDER — atas hero, ala Logitech -->
+  <section class="cat-circle-section">
+    <div class="cat-circle-track">
+      <a href="produk.html?cat=mouse" class="cat-circle-item">
+        <div class="cat-circle-img">
+          <img src="assets/logitech_g403_hero_tampak_atas-removebg.png" alt="Mouse" />
+        </div>
+        <span>Mouse</span>
+      </a>
+      <a href="produk.html?cat=keyboard" class="cat-circle-item">
+        <div class="cat-circle-img">
+          <img src="assets/Logitech_g915_tkl-removebg-preview.png" alt="Keyboard" />
+        </div>
+        <span>Keyboard</span>
+      </a>
+      <a href="produk.html?cat=headset" class="cat-circle-item">
+        <div class="cat-circle-img">
+          <img src="assets/HyperX Cloud II Gaming Headset.png" alt="Headset" />
+        </div>
+        <span>Headset</span>
+      </a>
+      <a href="produk.html" class="cat-circle-item">
+        <div class="cat-circle-img cat-circle-all">
+          <i class="fas fa-th-large"></i>
+        </div>
+        <span>Semua</span>
+      </a>
+    </div>
+  </section>
+
   <section class="hero" id="hero">
     <video class="hero-video" autoplay muted loop playsinline>
       <source src="assets/videoplayback (online-video-cutter.com).mp4" type="video/mp4" />
@@ -58,11 +88,12 @@
     </video>
     <div class="hero-overlay"></div>
     <div class="hero-content logitech-style">
-      <span class="hero-subtitle" style="color: #fff;"><span class="line"></span> PREMIUM GAMING GEAR</span>
-      <h1 class="hero-title" style="color: #fff;">ELEVATE YOUR<br /><span class="accent">GAMING EXPERIENCE</span></h1>
-      <p class="hero-desc" style="color: #fff;">High performance gear untuk gamer sejati. Didesain untuk menang di setiap sesi permainan.</p>
+      <span class="hero-subtitle"><span class="line"></span> PREMIUM GAMING GEAR</span>
+      <h1 class="hero-title">ELEVATE YOUR<br /><span class="accent">GAMING EXPERIENCE</span></h1>
+      <p class="hero-desc">High performance gear untuk gamer sejati. Didesain untuk menang di setiap sesi.</p>
       <div class="hero-btns">
         <a href="produk.html" class="btn btn-cyan">SHOP NOW <i class="fas fa-arrow-right"></i></a>
+        <a href="produk.html" class="btn btn-ghost mobile-hide">LIHAT SEMUA</a>
       </div>
     </div>
     <button class="hero-pause-btn" onclick="toggleHeroVideo()"><i class="fas fa-pause"></i></button>
@@ -102,7 +133,8 @@
     </div>
   </section>
 
-  <section class="categories section">
+  <!-- DESKTOP CATEGORY CARDS (hidden on mobile, show on desktop) -->
+  <section class="categories section desktop-categories">
     <div class="container">
       <div class="section-header">
         <h2>SHOP BY <span class="accent">CATEGORY</span></h2>
@@ -143,6 +175,46 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- MOBILE HORIZONTAL CATEGORY CARD SLIDER -->
+  <section class="mobile-cat-slider">
+    <div class="mobile-cat-header">
+      <h3>SHOP BY <span class="accent">CATEGORY</span></h3>
+      <a href="produk.html" class="mobile-cat-see-all">See All</a>
+    </div>
+    <div class="mobile-cat-track">
+      <a href="produk.html?cat=mouse" class="mobile-cat-card">
+        <div class="mobile-cat-img">
+          <img src="assets/Logitech G502 home.png" alt="Mouse" />
+        </div>
+        <div class="mobile-cat-info">
+          <span class="mobile-cat-icon"><i class="fas fa-mouse"></i></span>
+          <span class="mobile-cat-name">Mouse</span>
+          <span class="mobile-cat-arrow"><i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a href="produk.html?cat=keyboard" class="mobile-cat-card">
+        <div class="mobile-cat-img">
+          <img src="assets/keyboard gaming home.png" alt="Keyboard" />
+        </div>
+        <div class="mobile-cat-info">
+          <span class="mobile-cat-icon"><i class="fas fa-keyboard"></i></span>
+          <span class="mobile-cat-name">Keyboard</span>
+          <span class="mobile-cat-arrow"><i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a href="produk.html?cat=headset" class="mobile-cat-card">
+        <div class="mobile-cat-img">
+          <img src="assets/hyperx headset home.png" alt="Headset" />
+        </div>
+        <div class="mobile-cat-info">
+          <span class="mobile-cat-icon"><i class="fas fa-headphones"></i></span>
+          <span class="mobile-cat-name">Headset</span>
+          <span class="mobile-cat-arrow"><i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
     </div>
   </section>
 
