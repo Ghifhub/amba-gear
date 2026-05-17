@@ -36,7 +36,7 @@
       </ul>
       <div class="nav-actions">
         <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
-        <a href="kontak.html" class="icon-btn wa-icon"><i class="fab fa-whatsapp"></i></a>
+        <button class="icon-btn wa-icon" onclick="openWACS()" title="Chat CS WhatsApp"><i class="fab fa-whatsapp"></i></button>
         <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
       </div>
     </div>
@@ -139,9 +139,9 @@
     </div>
   </footer>
 
-  <a href="https://wa.me/6281234567890?text=Halo%20AMBA%20GEAR!%20Saya%20ingin%20tanya%20tentang%20produk..." class="wa-float" target="_blank" rel="noopener">
+  <a href="#" onclick="openWACS(); return false;" class="wa-float" rel="noopener">
     <i class="fab fa-whatsapp"></i>
-    <span class="wa-tooltip">Chat Admin</span>
+    <span class="wa-tooltip">Chat CS</span>
   </a>
 
   <script src="script.js"></script>

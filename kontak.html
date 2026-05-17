@@ -36,7 +36,7 @@
       </ul>
       <div class="nav-actions">
         <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
-        <a href="kontak.html" class="icon-btn wa-icon"><i class="fab fa-whatsapp"></i></a>
+        <button class="icon-btn wa-icon" onclick="openWACS()" title="Chat CS WhatsApp"><i class="fab fa-whatsapp"></i></button>
         <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
       </div>
     </div>
@@ -125,7 +125,7 @@
           <div id="formSuccess" class="success-msg">
             ✅ Pesananmu berhasil dikirim! Cek WhatsApp kamu ya, admin kami akan segera menghubungi.
           </div>
-          <form id="orderForm">
+          <form id="orderForm" onsubmit="submitOrder(event)">
             <div class="form-row">
               <div class="form-group">
                 <label for="name">Nama Lengkap *</label>
@@ -273,9 +273,9 @@
     </div>
   </footer>
 
-  <a href="https://wa.me/6283896431050?text=Halo%20AMBA%20GEAR!" class="wa-float" target="_blank" rel="noopener">
+  <a href="#" onclick="openWACS(); return false;" class="wa-float" target="_blank" rel="noopener">
     <i class="fab fa-whatsapp"></i>
-    <span class="wa-tooltip">Chat Admin</span>
+    <span class="wa-tooltip">Chat CS</span>
   </a>
 
   <style>
@@ -364,6 +364,83 @@
       const isOpen = el.classList.contains('open');
       document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
       if (!isOpen) el.classList.add('open');
+    }
+
+    // ── Pre-fill form from URL params ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const productParam = params.get('product');
+      const sourceParam  = params.get('source');
+
+      if (productParam) {
+        const sel = document.getElementById('product');
+        // Try to match existing option
+        let matched = false;
+        Array.from(sel.options).forEach(opt => {
+          if (opt.value && opt.value.toLowerCase().startsWith(decodeURIComponent(productParam).toLowerCase().split(' - ')[0].toLowerCase())) {
+            opt.selected = true;
+            matched = true;
+          }
+        });
+        // If no match, add a custom option
+        if (!matched) {
+          const custom = new Option(decodeURIComponent(productParam), decodeURIComponent(productParam), true, true);
+          sel.add(custom, 1);
+        }
+      }
+
+      // Scroll down to form
+      if (productParam || sourceParam) {
+        setTimeout(() => {
+          document.getElementById('orderForm')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 400);
+      }
+    });
+
+    // ── Form submit → WhatsApp ──
+    function submitOrder(event) {
+      event.preventDefault();
+      const name    = document.getElementById('name').value.trim();
+      const phone   = document.getElementById('phone').value.trim();
+      const product = document.getElementById('product').value;
+      const qty     = document.getElementById('qty').value;
+      const city    = document.getElementById('city').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const note    = document.getElementById('message').value.trim();
+
+      if (!name || !phone || !product || !city || !address) {
+        alert('Mohon lengkapi semua field yang wajib diisi (*).');
+        return;
+      }
+
+      const msg = [
+        '🛒 *PESANAN BARU — AMBA GEAR*',
+        '',
+        `👤 *Nama:* ${name}`,
+        `📱 *No. WA:* ${phone}`,
+        '',
+        `📦 *Produk:* ${product}`,
+        `🔢 *Jumlah:* ${qty} unit`,
+        '',
+        `🏙️ *Kota:* ${city}`,
+        `🏠 *Alamat:* ${address}`,
+        note ? `📝 *Catatan:* ${note}` : '',
+        '',
+        'Mohon konfirmasi stok dan total harganya ya, Kak! 🙏'
+      ].filter(Boolean).join('\n');
+
+      const waURL = `https://wa.me/6283896431050?text=${encodeURIComponent(msg)}`;
+
+      // Show success message
+      const successEl = document.getElementById('formSuccess');
+      if (successEl) {
+        successEl.style.display = 'block';
+        successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      document.getElementById('orderForm').reset();
+
+      // Open WA after short delay so user sees the message
+      setTimeout(() => window.open(waURL, '_blank'), 600);
     }
   </script>
 </body>

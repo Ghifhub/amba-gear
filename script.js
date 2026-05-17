@@ -535,9 +535,11 @@ function showToast(msg) {
 }
 
 function checkout() {
+  if (!cart.length) return;
+  const items = cart.map(i => `${i.name} x${i.quantity}`).join(', ');
   const total = cart.reduce((s, i) => s + (parseInt(i.price) * i.quantity), 0);
-  const text = encodeURIComponent(`Halo AMBA GEAR! Saya ingin checkout:\n\n${cart.map(i => `${i.name} x${i.quantity}`).join('\n')}\n\nTotal: Rp${total.toLocaleString('id-ID')}`);
-  window.open(`https://wa.me/6283896431050?text=${text}`, '_blank');
+  const query = encodeURIComponent(items) + '&total=' + encodeURIComponent('Rp' + total.toLocaleString('id-ID'));
+  window.location.href = `kontak.html?product=${query}&source=cart`;
 }
 
 // === INIT ===
@@ -551,7 +553,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function fastCheckout(id) {
   const p = allProducts.find(x => x.id == id);
-  if (p) window.open(`https://wa.me/6283896431050?text=Order: ${p.name}`, '_blank');
+  if (!p) return;
+  // Redirect to order form with product pre-filled
+  window.location.href = `kontak.html?product=${encodeURIComponent(p.name + ' - Rp' + parseInt(p.price).toLocaleString('id-ID'))}`;
+}
+
+// Open WhatsApp CS (used by navbar icon and float button)
+function openWACS() {
+  const text = encodeURIComponent('Halo AMBA GEAR! Saya ingin bertanya tentang produk kalian 😊');
+  window.open(`https://wa.me/6283896431050?text=${text}`, '_blank');
 }
 
 // === NEWSLETTER ===
