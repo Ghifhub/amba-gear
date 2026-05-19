@@ -4,6 +4,11 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap');
 
+@font-face {
+  font-family: 'Tenada';
+  src: url('assets/Tenada.ttf') format('truetype');
+}
+
 :root {
   --pink: #e91e8c;
   --pink-dark: #c0156f;
@@ -91,6 +96,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-weight: 700;
 }
 .amba-text {
+  font-family: 'Tenada', sans-serif;
   background: linear-gradient(135deg, #e91e8c, #7b2ff7);
   -webkit-background-clip: text;
   background-clip: text;
