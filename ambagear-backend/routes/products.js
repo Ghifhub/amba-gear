@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
     if (error) return res.status(400).json({ error: error.message });
     res.json(data);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
 
     res.json(data[0]);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -62,7 +62,7 @@ router.post('/', auth, async (req, res) => {
     if (error) return res.status(400).json({ error: error.message });
     res.status(201).json({ message: 'Product created', product: data[0] });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -73,9 +73,19 @@ router.put('/:id', auth, async (req, res) => {
       return res.status(403).json({ error: 'Only admin can update products' });
     }
 
+    const allowedFields = ['name', 'category', 'brand', 'price', 'old_price', 'description', 'specs', 'image_url', 'badge'];
+    const updates = {};
+    for (const key of allowedFields) {
+      if (req.body[key] !== undefined) updates[key] = req.body[key];
+    }
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ error: 'No valid fields to update' });
+    }
+
     const { data, error } = await supabase
       .from('products')
-      .update(req.body)
+      .update(updates)
       .eq('id', req.params.id)
       .select();
 
@@ -84,7 +94,7 @@ router.put('/:id', auth, async (req, res) => {
 
     res.json({ message: 'Product updated', product: data[0] });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -103,7 +113,7 @@ router.delete('/:id', auth, async (req, res) => {
     if (error) return res.status(400).json({ error: error.message });
     res.json({ message: 'Product deleted' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

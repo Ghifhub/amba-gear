@@ -1,27 +1,49 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 const { supabase } = require('../config/supabase');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
 
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: { error: 'Too many attempts, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Register
-router.post('/register', async (req, res) => {
+router.post('/register', authLimiter, async (req, res) => {
   try {
-    const { email, password, name, role } = req.body;
+    const { email, password, name } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({ error: 'Email dan password wajib diisi' });
     }
 
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({ error: 'Invalid input types' });
+    }
+
+    if (password.length < 8) {
+      return res.status(400).json({ error: 'Password minimal 8 karakter' });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Format email tidak valid' });
+    }
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Insert to Supabase
+    // Insert to Supabase — role is always 'customer' to prevent privilege escalation
     const { data, error } = await supabase
       .from('users')
-      .insert([{ email, password: hashedPassword, name, role: role || 'customer' }])
+      .insert([{ email: email.trim().toLowerCase(), password: hashedPassword, name: (name || '').trim(), role: 'customer' }])
       .select();
 
     if (error) {
@@ -41,12 +63,12 @@ router.post('/register', async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
 // Login
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -54,11 +76,15 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Email dan password wajib diisi' });
     }
 
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({ error: 'Invalid input types' });
+    }
+
     // Get user from Supabase
     const { data: users, error } = await supabase
       .from('users')
       .select('*')
-      .eq('email', email);
+      .eq('email', email.trim().toLowerCase());
 
     if (error || !users.length) {
       return res.status(401).json({ error: 'Email tidak ditemukan' });
@@ -76,7 +102,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '24h' }
     );
 
     res.json({
@@ -89,7 +115,7 @@ router.post('/login', async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -106,7 +132,7 @@ router.get('/profile', auth, async (req, res) => {
 
     res.json({ user: data[0] });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

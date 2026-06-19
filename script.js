@@ -2,6 +2,17 @@
 //   AMBA GEAR - Main JavaScript
 // ============================================
 
+// === HTML ESCAPE UTILITY (XSS prevention) ===
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // === HERO SLIDER ===
 // Hero slider removed - now using single video background
 function initSlider() {}
@@ -118,7 +129,7 @@ function checkLoginStatus() {
   if (topbarRight) {
     if (token && user) {
       topbarRight.innerHTML = `
-        <span>Welcome, ${user.name || user.email}!</span>
+        <span>Welcome, ${escapeHtml(user.name || user.email)}!</span>
         <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
       `;
     } else {
@@ -279,19 +290,19 @@ function displayProducts(products) {
   }
 
   productsGrid.innerHTML = products.map(product => `
-    <div class="product-card" data-cat="${product.category}" data-id="${product.id}">
-      ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+    <div class="product-card" data-cat="${escapeHtml(product.category)}" data-id="${escapeHtml(product.id)}">
+      ${product.badge ? `<div class="product-badge">${escapeHtml(product.badge)}</div>` : ''}
       <div class="product-img">
-        <img src="${product.image_url}" alt="${product.name}" />
+        <img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(product.name)}" />
       </div>
       <div class="product-info">
-        <h4>${product.name}</h4>
-        <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">${product.description}</p>
-        <div class="stars">${generateStars(product.rating || 5)} (${product.reviews_count || 0})</div>
+        <h4>${escapeHtml(product.name)}</h4>
+        <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">${escapeHtml(product.description)}</p>
+        <div class="stars">${generateStars(product.rating || 5)} (${parseInt(product.reviews_count) || 0})</div>
         <div class="price">Rp${parseInt(product.price).toLocaleString('id-ID')}</div>
         <div style="display: flex; gap: 8px; margin-top: 8px;">
-          <button class="btn btn-primary" style="flex: 1;" onclick="viewProduct('${product.id}')">Detail</button>
-          <button class="icon-btn" onclick="toggleWishlistItem('${product.id}')" style="width: 40px; height: 40px; border: 1px solid var(--card-border); border-radius: var(--radius);">
+          <button class="btn btn-primary" style="flex: 1;" onclick="viewProduct('${escapeHtml(product.id)}')">Detail</button>
+          <button class="icon-btn" onclick="toggleWishlistItem('${escapeHtml(product.id)}')" style="width: 40px; height: 40px; border: 1px solid var(--card-border); border-radius: var(--radius);">
             <i class="fas fa-heart" style="color: var(--text-muted);"></i>
           </button>
         </div>
@@ -329,19 +340,19 @@ function viewProduct(productId) {
   detail.innerHTML = `
     <div class="product-detail-layout">
       <div class="detail-left">
-        <div class="detail-image-box"><img src="${product.image_url}" alt="${product.name}" /></div>
+        <div class="detail-image-box"><img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(product.name)}" /></div>
       </div>
       <div class="detail-right">
         <div class="detail-header">
-          <span class="detail-brand">${product.brand}</span>
-          <h2 class="detail-title">${product.name}</h2>
+          <span class="detail-brand">${escapeHtml(product.brand)}</span>
+          <h2 class="detail-title">${escapeHtml(product.name)}</h2>
           <div class="detail-price">Rp${parseInt(product.price).toLocaleString('id-ID')}</div>
         </div>
         <div class="detail-actions">
-          <button class="btn btn-primary btn-lg" onclick="fastCheckout('${product.id}')" style="flex:1;">Beli</button>
-          <button class="btn btn-secondary btn-lg" onclick="addToCart('${product.id}')" style="flex:1;"><i class="fas fa-shopping-cart"></i> Tambah</button>
+          <button class="btn btn-primary btn-lg" onclick="fastCheckout('${escapeHtml(product.id)}')" style="flex:1;">Beli</button>
+          <button class="btn btn-secondary btn-lg" onclick="addToCart('${escapeHtml(product.id)}')" style="flex:1;"><i class="fas fa-shopping-cart"></i> Tambah</button>
         </div>
-        <div class="detail-section"><h3>Deskripsi</h3><p>${product.description}</p></div>
+        <div class="detail-section"><h3>Deskripsi</h3><p>${escapeHtml(product.description)}</p></div>
         <div class="detail-section"><h3>Spesifikasi</h3>${product.specs || 'Tersedia di deskripsi.'}</div>
       </div>
     </div>
@@ -449,9 +460,9 @@ function updateCartDisplay() {
 
   container.innerHTML = cart.map(item => `
     <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--card-border);">
-      <img src="${item.image_url}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
+      <img src="${escapeHtml(item.image_url)}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
       <div style="flex: 1;">
-        <h4 style="margin: 0;">${item.name}</h4>
+        <h4 style="margin: 0;">${escapeHtml(item.name)}</h4>
         <p style="color: var(--text-muted);">Rp${parseInt(item.price).toLocaleString('id-ID')}</p>
         <div style="display: flex; align-items: center; gap: 10px;">
           <button onclick="updateQty('${item.id}', ${item.quantity-1})" style="color:white; background:var(--bg); border:1px solid var(--card-border);">-</button>
@@ -478,9 +489,9 @@ function updateWishlistDisplay() {
   }
   container.innerHTML = wishlist.map(item => `
     <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--card-border);">
-      <img src="${item.image_url}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
+      <img src="${escapeHtml(item.image_url)}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
       <div style="flex: 1;">
-        <h4 style="margin: 0;">${item.name}</h4>
+        <h4 style="margin: 0;">${escapeHtml(item.name)}</h4>
         <p style="color: var(--text-muted);">Rp${parseInt(item.price).toLocaleString('id-ID')}</p>
       </div>
       <button onclick="addToCart('${item.id}')" class="btn btn-primary" style="padding:5px 10px;">Add</button>
@@ -529,7 +540,7 @@ function showToast(msg) {
   }
   const toast = document.createElement('div');
   toast.style.cssText = 'background: var(--card); color: white; padding: 16px 24px; border-radius: var(--radius); border-left: 4px solid var(--pink); box-shadow: 0 10px 20px rgba(0,0,0,0.3); font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px;';
-  toast.innerHTML = `<i class="fas fa-check-circle" style="color: var(--pink);"></i> ${msg}`;
+  toast.innerHTML = `<i class="fas fa-check-circle" style="color: var(--pink);"></i> ${escapeHtml(msg)}`;
   container.appendChild(toast);
   setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
 }
