@@ -1,0 +1,11 @@
+{
+  "name": "amba-gear",
+  "private": true,
+  "scripts": {
+    "test": "jest --coverage --verbose --config jest.config.js --forceExit"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
