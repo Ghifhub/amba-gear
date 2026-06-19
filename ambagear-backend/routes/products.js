@@ -1,6 +1,8 @@
 const express = require('express');
 const { supabase } = require('../config/supabase');
 const auth = require('../middleware/auth');
+const adminOnly = require('../middleware/adminOnly');
+const { sendSuccess, sendError, handleRouteError, sendNotFound } = require('../utils/responseHelpers');
 
 const router = express.Router();
 
@@ -8,19 +10,15 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const { category } = req.query;
-
     let query = supabase.from('products').select('*');
-
     if (category) {
       query = query.eq('category', category);
     }
-
     const { data, error } = await query;
-
-    if (error) return res.status(400).json({ error: error.message });
-    res.json(data);
+    if (error) return sendError(res, error.message);
+    sendSuccess(res, data);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -32,26 +30,21 @@ router.get('/:id', async (req, res) => {
       .select('*')
       .eq('id', req.params.id);
 
-    if (error) return res.status(400).json({ error: error.message });
-    if (!data.length) return res.status(404).json({ error: 'Product not found' });
-
-    res.json(data[0]);
+    if (error) return sendError(res, error.message);
+    if (!data.length) return sendNotFound(res, 'Product');
+    sendSuccess(res, data[0]);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    handleRouteError(res, error);
   }
 });
 
 // Create Product (Admin only)
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, adminOnly, async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ error: 'Only admin can create products' });
-    }
-
     const { name, category, brand, price, description, image_url, badge } = req.body;
 
     if (!name || !category || !brand || !price) {
-      return res.status(400).json({ error: 'Name, category, brand, and price are required' });
+      return sendError(res, 'Name, category, brand, and price are required');
     }
 
     const { data, error } = await supabase
@@ -59,51 +52,42 @@ router.post('/', auth, async (req, res) => {
       .insert([{ name, category, brand, price, description, image_url, badge }])
       .select();
 
-    if (error) return res.status(400).json({ error: error.message });
-    res.status(201).json({ message: 'Product created', product: data[0] });
+    if (error) return sendError(res, error.message);
+    sendSuccess(res, { message: 'Product created', product: data[0] }, 201);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    handleRouteError(res, error);
   }
 });
 
 // Update Product (Admin only)
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', auth, adminOnly, async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ error: 'Only admin can update products' });
-    }
-
     const { data, error } = await supabase
       .from('products')
       .update(req.body)
       .eq('id', req.params.id)
       .select();
 
-    if (error) return res.status(400).json({ error: error.message });
-    if (!data.length) return res.status(404).json({ error: 'Product not found' });
-
-    res.json({ message: 'Product updated', product: data[0] });
+    if (error) return sendError(res, error.message);
+    if (!data.length) return sendNotFound(res, 'Product');
+    sendSuccess(res, { message: 'Product updated', product: data[0] });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    handleRouteError(res, error);
   }
 });
 
 // Delete Product (Admin only)
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', auth, adminOnly, async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ error: 'Only admin can delete products' });
-    }
-
     const { error } = await supabase
       .from('products')
       .delete()
       .eq('id', req.params.id);
 
-    if (error) return res.status(400).json({ error: error.message });
-    res.json({ message: 'Product deleted' });
+    if (error) return sendError(res, error.message);
+    sendSuccess(res, { message: 'Product deleted' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    handleRouteError(res, error);
   }
 });
 

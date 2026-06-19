@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { supabase } = require('../config/supabase');
 const auth = require('../middleware/auth');
+const { sendSuccess, sendError, handleRouteError, sendNotFound } = require('../utils/responseHelpers');
 
 const router = express.Router();
 
@@ -12,26 +13,24 @@ router.post('/register', async (req, res) => {
     const { email, password, name, role } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email dan password wajib diisi' });
+      return sendError(res, 'Email dan password wajib diisi');
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Insert to Supabase
     const { data, error } = await supabase
       .from('users')
       .insert([{ email, password: hashedPassword, name, role: role || 'customer' }])
       .select();
 
     if (error) {
-      if (error.code === '23505') { // Unique violation
-        return res.status(400).json({ error: 'Email sudah terdaftar' });
+      if (error.code === '23505') {
+        return sendError(res, 'Email sudah terdaftar');
       }
-      return res.status(400).json({ error: error.message });
+      return sendError(res, error.message);
     }
 
-    res.status(201).json({
+    sendSuccess(res, {
       message: 'User created successfully',
       user: {
         id: data[0].id,
@@ -39,9 +38,9 @@ router.post('/register', async (req, res) => {
         name: data[0].name,
         role: data[0].role
       }
-    });
+    }, 201);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -51,35 +50,32 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email dan password wajib diisi' });
+      return sendError(res, 'Email dan password wajib diisi');
     }
 
-    // Get user from Supabase
     const { data: users, error } = await supabase
       .from('users')
       .select('*')
       .eq('email', email);
 
     if (error || !users.length) {
-      return res.status(401).json({ error: 'Email tidak ditemukan' });
+      return sendError(res, 'Email tidak ditemukan', 401);
     }
 
     const user = users[0];
 
-    // Check password
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      return res.status(401).json({ error: 'Password salah' });
+      return sendError(res, 'Password salah', 401);
     }
 
-    // Generate JWT token
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
-    res.json({
+    sendSuccess(res, {
       token,
       user: {
         id: user.id,
@@ -89,7 +85,7 @@ router.post('/login', async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    handleRouteError(res, error);
   }
 });
 
@@ -101,12 +97,12 @@ router.get('/profile', auth, async (req, res) => {
       .select('id, email, name, role')
       .eq('id', req.user.id);
 
-    if (error) return res.status(400).json({ error: error.message });
-    if (!data.length) return res.status(404).json({ error: 'User not found' });
+    if (error) return sendError(res, error.message);
+    if (!data.length) return sendNotFound(res, 'User');
 
-    res.json({ user: data[0] });
+    sendSuccess(res, { user: data[0] });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    handleRouteError(res, error);
   }
 });
 

@@ -1,27 +1,51 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Semua Produk Gaming AMBA GEAR - Mouse, Keyboard, Headset gaming premium terbaik di Indonesia." />
-  <title>Produk – AMBA GEAR</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-</head>
-<body>
+// ============================================
+//   AMBA GEAR - Shared HTML Components
+//   Eliminates duplicated navbar, footer,
+//   sidebars, overlay, and WhatsApp button
+//   across all pages.
+// ============================================
 
-  <!-- TOP BAR -->
+function getActivePage() {
+  const path = window.location.pathname;
+  if (path.includes('produk.html')) return 'produk';
+  if (path.includes('tentang.html')) return 'tentang';
+  if (path.includes('kontak.html')) return 'kontak';
+  if (path.includes('login.html')) return 'login';
+  if (path.includes('admin.html')) return 'admin';
+  return 'index';
+}
+
+function renderTopbar() {
+  return `
   <div class="topbar">
     <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
     <div class="topbar-right">
       <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
       <a href="login.html"><i class="fas fa-user"></i> Sign In / Register</a>
     </div>
-  </div>
+  </div>`;
+}
 
-  <!-- NAVBAR -->
+function renderNavbar(options = {}) {
+  const page = getActivePage();
+  const showCartWishlist = options.showCartWishlist !== false;
+
+  const navLinks = [
+    { href: 'index.html', label: 'Home', id: 'index' },
+    { href: 'produk.html', label: 'Shop', id: 'produk' },
+    { href: 'tentang.html', label: 'Tentang Kami', id: 'tentang' },
+    { href: 'kontak.html', label: 'Kontak', id: 'kontak' }
+  ];
+
+  const linksHTML = navLinks.map(link =>
+    `<li><a href="${link.href}"${link.id === page ? ' class="active"' : ''}>${link.label}</a></li>`
+  ).join('\n        ');
+
+  const cartWishlistHTML = showCartWishlist ? `
+        <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist" style="position: relative;"><i class="fas fa-heart"></i> <span id="wishlistCount" class="cart-count">0</span></button>
+        <button class="icon-btn" onclick="toggleCart()" title="Cart" style="position: relative;"><i class="fas fa-shopping-cart"></i> <span id="cartCount" class="cart-count">0</span></button>` : '';
+
+  return `
   <nav class="navbar" id="navbar">
     <div class="nav-container">
       <a href="index.html" class="logo">
@@ -29,15 +53,10 @@
         <span class="logo-text"><span class="amba-text">AMBA</span> GEAR</span>
       </a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="produk.html" class="active">Shop</a></li>
-        <li><a href="tentang.html">Tentang Kami</a></li>
-        <li><a href="kontak.html">Kontak</a></li>
+        ${linksHTML}
       </ul>
       <div class="nav-actions">
-        <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fas fa-search"></i></button>
-        <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist" style="position: relative;"><i class="fas fa-heart"></i> <span id="wishlistCount" class="cart-count">0</span></button>
-        <button class="icon-btn" onclick="toggleCart()" title="Cart" style="position: relative;"><i class="fas fa-shopping-cart"></i> <span id="cartCount" class="cart-count">0</span></button>
+        <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fas fa-search"></i></button>${cartWishlistHTML}
         <button class="icon-btn wa-icon" onclick="openWACS()" title="Chat CS WhatsApp"><i class="fab fa-whatsapp"></i></button>
         <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
       </div>
@@ -46,41 +65,11 @@
       <input type="text" placeholder="Cari produk gaming..." />
       <button onclick="performSearch()"><i class="fas fa-search"></i></button>
     </div>
-  </nav>
+  </nav>`;
+}
 
-  <!-- PAGE HERO -->
-  <section class="page-hero">
-    <h1>SEMUA <span class="accent">PRODUK</span></h1>
-    <p class="breadcrumb"><a href="index.html">Home</a> / Shop</p>
-  </section>
-
-  <!-- FILTER BAR -->
-  <div class="filter-bar">
-    <div class="container">
-      <span class="filter-label">Filter:</span>
-      <button class="filter-btn active" data-filter="all" onclick="filterProducts('all')">Semua</button>
-      <button class="filter-btn" data-filter="mouse" onclick="filterProducts('mouse')">Mouse</button>
-      <button class="filter-btn" data-filter="keyboard" onclick="filterProducts('keyboard')">Keyboard</button>
-      <button class="filter-btn" data-filter="headset" onclick="filterProducts('headset')">Headset</button>
-    </div>
-  </div>
-
-  <!-- PRODUCTS FULL LIST -->
-  <section class="section" style="background: var(--bg-2);">
-    <div class="container">
-      <div id="productsGrid" class="product-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
-        <!-- Products will be loaded dynamically -->
-        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--pink);"></i>
-          <p style="margin-top: 10px; color: var(--text-muted);">Loading products...</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- FOOTER -->
+function renderFooter() {
+  return `
   <footer class="footer">
     <div class="footer-top">
       <div class="container">
@@ -128,22 +117,14 @@
     </div>
     <div class="footer-bottom">
       <div class="container">
-        <p>&copy; 2024 AMBA GEAR. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--pink);"></i> for gamers.</p>
+        <p>&copy; 2024 AMBA GEAR. All Rights Reserved.</p>
       </div>
     </div>
-  </footer>
+  </footer>`;
+}
 
-  <!-- PRODUCT MODAL -->
-  <div id="productModal" class="modal" style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; z-index: 1200; padding: 20px;">
-    <div class="modal-content" style="background: var(--card); width: 100%; max-width: 900px; border-radius: var(--radius); border: 1px solid var(--card-border); position: relative; max-height: 90vh; overflow-y: auto;">
-      <button class="modal-close" onclick="closeProductModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; z-index: 10;"><i class="fas fa-times"></i></button>
-      <div id="productDetail" class="product-detail-container">
-        <!-- Content injected via JS -->
-      </div>
-    </div>
-  </div>
-
-  <!-- CART SIDEBAR -->
+function renderCartSidebar() {
+  return `
   <div id="cartSidebar" class="sidebar">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
       <h3 style="margin: 0;">Shopping Cart</h3>
@@ -161,9 +142,11 @@
       </div>
       <button class="btn btn-primary" style="width: 100%;" onclick="checkout()">Checkout</button>
     </div>
-  </div>
+  </div>`;
+}
 
-  <!-- WISHLIST SIDEBAR -->
+function renderWishlistSidebar() {
+  return `
   <div id="wishlistSidebar" class="sidebar">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
       <h3 style="margin: 0;">Wishlist</h3>
@@ -174,13 +157,43 @@
     <div id="wishlistItems">
       <p style="text-align: center; color: var(--text-muted); margin: 40px 0;">Your wishlist is empty</p>
     </div>
-  </div>
+  </div>`;
+}
 
-  <!-- OVERLAY -->
-  <div id="overlay" class="overlay" onclick="closeAllSidebars()"></div>
+function renderProductModal() {
+  return `
+  <div id="productModal" class="modal" style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; z-index: 1200; padding: 20px;">
+    <div class="modal-content" style="background: var(--card); width: 100%; max-width: 900px; border-radius: var(--radius); border: 1px solid var(--card-border); position: relative; max-height: 90vh; overflow-y: auto;">
+      <button class="modal-close" onclick="closeProductModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; z-index: 10;"><i class="fas fa-times"></i></button>
+      <div id="productDetail" class="product-detail-container"></div>
+    </div>
+  </div>`;
+}
 
-  <script src="utils.js"></script>
-  <script src="components.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+function renderOverlay() {
+  return `<div id="overlay" class="overlay" onclick="closeAllSidebars()"></div>`;
+}
+
+function renderWhatsAppFloat() {
+  return `
+  <a href="#" onclick="openWACS(); return false;" class="wa-float" rel="noopener">
+    <i class="fab fa-whatsapp"></i>
+    <span class="wa-tooltip">Chat CS</span>
+  </a>`;
+}
+
+// Inject all shared components into designated placeholder elements
+function injectSharedComponents(options = {}) {
+  const topbarEl = document.getElementById('shared-topbar');
+  const navbarEl = document.getElementById('shared-navbar');
+  const footerEl = document.getElementById('shared-footer');
+  const sidebarsEl = document.getElementById('shared-sidebars');
+
+  if (topbarEl) topbarEl.outerHTML = renderTopbar();
+  if (navbarEl) navbarEl.outerHTML = renderNavbar(options);
+  if (footerEl) footerEl.outerHTML = renderFooter();
+  if (sidebarsEl) {
+    sidebarsEl.outerHTML = renderCartSidebar() + renderWishlistSidebar() +
+      renderProductModal() + renderOverlay() + renderWhatsAppFloat();
+  }
+}
