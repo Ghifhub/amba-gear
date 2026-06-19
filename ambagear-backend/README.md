@@ -43,6 +43,7 @@ Backend API untuk website AMBA GEAR menggunakan Node.js, Express, dan Supabase.
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_ANON_KEY=your_anon_key_here
 JWT_SECRET=your_super_secret_jwt_key_here
+ALLOWED_ORIGINS=https://your-frontend-domain.com
 PORT=5000
 ```
 
