@@ -94,7 +94,17 @@ async function handleLogin(event) {
       body: JSON.stringify({ email, password })
     });
 
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error('Server returned an unexpected response');
+    }
+
     const data = await response.json();
+
+    if (!response.ok) {
+      alert('Login gagal: ' + (data.error || `Server error (${response.status})`));
+      return;
+    }
 
     if (data.token) {
       localStorage.setItem('token', data.token);
@@ -102,17 +112,18 @@ async function handleLogin(event) {
       alert(`Login berhasil! Selamat datang ${data.user.name}`);
       window.location.href = data.user.role === 'admin' ? 'admin.html' : 'index.html';
     } else {
-      alert('Login gagal: ' + data.error);
+      alert('Login gagal: respons tidak valid dari server');
     }
   } catch (error) {
-    alert('Error: ' + error.message);
+    alert('Tidak dapat terhubung ke server. Silakan coba lagi nanti.');
+    console.error('Login error:', error);
   }
 }
 
 // === CHECK LOGIN STATUS ===
 function checkLoginStatus() {
   const token = localStorage.getItem('token');
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  const user = safeParseJSON('user', null);
   const topbarRight = document.querySelector('.topbar-right');
 
   if (topbarRight) {
@@ -158,10 +169,23 @@ function revealOnScroll() {
   });
 }
 
+// === SAFE LOCALSTORAGE HELPERS ===
+function safeParseJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw === null) return fallback;
+    return JSON.parse(raw);
+  } catch (e) {
+    console.error(`Corrupted data in localStorage key "${key}", resetting to default:`, e);
+    localStorage.removeItem(key);
+    return fallback;
+  }
+}
+
 // === PRODUCT LOADING & DISPLAY ===
 let allProducts = [];
-let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+let cart = safeParseJSON('cart', []);
+let wishlist = safeParseJSON('wishlist', []);
 
 async function loadProducts() {
   const productsGrid = document.getElementById('productsGrid');
@@ -182,7 +206,11 @@ async function loadProducts() {
 
   try {
     const response = await fetch('http://127.0.0.1:5000/api/products');
-    if (!response.ok) throw new Error('Server response not ok');
+    if (!response.ok) throw new Error(`Server responded with status ${response.status}`);
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error('Server returned non-JSON response');
+    }
     const data = await response.json();
     allProducts = Array.isArray(data) ? data : (data.products || []);
   } catch (error) {

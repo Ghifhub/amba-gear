@@ -31,6 +31,10 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: error.message });
     }
 
+    if (!data || !data.length) {
+      return res.status(500).json({ error: 'User creation failed: no data returned' });
+    }
+
     res.status(201).json({
       message: 'User created successfully',
       user: {
@@ -60,7 +64,12 @@ router.post('/login', async (req, res) => {
       .select('*')
       .eq('email', email);
 
-    if (error || !users.length) {
+    if (error) {
+      console.error('Database error during login:', error);
+      return res.status(500).json({ error: 'Database error during login' });
+    }
+
+    if (!users || !users.length) {
       return res.status(401).json({ error: 'Email tidak ditemukan' });
     }
 
@@ -73,6 +82,11 @@ router.post('/login', async (req, res) => {
     }
 
     // Generate JWT token
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET environment variable is not set');
+      return res.status(500).json({ error: 'Server authentication configuration error' });
+    }
+
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET,

@@ -73,14 +73,30 @@ router.put('/:id', auth, async (req, res) => {
       return res.status(403).json({ error: 'Only admin can update products' });
     }
 
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({ error: 'Request body cannot be empty' });
+    }
+
+    const allowedFields = ['name', 'category', 'brand', 'price', 'old_price', 'description', 'specs', 'image_url', 'badge', 'rating', 'reviews_count'];
+    const updateData = {};
+    for (const key of Object.keys(req.body)) {
+      if (allowedFields.includes(key)) {
+        updateData[key] = req.body[key];
+      }
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ error: 'No valid fields to update' });
+    }
+
     const { data, error } = await supabase
       .from('products')
-      .update(req.body)
+      .update(updateData)
       .eq('id', req.params.id)
       .select();
 
     if (error) return res.status(400).json({ error: error.message });
-    if (!data.length) return res.status(404).json({ error: 'Product not found' });
+    if (!data || !data.length) return res.status(404).json({ error: 'Product not found' });
 
     res.json({ message: 'Product updated', product: data[0] });
   } catch (error) {
@@ -94,6 +110,15 @@ router.delete('/:id', auth, async (req, res) => {
     if (req.user.role !== 'admin') {
       return res.status(403).json({ error: 'Only admin can delete products' });
     }
+
+    // Verify the product exists before deleting
+    const { data: existing, error: lookupError } = await supabase
+      .from('products')
+      .select('id')
+      .eq('id', req.params.id);
+
+    if (lookupError) return res.status(400).json({ error: lookupError.message });
+    if (!existing || !existing.length) return res.status(404).json({ error: 'Product not found' });
 
     const { error } = await supabase
       .from('products')
