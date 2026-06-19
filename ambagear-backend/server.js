@@ -19,5 +19,43 @@ app.get('/', (req, res) => res.json({
   }
 }));
 
+// 404 handler for unmatched routes
+app.use((req, res) => {
+  res.status(404).json({ error: `Route ${req.method} ${req.path} not found` });
+});
+
+// Global error handling middleware
+app.use((err, req, res, _next) => {
+  console.error('Unhandled error:', err);
+
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: 'Invalid JSON in request body' });
+  }
+
+  res.status(err.status || 500).json({
+    error: process.env.NODE_ENV === 'production'
+      ? 'Internal server error'
+      : err.message || 'Internal server error'
+  });
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Promise Rejection:', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  process.exit(1);
+});
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 AMBA GEAR API running on port ${PORT}`));
+const server = app.listen(PORT, () => console.log(`AMBA GEAR API running on port ${PORT}`));
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use`);
+  } else {
+    console.error('Server error:', err);
+  }
+  process.exit(1);
+});

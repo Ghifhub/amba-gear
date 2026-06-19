@@ -4,6 +4,11 @@ require('dotenv').config();
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Missing required environment variables: SUPABASE_URL and/or SUPABASE_ANON_KEY');
+  process.exit(1);
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const products = [
@@ -83,20 +88,25 @@ const products = [
 ];
 
 async function seed() {
-  console.log('Deleting existing products...');
-  // Delete all products
-  const { error: deleteError } = await supabase.from('products').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-  if (deleteError) {
-    console.error('Error deleting products:', deleteError);
-    return;
-  }
-  
-  console.log('Inserting 9 new products...');
-  const { error: insertError } = await supabase.from('products').insert(products);
-  if (insertError) {
-    console.error('Error inserting products:', insertError);
-  } else {
+  try {
+    console.log('Deleting existing products...');
+    const { error: deleteError } = await supabase.from('products').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    if (deleteError) {
+      console.error('Error deleting products:', deleteError);
+      process.exit(1);
+    }
+    
+    console.log('Inserting 9 new products...');
+    const { error: insertError } = await supabase.from('products').insert(products);
+    if (insertError) {
+      console.error('Error inserting products:', insertError);
+      process.exit(1);
+    }
+
     console.log('Successfully seeded 9 products!');
+  } catch (error) {
+    console.error('Unexpected error during seeding:', error);
+    process.exit(1);
   }
 }
 

@@ -216,7 +216,14 @@
   <script src="script.js"></script>
   <script>
     // Check admin access
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    let user = null;
+    try {
+      user = JSON.parse(localStorage.getItem('user') || 'null');
+    } catch (e) {
+      console.error('Corrupted user data in localStorage:', e);
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    }
     if (!user || user.role !== 'admin') {
       alert('Access denied! Admin only.');
       window.location.href = 'login.html';
@@ -231,13 +238,23 @@
     async function loadProducts() {
       try {
         const response = await fetch('http://localhost:5000/api/products');
+        if (!response.ok) {
+          throw new Error(`Server responded with status ${response.status}`);
+        }
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Server returned non-JSON response');
+        }
         const products = await response.json();
+        if (!Array.isArray(products)) {
+          throw new Error('Invalid products data format');
+        }
 
         displayProducts(products);
         updateStats(products);
       } catch (error) {
         console.error('Error loading products:', error);
-        document.getElementById('productsGrid').innerHTML = '<p>Error loading products</p>';
+        document.getElementById('productsGrid').innerHTML = `<p>Error loading products: ${error.message}</p>`;
       }
     }
 
@@ -331,7 +348,15 @@
     async function editProduct(id) {
       try {
         const response = await fetch(`http://localhost:5000/api/products/${id}`);
+        if (!response.ok) {
+          const errData = await response.json().catch(() => null);
+          throw new Error(errData?.error || `Server responded with status ${response.status}`);
+        }
         const product = await response.json();
+
+        if (!product || !product.id) {
+          throw new Error('Invalid product data received');
+        }
 
         // Fill edit form
         document.getElementById('editId').value = product.id;
