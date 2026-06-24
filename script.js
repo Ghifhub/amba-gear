@@ -29,6 +29,22 @@ function toggleSearch() {
   }
 }
 
+function toggleCategoryAccordion() {
+  const sidebarCard = document.querySelector('.sidebar-card');
+  const panel = document.querySelector('.accordion-panel');
+  if (!sidebarCard || !panel) return;
+  const isOpen = panel.classList.toggle('open');
+  sidebarCard.classList.toggle('open', isOpen);
+}
+
+function scrollBenefits(direction) {
+  const track = document.querySelector('.benefits-track');
+  if (!track) return;
+  const card = track.querySelector('.benefit-item');
+  const width = card ? card.offsetWidth + 16 : 320;
+  track.scrollBy({ left: direction * width, behavior: 'smooth' });
+}
+
 function performSearch() {
   const input = document.querySelector('#searchBar input');
   if (!input) return;
@@ -84,8 +100,24 @@ async function handleLogin(event) {
 
   const email = document.getElementById('email')?.value;
   const password = document.getElementById('password')?.value;
-  
+
+  // prevent submitting if already logged in
+  const existingToken = localStorage.getItem('token');
+  if (existingToken) {
+    const existingUser = JSON.parse(localStorage.getItem('user') || 'null');
+    if (existingUser) {
+      alert('Anda sudah login sebagai ' + (existingUser.name || existingUser.email));
+      window.location.href = 'index.html';
+      return;
+    }
+  }
+
   if (!email || !password) return;
+
+  // disable submit button to prevent duplicate clicks
+  let submitBtn = null;
+  if (event && event.target) submitBtn = event.target.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.disabled = true;
 
   try {
     const response = await fetch('http://localhost:5000/api/auth/login', {
@@ -96,17 +128,76 @@ async function handleLogin(event) {
 
     const data = await response.json();
 
-    if (data.token) {
+    if (data && data.token) {
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       alert(`Login berhasil! Selamat datang ${data.user.name}`);
       window.location.href = data.user.role === 'admin' ? 'admin.html' : 'index.html';
-    } else {
+      return;
+    } else if (data && data.error) {
       alert('Login gagal: ' + data.error);
+      if (submitBtn) submitBtn.disabled = false;
+      return;
     }
   } catch (error) {
-    alert('Error: ' + error.message);
+    // Backend offline or network error — fall back to local users stored in localStorage
+    console.warn('Login backend failed, attempting local fallback:', error.message);
   }
+
+  // LOCAL FALLBACK
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const match = users.find(u => u.email === email && u.password === password);
+  if (match) {
+    const user = { id: match.id, name: match.name, email: match.email, role: match.role };
+    localStorage.setItem('token', 'local-' + Date.now());
+    localStorage.setItem('user', JSON.stringify(user));
+    alert('Login berhasil (offline). Selamat datang ' + user.name);
+    window.location.href = user.role === 'admin' ? 'admin.html' : 'index.html';
+  } else {
+    alert('Login gagal: kredensial tidak cocok (offline).');
+    if (submitBtn) submitBtn.disabled = false;
+  }
+}
+
+// === REGISTER HANDLER ===
+async function registerUser(event) {
+  event.preventDefault();
+  const name = document.getElementById('name')?.value?.trim();
+  const email = document.getElementById('email')?.value?.trim();
+  const password = document.getElementById('password')?.value;
+  const role = document.getElementById('role')?.value || 'customer';
+
+  if (!name || !email || !password) return alert('Lengkapi semua field.');
+
+  try {
+    const response = await fetch('http://localhost:5000/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password, role })
+    });
+    const data = await response.json();
+    if (response.ok) {
+      alert('Registrasi berhasil. Silakan login.');
+      window.location.href = 'login.html';
+      return;
+    } else {
+      alert('Registrasi gagal: ' + (data.error || 'Server error'));
+      return;
+    }
+  } catch (err) {
+    console.warn('Register backend failed, saving locally:', err.message);
+  }
+
+  // Local fallback storage
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  if (users.find(u => u.email === email)) {
+    return alert('Email sudah terdaftar (lokal). Silakan gunakan email lain atau login.');
+  }
+  const newUser = { id: Date.now(), name, email, password, role };
+  users.push(newUser);
+  localStorage.setItem('users', JSON.stringify(users));
+  alert('Akun dibuat secara lokal. Silakan login.');
+  window.location.href = 'login.html';
 }
 
 // === CHECK LOGIN STATUS ===
@@ -114,6 +205,7 @@ function checkLoginStatus() {
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user') || 'null');
   const topbarRight = document.querySelector('.topbar-right');
+  const navActions = document.querySelector('.nav-actions');
 
   if (topbarRight) {
     if (token && user) {
@@ -126,6 +218,49 @@ function checkLoginStatus() {
         <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
         <a href="login.html"><i class="fas fa-user"></i> Sign In / Register</a>
       `;
+    }
+  }
+
+  // update navbar actions (replace login button) if present
+  if (navActions) {
+    const loginBtn = navActions.querySelector('.icon-btn[title="Login"]');
+    if (token && user) {
+      if (loginBtn) {
+        // replace login button with user menu and logout
+        const userBtn = document.createElement('div');
+        userBtn.className = 'user-info';
+        userBtn.style.display = 'flex';
+        userBtn.style.alignItems = 'center';
+        userBtn.innerHTML = `
+          <button class="icon-btn" title="Account" onclick="window.location.href='kontak.html'">
+            <i class="fas fa-user-circle"></i>
+          </button>
+          <span style="margin-left:8px;color:var(--text);font-weight:600">${user.name || user.email}</span>
+          <button class="icon-btn" title="Logout" onclick="logout()" style="margin-left:10px;"><i class="fas fa-sign-out-alt"></i></button>
+        `;
+        loginBtn.replaceWith(userBtn);
+      }
+    } else {
+      if (loginBtn) {
+        // ensure login button links to login page
+        loginBtn.onclick = () => { window.location.href = 'login.html'; };
+      }
+    }
+  }
+
+  // If on login page and already logged in, redirect to index
+  if (window.location.pathname.includes('login.html') && token && user) {
+    window.location.href = 'index.html';
+  }
+
+  // update welcome banner on index and other pages
+  const welcomeEl = document.getElementById('welcomeUser');
+  if (welcomeEl) {
+    if (token && user) {
+      welcomeEl.textContent = `Selamat datang, ${user.name || user.email}!`; 
+      welcomeEl.style.display = 'block';
+    } else {
+      welcomeEl.style.display = 'none';
     }
   }
 }
@@ -164,30 +299,67 @@ let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
 
 async function loadProducts() {
-  const productsGrid = document.getElementById('productsGrid');
-  if (!productsGrid) return;
 
   // Fallback data if backend is offline
   const fallbackProducts = [
-    { id: 1, name: 'Logitech G403 HERO', category: 'mouse', brand: 'Logitech', price: 699000, description: 'Gaming mouse dengan sensor HERO 25K.', rating: 4.8, reviews_count: 128, badge: 'HOT' },
-    { id: 2, name: 'Rexus Daxa Air III', category: 'mouse', brand: 'Rexus', price: 599000, description: 'Mouse gaming ringan performa optimal.', rating: 4.6, reviews_count: 85 },
-    { id: 3, name: 'HyperX Pulsefire Dart', category: 'mouse', brand: 'HyperX', price: 1399000, description: 'Mouse gaming wireless premium.', rating: 4.7, reviews_count: 92, badge: 'SALE' },
-    { id: 4, name: 'Logitech G915 TKL', category: 'keyboard', brand: 'Logitech', price: 2499000, description: 'Mechanical keyboard wireless premium.', rating: 4.9, reviews_count: 156, badge: 'HOT' },
-    { id: 5, name: 'Rexus Daiva', category: 'keyboard', brand: 'Rexus', price: 799000, description: 'Keyboard mekanikal kokoh RGB.', rating: 4.5, reviews_count: 64 },
-    { id: 6, name: 'HyperX Alloy Origins', category: 'keyboard', brand: 'HyperX', price: 1299000, description: 'Mechanical keyboard gaming switch kustom.', rating: 4.8, reviews_count: 112 },
-    { id: 7, name: 'Logitech G Pro X', category: 'headset', brand: 'Logitech', price: 1499000, description: 'Gaming headset teknologi Blue VO!CE.', rating: 4.8, reviews_count: 203 },
-    { id: 8, name: 'Rexus Thundervox', category: 'headset', brand: 'Rexus', price: 499000, description: 'Headset gaming virtual 7.1 bass tebal.', rating: 4.4, reviews_count: 150, badge: 'SALE' },
-    { id: 9, name: 'HyperX Cloud II', category: 'headset', brand: 'HyperX', price: 999000, description: 'Headset legendaris kenyamanan maksimal.', rating: 4.9, reviews_count: 310, badge: 'HOT' }
+    { id: 1, name: 'Logitech G403 HERO', category: 'mouse', brand: 'Logitech', price: 699000, description: 'Didesain untuk kenyamanan, G403 dibuat berkontur dengan pegangan karet untuk kontrol tambahan. Sensor HERO 25K memungkinkanmu untuk menelusuri dengan sangat akurat.', rating: 4.8, reviews_count: 128, badge: 'HOT', image_url: 'assets/logitech_g403_hero_tampak_atas-removebg.png' },
+    { id: 2, name: 'DAXA Air IV Pro Wireless Gen 2', category: 'mouse', brand: 'Rexus', price: 599000, description: 'Mouse gaming Wireless Gen 2 dengan sensor Pixart PAW3395 26.000 DPI. Dilengkapi switch Kailh GM 8.0, baterai tahan lama ±44 jam, dan 4 pilihan casing eksklusif.', rating: 4.6, reviews_count: 85, image_url: 'assets/rexus_daxa_air_3_tampak_atas-removebg.png' },
+    { id: 3, name: 'HyperX Pulsefire Dart', category: 'mouse', brand: 'HyperX', price: 1399000, description: 'Mouse gaming wireless premium dengan koneksi 2.4GHz RF (1ms response) dan daya tahan baterai hingga 50 jam. Didesain ergonomis dengan side grips leatherette empuk.', rating: 4.7, reviews_count: 92, badge: 'SALE', image_url: 'assets/hyperx_pulsefire_dart_top_view-removebg.png' },
+    { id: 4, name: 'Logitech G915 TKL', category: 'keyboard', brand: 'Logitech', price: 2499000, description: 'Keyboard mekanikal wireless premium ultra-tipis dengan teknologi Lightspeed Wireless 1ms dan RGB LIGHTSYNC.', rating: 4.9, reviews_count: 156, badge: 'HOT', image_url: 'assets/Logitech_g915_tkl-removebg-preview.png' },
+    { id: 5, name: 'Rexus Daiva', category: 'keyboard', brand: 'Rexus', price: 799000, description: 'Keyboard mekanikal TKL yang kokoh dengan switch Outemu dan pencahayaan RGB yang bisa dikustomisasi.', rating: 4.5, reviews_count: 64, image_url: 'assets/Rexus_daiva-removebg-preview.png' },
+    { id: 6, name: 'HyperX Alloy Origins', category: 'keyboard', brand: 'HyperX', price: 1299000, description: 'Keyboard gaming ringkas dengan switch mekanikal HyperX kustom dan bodi full aluminum. Software HyperX NGENUITY, kabel detachable USB-C.', rating: 4.8, reviews_count: 112, image_url: 'assets/HyperX_Alloy_Origins-removebg-preview.png' },
+    { id: 7, name: 'Logitech G Pro X', category: 'headset', brand: 'Logitech', price: 1499000, description: 'Headset gaming kelas profesional dengan teknologi mikrofon Blue VO!CE untuk komunikasi yang jernih.', rating: 4.8, reviews_count: 203, image_url: 'assets/Logitech G Refurbished PRO X 2 LIGHTSPEED.png' },
+    { id: 8, name: 'Rexus Thundervox HX25', category: 'headset', brand: 'Rexus', price: 499000, description: 'Headset gaming virtual 7.1 dengan driver 50mm yang menghasilkan suara bass mendalam dan detail. Earpad Protein Leather nyaman, LED RGB Breathing effect.', rating: 4.4, reviews_count: 150, badge: 'SALE', image_url: 'assets/Rexus Thundervox HX25.png' },
+    { id: 9, name: 'HyperX Cloud II', category: 'headset', brand: 'HyperX', price: 999000, description: 'Headset gaming legendaris dengan busa memory foam yang sangat nyaman untuk sesi gaming lama. Virtual 7.1 surround sound, noise-cancelling detachable mic, frame solid aluminum.', rating: 4.9, reviews_count: 310, badge: 'HOT', image_url: 'assets/HyperX Cloud II Gaming Headset.png' }
   ];
 
+  const API_URL = 'http://127.0.0.1:5000/api/products';
   try {
-    const response = await fetch('http://127.0.0.1:5000/api/products');
+    const response = await fetch(API_URL);
     if (!response.ok) throw new Error('Server response not ok');
     const data = await response.json();
     allProducts = Array.isArray(data) ? data : (data.products || []);
+
+    // If there are locally saved admin products (offline additions), try to sync to backend
+    try {
+      const local = JSON.parse(localStorage.getItem('adminProducts') || '[]');
+      const unsynced = (local || []).filter(p => String(p.id).startsWith && String(p.id).startsWith('local-')) || [];
+      const token = localStorage.getItem('token');
+      if (unsynced.length && token) {
+        for (const p of unsynced) {
+          try {
+            const res = await fetch(API_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+              body: JSON.stringify(p)
+            });
+            if (res.ok) {
+              // remove synced item from local storage
+              const idx = local.findIndex(x => x.id === p.id);
+              if (idx > -1) local.splice(idx, 1);
+            }
+          } catch (e) {
+            console.warn('Failed to sync local product', p.name, e.message);
+          }
+        }
+        localStorage.setItem('adminProducts', JSON.stringify(local));
+        // re-fetch to include newly synced products
+        const refreshed = await fetch(API_URL);
+        if (refreshed.ok) {
+          const rd = await refreshed.json();
+          allProducts = Array.isArray(rd) ? rd : (rd.products || []);
+        }
+      }
+    } catch (e) {
+      console.warn('Sync local admin products failed:', e.message);
+    }
+
   } catch (error) {
-    console.warn('Backend offline, using fallback data. Error:', error);
-    allProducts = fallbackProducts;
+    console.warn('Backend offline or fetch failed. Error:', error.message);
+    // prefer local adminProducts if any
+    const local = JSON.parse(localStorage.getItem('adminProducts') || '[]');
+    if (local && local.length) allProducts = local;
+    else allProducts = fallbackProducts;
   }
 
   // ==========================================
@@ -251,6 +423,9 @@ async function loadProducts() {
     return p;
   });
 
+    const productsGrid = document.getElementById('productsGrid');
+    if (!productsGrid) return;
+
     const params = new URLSearchParams(window.location.search);
     const catParam = params.get('cat');
     const searchParam = params.get('search');
@@ -272,6 +447,8 @@ async function loadProducts() {
 function displayProducts(products) {
   const productsGrid = document.getElementById('productsGrid');
   if (!productsGrid) return;
+  productsGrid.classList.remove('grid-1','grid-2','grid-4');
+  productsGrid.classList.add('grid-3');
 
   if (!products || products.length === 0) {
     productsGrid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;"><p>No products found.</p></div>';
@@ -282,22 +459,39 @@ function displayProducts(products) {
     <div class="product-card" data-cat="${product.category}" data-id="${product.id}">
       ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
       <div class="product-img">
-        <img src="${product.image_url}" alt="${product.name}" />
+        <img src="${product.image_url}" alt="${product.name}" onclick="viewProduct('${product.id}')" style="cursor: pointer;" />
+        <button class="icon-btn wishlist-overlay" onclick="toggleWishlistItem('${product.id}')" title="Wishlist"><i class="fas fa-heart"></i></button>
       </div>
       <div class="product-info">
-        <h4>${product.name}</h4>
-        <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;">${product.description}</p>
+        <h4 onclick="viewProduct('${product.id}')" style="cursor: pointer;">${product.name}</h4>
+        <p class="product-desc" style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;">${product.description}</p>
         <div class="stars">${generateStars(product.rating || 5)} (${product.reviews_count || 0})</div>
-        <div class="price">Rp${parseInt(product.price).toLocaleString('id-ID')}</div>
-        <div style="display: flex; gap: 8px; margin-top: 8px;">
-          <button class="btn btn-primary" style="flex: 1;" onclick="viewProduct('${product.id}')">Detail</button>
-          <button class="icon-btn" onclick="toggleWishlistItem('${product.id}')" style="width: 40px; height: 40px; border: 1px solid var(--card-border); border-radius: var(--radius);">
-            <i class="fas fa-heart" style="color: var(--text-muted);"></i>
+        <div class="product-card-footer">
+          <div class="price">Rp${parseInt(product.price).toLocaleString('id-ID')}</div>
+          <button class="btn btn-primary btn-add-cart" onclick="addToCart('${product.id}')" title="Tambah ke Keranjang">
+            <span class="btn-text-desktop">Tambah ke Keranjang</span>
+            <i class="fas fa-shopping-cart btn-icon-mobile"></i>
           </button>
         </div>
       </div>
     </div>
   `).join('');
+}
+
+// --- Coming Soon handler ---
+function showComingSoon(name) {
+  const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+  grid.classList.remove('grid-1','grid-2','grid-4');
+  grid.classList.add('grid-3');
+  grid.innerHTML = `
+    <div class="coming-soon-panel">
+      <h3>${name} - Coming Soon</h3>
+      <p>Kami sedang menyiapkan koleksi <strong>${name}</strong>. Nantikan kedatangan produk-produk berkualitas di kategori ini.</p>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:14px;">
+      </div>
+    </div>
+  `;
 }
 
 function generateStars(rating) {
@@ -358,7 +552,10 @@ function closeProductModal() {
 
 // === CART & WISHLIST LOGIC ===
 function addToCart(productId) {
-  const product = allProducts.find(p => p.id == productId);
+  let product = allProducts.find(p => p.id == productId);
+  if (!product) {
+    product = wishlist.find(p => p.id == productId);
+  }
   if (!product) return;
   const existing = cart.find(item => item.id == productId);
   if (existing) existing.quantity++;
@@ -448,20 +645,26 @@ function updateCartDisplay() {
   }
 
   container.innerHTML = cart.map(item => `
-    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--card-border);">
-      <img src="${item.image_url}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius);" />
+    <div class="cart-item-modern" style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--card-border); position: relative;">
+      <img src="${item.image_url}" style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05);" />
       <div style="flex: 1;">
-        <h4 style="margin: 0;">${item.name}</h4>
-        <p style="color: var(--text-muted);">Rp${parseInt(item.price).toLocaleString('id-ID')}</p>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <button onclick="updateQty('${item.id}', ${item.quantity-1})" style="color:white; background:var(--bg); border:1px solid var(--card-border);">-</button>
-          <span>${item.quantity}</span>
-          <button onclick="updateQty('${item.id}', ${item.quantity+1})" style="color:white; background:var(--bg); border:1px solid var(--card-border);">+</button>
+        <h4 style="margin: 0 0 4px; font-size: 0.95rem; font-weight: 600; color: #fff;">${item.name}</h4>
+        <p style="color: var(--pink); font-weight: 700; margin: 0 0 8px; font-size: 0.9rem;">Rp${parseInt(item.price).toLocaleString('id-ID')}</p>
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <button onclick="updateQty('${item.id}', ${item.quantity-1})" style="color:white; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition); font-size: 0.8rem;" onmouseover="this.style.background='rgba(233,30,140,0.2)'; this.style.borderColor='var(--pink)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.1)'">-</button>
+          <span style="font-weight: 600; min-width: 25px; text-align: center; font-size: 0.9rem;">${item.quantity}</span>
+          <button onclick="updateQty('${item.id}', ${item.quantity+1})" style="color:white; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition); font-size: 0.8rem;" onmouseover="this.style.background='rgba(233,30,140,0.2)'; this.style.borderColor='var(--pink)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.1)'">+</button>
         </div>
       </div>
-      <button onclick="removeFromCart('${item.id}')" style="background:none; border:none; color:var(--text-muted);"><i class="fas fa-times"></i></button>
+      <button onclick="removeFromCart('${item.id}')" style="background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all var(--transition);" onmouseover="this.style.color='var(--pink)'; this.style.background='rgba(233,30,140,0.1)';" onmouseout="this.style.color='var(--text-dim)'; this.style.background='none';" title="Hapus Item">
+        <i class="fas fa-trash-alt" style="font-size: 0.95rem;"></i>
+      </button>
     </div>
-  `).join('');
+  `).join('') + `
+    <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+      <button onclick="clearCart()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--radius); transition: all var(--transition);" onmouseover="this.style.color='var(--pink)'; this.style.background='rgba(233,30,140,0.08)'" onmouseout="this.style.color='var(--text-muted)'; this.style.background='none'"><i class="fas fa-trash"></i> Kosongkan Keranjang</button>
+    </div>
+  `;
 
   const total = cart.reduce((s, i) => s + (parseInt(i.price) * i.quantity), 0);
   const priceEl = document.getElementById('totalPrice');
@@ -500,10 +703,23 @@ function updateQty(id, q) {
 }
 
 function removeFromCart(id) {
+  const item = cart.find(i => i.id == id);
+  const name = item ? item.name : 'Produk';
   cart = cart.filter(i => i.id != id);
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartCount();
   updateCartDisplay();
+  showToast(`${name} dihapus dari keranjang`);
+}
+
+function clearCart() {
+  if (confirm('Apakah Anda yakin ingin mengosongkan keranjang belanja Anda?')) {
+    cart = [];
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    updateCartDisplay();
+    showToast('Keranjang telah dikosongkan');
+  }
 }
 
 // === OVERLAY & TOAST ===

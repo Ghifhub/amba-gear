@@ -6,7 +6,7 @@
   <meta name="description" content="AMBA GEAR - Premium Gaming Gear Indonesia. Mouse, Keyboard, Headset gaming terbaik untuk anak muda yang ingin menang. Free shipping di atas Rp500.000!" />
   <meta name="keywords" content="gaming gear, mouse gaming, keyboard gaming, headset gaming, gaming indonesia" />
   <meta name="author" content="AMBA GEAR" />
-  <meta property="og:title" content="AMBA GEAR - Premium Gaming Gear" />
+  <meta property="og:title" content="AMBA GEAR" />
   <meta property="og:description" content="Gear gaming terbaik untuk para pemenang. Beli sekarang, gratis ongkir!" />
   <meta property="og:image" content="assets/og-image.jpg" />
   <title>AMBA GEAR</title>
@@ -19,10 +19,6 @@
 
   <div class="topbar">
     <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
-    <div class="topbar-right">
-      <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
-      <a href="login.html"><i class="fas fa-user"></i> Sign In / Register</a>
-    </div>
   </div>
 
   <nav class="navbar" id="navbar">
@@ -36,12 +32,14 @@
         <li><a href="produk.html">Shop</a></li>
         <li><a href="tentang.html">Tentang Kami</a></li>
         <li><a href="kontak.html">Kontak</a></li>
+        <li class="mobile-only"><a href="#" onclick="toggleWishlist()">Wishlist</a></li>
+        <li class="mobile-only"><a href="login.html">Akun</a></li>
       </ul>
       <div class="nav-actions">
         <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fas fa-search"></i></button>
         <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist" style="position: relative;"><i class="fas fa-heart"></i> <span id="wishlistCount" class="cart-count">0</span></button>
         <button class="icon-btn" onclick="toggleCart()" title="Cart" style="position: relative;"><i class="fas fa-shopping-cart"></i> <span id="cartCount" class="cart-count">0</span></button>
-        <button class="icon-btn wa-icon" onclick="openWACS()" title="Chat CS WhatsApp"><i class="fab fa-whatsapp"></i></button>
+        <button class="icon-btn" onclick="window.location.href='login.html'" title="Login"><i class="fas fa-user"></i></button>
         <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
       </div>
     </div>
@@ -95,39 +93,39 @@
         <a href="produk.html" class="btn btn-cyan">SHOP NOW <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
+    
     <button class="hero-pause-btn" onclick="toggleHeroVideo()"><i class="fas fa-pause"></i></button>
   </section>
 
 
   <section class="benefits">
     <div class="container">
-      <div class="benefit-item">
-        <div class="benefit-icon"><i class="fas fa-shipping-fast"></i></div>
-        <div>
-          <h4>Free Shipping</h4>
-          <p>Gratis ongkir untuk pesanan di atas Rp500.000 ke seluruh Indonesia.</p>
-        </div>
+      <div class="benefit-header" style="text-align:center; width:100%; margin-bottom:32px;">
+        <p style="color:var(--text-muted); font-size:0.95rem; letter-spacing:0.2em; text-transform:uppercase; margin:0 0 12px;">Tingkatkan skill gamingmu dengan equipment terbaik</p>
+        <h2 style="margin:0; font-size:clamp(2rem,2.5vw,2.8rem);">KAMI HANYA MENYEDIAKAN BARANG ORIGINAL</h2>
       </div>
-      <div class="benefit-item">
-        <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
-        <div>
-          <h4>Easy Returns</h4>
-          <p>Kebijakan pengembalian 30 hari tanpa ribet.</p>
-        </div>
-      </div>
-      <div class="benefit-item">
-        <div class="benefit-icon"><i class="fas fa-tag"></i></div>
-        <div>
-          <h4>Best Prices</h4>
-          <p>Produk gaming berkualitas dengan harga kompetitif.</p>
-        </div>
-      </div>
-      <div class="benefit-item">
-        <div class="benefit-icon"><i class="fas fa-headset"></i></div>
-        <div>
-          <h4>24/7 Support</h4>
-          <p>Support siap bantu kapan pun kamu butuh.</p>
-        </div>
+      <div class="benefits-grid">
+          <div class="benefit-item">
+            <div class="benefit-icon"><i class="fas fa-truck"></i></div>
+            <div>
+              <h4>Pengiriman Cepat</h4>
+              <p>Pesan sekarang dan dapatkan barangmu dengan cepat! Tidak perlu menunggu lama.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon"><i class="fas fa-thumbs-up"></i></div>
+            <div>
+              <h4>Kualitas Terbaik</h4>
+              <p>Kami hanya jual produk yang terbaik. Setiap barang sudah melalui pengecekan ketat.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon"><i class="fas fa-headset"></i></div>
+            <div>
+              <h4>Customer Support</h4>
+              <p>Butuh bantuan? Tim kami siap membantu kapan saja. Jangan ragu untuk bertanya!</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -214,6 +212,50 @@
           <span class="mobile-cat-arrow"><i class="fas fa-arrow-right"></i></span>
         </div>
       </a>
+    </div>
+  </section>
+
+  <section class="recommended section">
+    <div class="container">
+      <div class="section-header">
+        <h2>REKOMENDASI <span class="accent">PRODUK</span></h2>
+        <div class="underline"></div>
+      </div>
+      <div class="product-grid recommended-grid">
+        <div class="product-card">
+          <div class="product-img"><img src="assets/logitech_g403_hero_tampak_atas-removebg.png" alt="Logitech G403 HERO" /></div>
+          <div class="product-info">
+            <h4>Logitech G403 HERO</h4>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+            <div class="product-card-footer">
+              <div class="price">Rp699.000</div>
+              <a href="produk.html?cat=mouse" class="btn btn-outline" style="border-radius:999px;padding:10px 20px;font-size:0.9rem;">Lihat</a>
+            </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img"><img src="assets/Logitech_g915_tkl-removebg-preview.png" alt="Logitech G915 TKL" /></div>
+          <div class="product-info">
+            <h4>Logitech G915 TKL</h4>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+            <div class="product-card-footer">
+              <div class="price">Rp2.499.000</div>
+              <a href="produk.html?cat=keyboard" class="btn btn-outline" style="border-radius:999px;padding:10px 20px;font-size:0.9rem;">Lihat</a>
+            </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img"><img src="assets/HyperX Cloud II Gaming Headset.png" alt="HyperX Cloud II" /></div>
+          <div class="product-info">
+            <h4>HyperX Cloud II</h4>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+            <div class="product-card-footer">
+              <div class="price">Rp999.000</div>
+              <a href="produk.html?cat=headset" class="btn btn-outline" style="border-radius:999px;padding:10px 20px;font-size:0.9rem;">Lihat</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 

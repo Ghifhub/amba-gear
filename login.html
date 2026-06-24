@@ -12,20 +12,11 @@
 </head>
 <body>
 
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
-    <div class="topbar-right">
-      <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
-      <a href="login.html"><i class="fas fa-user"></i> Sign In / Register</a>
-    </div>
-  </div>
-
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
       <a href="index.html" class="logo">
-        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" />
+        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" />
         <span class="logo-text"><span class="amba-text">AMBA</span> GEAR</span>
       </a>
       <ul class="nav-links" id="navLinks">
@@ -33,10 +24,14 @@
         <li><a href="produk.html">Shop</a></li>
         <li><a href="tentang.html">Tentang Kami</a></li>
         <li><a href="kontak.html">Kontak</a></li>
+        <li class="mobile-only"><a href="#" onclick="toggleWishlist()">Wishlist</a></li>
+        <li class="mobile-only"><a href="login.html">Akun</a></li>
       </ul>
       <div class="nav-actions">
-        <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
-        <button class="icon-btn wa-icon" onclick="openWACS()" title="Chat CS WhatsApp"><i class="fab fa-whatsapp"></i></button>
+        <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fas fa-search"></i></button>
+        <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist" style="position: relative;"><i class="fas fa-heart"></i> <span id="wishlistCount" class="cart-count">0</span></button>
+        <button class="icon-btn" onclick="toggleCart()" title="Cart" style="position: relative;"><i class="fas fa-shopping-cart"></i> <span id="cartCount" class="cart-count">0</span></button>
+        <button class="icon-btn" onclick="window.location.href='login.html'" title="Login"><i class="fas fa-user"></i></button>
         <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
       </div>
     </div>
@@ -68,16 +63,12 @@
               <input type="password" id="password" name="password" placeholder="Masukkan password" required />
             </div>
             <div class="form-group">
-              <label for="role">Role</label>
-              <select id="role" name="role" required>
-                <option value="customer">Customer</option>
-                <option value="admin">Admin</option>
-              </select>
+              <!-- role selection removed: role is determined by backend -->
             </div>
             <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Login</button>
           </form>
           <p style="text-align: center; margin-top: 20px; color: var(--text-muted); font-size: 0.9rem;">
-            Belum punya akun? <a href="#" style="color: var(--pink);">Daftar Sekarang</a>
+            Belum punya akun? <a href="register.html" style="color: var(--pink);">Daftar Sekarang</a>
           </p>
         </div>
       </div>
@@ -145,33 +136,5 @@
   </a>
 
   <script src="script.js"></script>
-  <script>
-    function handleLogin(event) {
-      event.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const role = document.getElementById('role').value;
-
-      fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          alert('Login berhasil!');
-          window.location.href = 'index.html';
-        } else {
-          alert(data.error || 'Login gagal');
-        }
-      })
-      .catch(error => {
-        alert('Error: ' + error.message);
-      });
-    }
-  </script>
 </body>
 </html>

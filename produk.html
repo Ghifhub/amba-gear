@@ -15,17 +15,13 @@
   <!-- TOP BAR -->
   <div class="topbar">
     <span><i class="fas fa-truck"></i> Free Shipping semua pesanan di atas <strong>Rp500.000</strong></span>
-    <div class="topbar-right">
-      <a href="kontak.html"><i class="fab fa-whatsapp"></i> Chat Admin</a>
-      <a href="login.html"><i class="fas fa-user"></i> Sign In / Register</a>
-    </div>
   </div>
 
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
       <a href="index.html" class="logo">
-        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" />
+        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" />
         <span class="logo-text"><span class="amba-text">AMBA</span> GEAR</span>
       </a>
       <ul class="nav-links" id="navLinks">
@@ -33,12 +29,14 @@
         <li><a href="produk.html" class="active">Shop</a></li>
         <li><a href="tentang.html">Tentang Kami</a></li>
         <li><a href="kontak.html">Kontak</a></li>
+        <li class="mobile-only"><a href="#" onclick="toggleWishlist()">Wishlist</a></li>
+        <li class="mobile-only"><a href="login.html">Akun</a></li>
       </ul>
       <div class="nav-actions">
         <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fas fa-search"></i></button>
         <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist" style="position: relative;"><i class="fas fa-heart"></i> <span id="wishlistCount" class="cart-count">0</span></button>
         <button class="icon-btn" onclick="toggleCart()" title="Cart" style="position: relative;"><i class="fas fa-shopping-cart"></i> <span id="cartCount" class="cart-count">0</span></button>
-        <button class="icon-btn wa-icon" onclick="openWACS()" title="Chat CS WhatsApp"><i class="fab fa-whatsapp"></i></button>
+        <button class="icon-btn" onclick="window.location.href='login.html'" title="Login"><i class="fas fa-user"></i></button>
         <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
       </div>
     </div>
@@ -54,25 +52,36 @@
     <p class="breadcrumb"><a href="index.html">Home</a> / Shop</p>
   </section>
 
-  <!-- FILTER BAR -->
-  <div class="filter-bar">
-    <div class="container">
-      <span class="filter-label">Filter:</span>
-      <button class="filter-btn active" data-filter="all" onclick="filterProducts('all')">Semua</button>
-      <button class="filter-btn" data-filter="mouse" onclick="filterProducts('mouse')">Mouse</button>
-      <button class="filter-btn" data-filter="keyboard" onclick="filterProducts('keyboard')">Keyboard</button>
-      <button class="filter-btn" data-filter="headset" onclick="filterProducts('headset')">Headset</button>
-    </div>
-  </div>
-
   <!-- PRODUCTS FULL LIST -->
   <section class="section" style="background: var(--bg-2);">
     <div class="container">
-      <div id="productsGrid" class="product-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
-        <!-- Products will be loaded dynamically -->
-        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--pink);"></i>
-          <p style="margin-top: 10px; color: var(--text-muted);">Loading products...</p>
+      <div class="shop-layout">
+        <aside class="shop-sidebar">
+          <div class="sidebar-card">
+            <button class="accordion-toggle" onclick="toggleCategoryAccordion()">
+              <span>Kategori Produk</span>
+              <i class="fas fa-chevron-down accordion-arrow"></i>
+            </button>
+            <div class="accordion-panel">
+              <ul class="shop-categories">
+                <li onclick="filterProducts('all')">Semua Produk</li>
+                <li onclick="filterProducts('mouse')">Gaming Mouse</li>
+                <li onclick="filterProducts('headset')">Gaming Headset</li>
+                <li onclick="filterProducts('keyboard')">Gaming Keyboard</li>
+                <li class="coming-soon" onclick="showComingSoon('Sparepart')">Sparepart <span>Coming Soon</span></li>
+                <li class="coming-soon" onclick="showComingSoon('Deskmat')">Deskmat <span>Coming Soon</span></li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+        <div class="shop-content">
+            <div id="productsGrid" class="product-grid grid-3" style="gap: 30px;">
+              <!-- Products will be loaded dynamically -->
+              <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--pink);"></i>
+                <p style="margin-top: 10px; color: var(--text-muted);">Loading products...</p>
+              </div>
+            </div>
         </div>
       </div>
     </div>

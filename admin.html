@@ -3,436 +3,376 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Admin Panel AMBA GEAR - Manage Products" />
-  <title>Admin Panel – AMBA GEAR</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Admin Dashboard AMBA GEAR - Kelola Produk, Kategori, Inquiry, dan Analytics" />
+  <title>Admin Dashboard - AMBA GEAR</title>
+  <link rel="stylesheet" href="admin.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
-<body>
-
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <span><i class="fas fa-crown"></i> Admin Panel - AMBA GEAR</span>
-    <div class="topbar-right">
-      <a href="index.html"><i class="fas fa-home"></i> Back to Site</a>
-      <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+<body class="admin-layout">
+  <aside class="sidebar" id="adminSidebar">
+    <div class="sidebar-logo">
+      <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="AMBA GEAR" />
+      <div class="brand">AMBA <span>GEAR</span></div>
     </div>
-  </div>
-
-  <!-- NAVBAR -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="index.html" class="logo">
-        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" />
-        <span class="logo-text"><span class="amba-text">AMBA</span> GEAR</span>
-      </a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#products">Products</a></li>
-        <li><a href="#add-product">Add Product</a></li>
-        <li><a href="#orders">Orders</a></li>
-      </ul>
-      <div class="nav-actions">
-        <button class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
-        <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-      </div>
+    <div class="sidebar-nav">
+      <div class="nav-section-label">Navigation</div>
+      <button class="nav-item active" data-section="dashboard"><i class="fas fa-chart-line"></i> Dashboard</button>
+      <button class="nav-item" data-section="products"><i class="fas fa-boxes-stacked"></i> Produk</button>
+      <button class="nav-item" data-section="categories"><i class="fas fa-tags"></i> Kategori</button>
+      <button class="nav-item" data-section="inquiries"><i class="fab fa-whatsapp"></i> Customer Inquiry</button>
+      <button class="nav-item" data-section="analytics"><i class="fas fa-chart-bar"></i> Analytics</button>
+      <button class="nav-item" data-section="settings"><i class="fas fa-cog"></i> Settings</button>
     </div>
-    <div class="search-bar" id="searchBar">
-      <input type="text" placeholder="Search products..." onkeyup="filterProducts(this.value)" />
-      <button><i class="fas fa-search"></i></button>
-    </div>
-  </nav>
-
-  <!-- ADMIN DASHBOARD -->
-  <section class="section">
-    <div class="container">
-      <h1 style="text-align: center; margin-bottom: 40px;">Admin Dashboard</h1>
-
-      <!-- STATS CARDS -->
-      <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
-        <div class="stat-box" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 20px; text-align: center;">
-          <i class="fas fa-box" style="font-size: 2rem; color: var(--pink); margin-bottom: 10px;"></i>
-          <h3 id="totalProducts">0</h3>
-          <p>Total Products</p>
-        </div>
-        <div class="stat-box" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 20px; text-align: center;">
-          <i class="fas fa-mouse" style="font-size: 2rem; color: var(--blue); margin-bottom: 10px;"></i>
-          <h3 id="mouseCount">0</h3>
-          <p>Mice</p>
-        </div>
-        <div class="stat-box" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 20px; text-align: center;">
-          <i class="fas fa-keyboard" style="font-size: 2rem; color: var(--green); margin-bottom: 10px;"></i>
-          <h3 id="keyboardCount">0</h3>
-          <p>Keyboards</p>
-        </div>
-        <div class="stat-box" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 20px; text-align: center;">
-          <i class="fas fa-headphones" style="font-size: 2rem; color: var(--purple); margin-bottom: 10px;"></i>
-          <h3 id="headsetCount">0</h3>
-          <p>Headsets</p>
+    <div class="sidebar-footer">
+      <div class="admin-badge">
+        <div class="admin-avatar" id="adminAvatar">AD</div>
+        <div class="admin-info">
+          <div class="name" id="adminName">Admin</div>
+          <div class="role">Administrator</div>
         </div>
       </div>
+      <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </aside>
 
-      <!-- ADD PRODUCT FORM -->
-      <div id="add-product" class="admin-section" style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 40px;">
-        <h2 style="margin-bottom: 20px;">Add New Product</h2>
-        <form id="addProductForm" onsubmit="addProduct(event)">
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-            <div class="form-group">
-              <label for="name">Product Name</label>
-              <input type="text" id="name" required />
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <main class="main-content">
+    <header class="top-navbar">
+      <div class="navbar-left">
+        <button class="hamburger-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <div>
+          <div class="page-title" id="pageTitle">Dashboard</div>
+          <p class="text-muted">Kelola semua aset AMBA GEAR dari satu dashboard.</p>
+        </div>
+      </div>
+      <div class="navbar-right">
+        <label class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search products..." id="productSearch" oninput="filterProducts()" />
+        </label>
+        <button class="icon-btn-nav" title="Notifications"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+        <button class="icon-btn-nav" title="Profile"><i class="fas fa-user-circle"></i></button>
+      </div>
+    </header>
+
+    <section class="page-content">
+      <section id="section-dashboard" class="section-panel active">
+        <div class="page-header">
+          <div>
+            <h2>Dashboard</h2>
+            <p>Ringkasan penjualan, traffic, dan performa produk.</p>
+          </div>
+          <button class="btn btn-primary" onclick="navigateTo('products')"><i class="fas fa-box"></i> Kelola Produk</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card cyan">
+            <div class="stat-icon"><i class="fas fa-box"></i></div>
+            <div class="stat-value" id="statTotalProducts">0</div>
+            <div class="stat-label">Total Produk</div>
+          </div>
+          <div class="stat-card pink">
+            <div class="stat-icon"><i class="fas fa-tags"></i></div>
+            <div class="stat-value" id="statTotalCategories">0</div>
+            <div class="stat-label">Total Kategori</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon"><i class="fas fa-eye"></i></div>
+            <div class="stat-value" id="statTotalViews">0</div>
+            <div class="stat-label">Jumlah Views</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-icon"><i class="fab fa-whatsapp"></i></div>
+            <div class="stat-value" id="statWAClicks">0</div>
+            <div class="stat-label">Klik WhatsApp</div>
+          </div>
+          <div class="stat-card cyan">
+            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-value" id="statAvailable">0</div>
+            <div class="stat-label">Produk Tersedia</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="stat-value" id="statOutOfStock">0</div>
+            <div class="stat-label">Produk Habis</div>
+          </div>
+        </div>
+
+        <div class="grid-3-1">
+          <div class="card">
+            <div class="card-header">
+              <h3>Traffic Mingguan</h3>
+              <span class="meta">Data mock / fallback</span>
             </div>
-            <div class="form-group">
-              <label for="category">Category</label>
-              <select id="category" required>
-                <option value="mouse">Mouse</option>
-                <option value="keyboard">Keyboard</option>
-                <option value="headset">Headset</option>
-              </select>
+            <div class="chart-container" id="weeklyChart"></div>
+          </div>
+
+          <div>
+            <div class="card" style="margin-bottom:20px;">
+              <div class="card-header"><h3>Produk Terpopuler</h3></div>
+              <div id="topProductsList"></div>
             </div>
-            <div class="form-group">
-              <label for="brand">Brand</label>
-              <input type="text" id="brand" required />
-            </div>
-            <div class="form-group">
-              <label for="price">Price (Rp)</label>
-              <input type="number" id="price" required />
-            </div>
-            <div class="form-group">
-              <label for="old_price">Old Price (Rp) - Optional</label>
-              <input type="number" id="old_price" />
-            </div>
-            <div class="form-group">
-              <label for="image_url">Image URL</label>
-              <input type="url" id="image_url" required />
-            </div>
-            <div class="form-group" style="grid-column: 1 / -1;">
-              <label for="description">Description</label>
-              <textarea id="description" rows="3" required></textarea>
-            </div>
-            <div class="form-group" style="grid-column: 1 / -1;">
-              <label for="specs">Specifications</label>
-              <textarea id="specs" rows="2" placeholder="e.g. Sensor HERO 25K • Wireless • 63g"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="badge">Badge (Optional)</label>
-              <select id="badge">
-                <option value="">No Badge</option>
-                <option value="HOT">HOT</option>
-                <option value="SALE">SALE</option>
-                <option value="NEW">NEW</option>
-              </select>
+            <div class="card">
+              <div class="card-header"><h3>Aktivitas Terbaru</h3></div>
+              <div id="recentActivity"></div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Add Product</button>
+        </div>
+      </section>
+
+      <section id="section-products" class="section-panel">
+        <div class="page-header">
+          <div>
+            <h2>Manajemen Produk</h2>
+            <p>CRUD produk lengkap, filter kategori, dan detail produk.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddProductModal()"><i class="fas fa-plus"></i> Tambah Produk</button>
+        </div>
+
+        <div class="filter-bar">
+          <label class="search-input"><i class="fas fa-search"></i><input type="text" placeholder="Cari produk..." oninput="filterProducts()" /></label>
+          <select id="productCatFilter" class="filter-select" onchange="filterProducts()">
+            <option value="">Semua Kategori</option>
+            <option value="mouse">Mouse</option>
+            <option value="keyboard">Keyboard</option>
+            <option value="headset">Headset</option>
+          </select>
+          <div class="mini-stat" style="min-width:140px;"><div class="value" id="productCount">0</div><div class="label">Total Produk</div></div>
+          <div class="mini-stat" style="min-width:140px;"><div class="value" id="availableCount">0</div><div class="label">Tersedia</div></div>
+          <div class="mini-stat" style="min-width:140px;"><div class="value" id="outOfStockCount">0</div><div class="label">Habis</div></div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Produk</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Badge</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section-categories" class="section-panel">
+        <div class="page-header">
+          <div>
+            <h2>Manajemen Kategori</h2>
+            <p>Tambah, edit, atau hapus kategori produk.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddCategoryModal()"><i class="fas fa-plus"></i> Tambah Kategori</button>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Kategori</th>
+                <th>Deskripsi</th>
+                <th>Produk</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="categoriesTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section-inquiries" class="section-panel">
+        <div class="page-header">
+          <div>
+            <h2>Customer Inquiry WA</h2>
+            <p>Kelola pesan pelanggan dan status follow-up.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddInquiryModal()"><i class="fas fa-plus"></i> Tambah Inquiry</button>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="mini-stat"><div class="value" id="inquiryTotal">0</div><div class="label">Total Inquiry</div></div>
+          <div class="mini-stat"><div class="value" id="inquiryPending">0</div><div class="label">Pending</div></div>
+          <div class="mini-stat"><div class="value" id="inquiryDiproses">0</div><div class="label">Diproses</div></div>
+          <div class="mini-stat"><div class="value" id="inquirySelesai">0</div><div class="label">Selesai</div></div>
+        </div>
+
+        <div class="filter-bar">
+          <label class="search-input"><i class="fas fa-search"></i><input type="text" id="inquirySearch" placeholder="Cari nama atau produk..." oninput="filterInquiries()" /></label>
+          <select id="inquiryStatusFilter" class="filter-select" onchange="filterInquiries()">
+            <option value="">Semua Status</option>
+            <option value="pending">Pending</option>
+            <option value="diproses">Diproses</option>
+            <option value="selesai">Selesai</option>
+          </select>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Produk</th>
+                <th>Pesan</th>
+                <th>Tanggal</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="inquiriesTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section-analytics" class="section-panel">
+        <div class="page-header">
+          <div>
+            <h2>Analytics</h2>
+            <p>Laporan ringkas performa traffic dan produk terpopuler.</p>
+          </div>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="mini-stat"><div class="value" id="analyticsTotalViews">0</div><div class="label">Total Views</div></div>
+          <div class="mini-stat"><div class="value" id="analyticsWAClicks">0</div><div class="label">WA Clicks</div></div>
+          <div class="mini-stat"><div class="value" id="analyticsWeeklyVisitors">0</div><div class="label">Pengunjung Mingguan</div></div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header"><h3>Trend Pengunjung</h3></div>
+          <div class="chart-container" id="analyticsChart"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Produk Populer Berdasarkan Views</h3></div>
+          <div id="analyticsTopList"></div>
+        </div>
+      </section>
+
+      <section id="section-settings" class="section-panel">
+        <div class="page-header">
+          <div>
+            <h2>Settings</h2>
+            <p>Pengaturan admin, autentikasi, dan tampilan dashboard.</p>
+          </div>
+        </div>
+        <div class="card">
+          <p style="color: var(--text-muted);">Fitur settings belum tersedia. Ini placeholder untuk pengaturan admin selanjutnya.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="productModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="productModalTitle">Tambah Produk Baru</h3>
+        <button class="modal-close" onclick="closeModal('productModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="product-image-preview">
+          <img id="imgPreviewImg" src="" alt="Preview Image" style="display:none;" />
+          <div class="placeholder" id="imgPreviewPlaceholder"><i class="fas fa-image"></i> Tempat preview gambar</div>
+        </div>
+        <form id="productForm" onsubmit="saveProduct(event)">
+          <div class="form-grid">
+            <div class="form-group"><label for="prodName">Nama Produk</label><input id="prodName" class="form-input" required /></div>
+            <div class="form-group"><label for="prodCategory">Kategori</label><select id="prodCategory" class="form-input" required><option value="mouse">Mouse</option><option value="keyboard">Keyboard</option><option value="headset">Headset</option></select></div>
+            <div class="form-group"><label for="prodBrand">Brand</label><input id="prodBrand" class="form-input" required /></div>
+            <div class="form-group"><label for="prodPrice">Harga (Rp)</label><input id="prodPrice" type="number" class="form-input" required /></div>
+            <div class="form-group"><label for="prodOldPrice">Old Price (Rp)</label><input id="prodOldPrice" type="number" class="form-input" /></div>
+            <div class="form-group"><label for="prodStok">Stok</label><input id="prodStok" type="number" class="form-input" min="0" value="0" required /></div>
+            <div class="form-group"><label for="prodStatus">Status Produk</label><select id="prodStatus" class="form-input"><option value="tersedia">Tersedia</option><option value="habis">Habis</option><option value="nonaktif">Nonaktif</option></select></div>
+            <div class="form-group"><label for="prodBadge">Badge</label><select id="prodBadge" class="form-input"><option value="">No Badge</option><option value="HOT">HOT</option><option value="SALE">SALE</option><option value="NEW">NEW</option></select></div>
+            <div class="form-group"><label for="prodImageFile">Upload Gambar</label><input id="prodImageFile" type="file" accept="image/*" class="form-input" onchange="previewFile(this)" /></div>
+            <div class="form-group"><label for="prodImageUrl">Image URL (atau pilih file)</label><input id="prodImageUrl" class="form-input" oninput="previewImage(this.value)" /></div>
+            <div class="form-group full"><label for="prodDescription">Deskripsi</label><textarea id="prodDescription" class="form-input" rows="4" required></textarea></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('productModal')">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Produk</button>
+          </div>
         </form>
       </div>
-
-      <!-- PRODUCTS MANAGEMENT -->
-      <div id="products" class="admin-section">
-        <h2 style="margin-bottom: 20px;">Manage Products</h2>
-        <div id="productsGrid" class="products-grid">
-          <!-- Products will be loaded here -->
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EDIT PRODUCT MODAL -->
-  <div id="editModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
-    <div style="background: var(--card); border-radius: var(--radius-lg); padding: 30px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
-      <h3 style="margin-bottom: 20px;">Edit Product</h3>
-      <form id="editProductForm" onsubmit="updateProduct(event)">
-        <input type="hidden" id="editId" />
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-          <div class="form-group">
-            <label for="editName">Product Name</label>
-            <input type="text" id="editName" required />
-          </div>
-          <div class="form-group">
-            <label for="editCategory">Category</label>
-            <select id="editCategory" required>
-              <option value="mouse">Mouse</option>
-              <option value="keyboard">Keyboard</option>
-              <option value="headset">Headset</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="editBrand">Brand</label>
-            <input type="text" id="editBrand" required />
-          </div>
-          <div class="form-group">
-            <label for="editPrice">Price (Rp)</label>
-            <input type="number" id="editPrice" required />
-          </div>
-          <div class="form-group">
-            <label for="editOldPrice">Old Price (Rp)</label>
-            <input type="number" id="editOldPrice" />
-          </div>
-          <div class="form-group">
-            <label for="editImageUrl">Image URL</label>
-            <input type="url" id="editImageUrl" required />
-          </div>
-          <div class="form-group" style="grid-column: 1 / -1;">
-            <label for="editDescription">Description</label>
-            <textarea id="editDescription" rows="3" required></textarea>
-          </div>
-          <div class="form-group" style="grid-column: 1 / -1;">
-            <label for="editSpecs">Specifications</label>
-            <textarea id="editSpecs" rows="2"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="editBadge">Badge</label>
-            <select id="editBadge">
-              <option value="">No Badge</option>
-              <option value="HOT">HOT</option>
-              <option value="SALE">SALE</option>
-              <option value="NEW">NEW</option>
-            </select>
-          </div>
-        </div>
-        <div style="margin-top: 20px; display: flex; gap: 10px;">
-          <button type="submit" class="btn btn-primary">Update Product</button>
-          <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
-        </div>
-      </form>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <a href="index.html" class="logo"><img src="assets/rusdi.jpg" alt="amba gear" style="height:40px; width:auto; max-width:150px; object-fit:contain; display:block;" /></a>
-            <p>Admin Panel - AMBA GEAR Gaming Store</p>
+  <div class="modal-overlay" id="viewProductModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Detail Produk</h3>
+        <button class="modal-close" onclick="closeModal('viewProductModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="grid-2" style="gap:24px;align-items:start;">
+          <div>
+            <div class="product-image-preview"><img id="viewProductImg" src="" alt="Product Image" /></div>
+          </div>
+          <div>
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;"><h3 id="viewProductName" style="margin:0;font-size:1.3rem;"></h3></div>
+            <p id="viewProductBrand" style="color:var(--text-muted);margin-bottom:12px;"></p>
+            <p><strong>Harga:</strong> <span id="viewProductPrice"></span></p>
+            <p><strong>Stok:</strong> <span id="viewProductStok"></span></p>
+            <p><strong>Views:</strong> <span id="viewProductViews"></span></p>
+            <p><strong>Badge:</strong> <span id="viewProductBadge"></span></p>
+            <p><strong>Status:</strong> <span id="viewProductStatus"></span></p>
           </div>
         </div>
+        <div style="margin-top:20px;"><h4>Deskripsi</h4><p id="viewProductDesc" style="color:var(--text-muted);"></p></div>
       </div>
     </div>
-  </footer>
+  </div>
 
-  <script src="script.js"></script>
-  <script>
-    // Check admin access
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    if (!user || user.role !== 'admin') {
-      alert('Access denied! Admin only.');
-      window.location.href = 'login.html';
-    }
-
-    // Load products on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      loadProducts();
-    });
-
-    // Load products from API
-    async function loadProducts() {
-      try {
-        const response = await fetch('http://localhost:5000/api/products');
-        const products = await response.json();
-
-        displayProducts(products);
-        updateStats(products);
-      } catch (error) {
-        console.error('Error loading products:', error);
-        document.getElementById('productsGrid').innerHTML = '<p>Error loading products</p>';
-      }
-    }
-
-    // Display products in grid
-    function displayProducts(products) {
-      const grid = document.getElementById('productsGrid');
-      grid.innerHTML = '';
-
-      products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card';
-        productCard.setAttribute('data-cat', product.category);
-
-        productCard.innerHTML = `
-          <div class="product-image">
-            <img src="${product.image_url}" alt="${product.name}" />
-            ${product.badge ? `<span class="badge ${product.badge.toLowerCase()}">${product.badge}</span>` : ''}
-            <div class="product-actions">
-              <button onclick="editProduct('${product.id}')" class="btn-icon"><i class="fas fa-edit"></i></button>
-              <button onclick="deleteProduct('${product.id}')" class="btn-icon delete"><i class="fas fa-trash"></i></button>
-            </div>
+  <div class="modal-overlay" id="categoryModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="categoryModalTitle">Tambah Kategori</h3>
+        <button class="modal-close" onclick="closeModal('categoryModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="categoryForm" onsubmit="saveCategory(event)">
+          <div class="form-grid">
+            <div class="form-group full"><label for="catNama">Nama Kategori</label><input id="catNama" class="form-input" required /></div>
+            <div class="form-group full"><label for="catDeskripsi">Deskripsi</label><textarea id="catDeskripsi" class="form-input" rows="4"></textarea></div>
           </div>
-          <div class="product-info">
-            <h3>${product.name}</h3>
-            <p class="brand">${product.brand}</p>
-            <p class="specs">${product.specs || ''}</p>
-            <div class="price">
-              <span class="current">Rp${product.price.toLocaleString()}</span>
-              ${product.old_price ? `<span class="old">Rp${product.old_price.toLocaleString()}</span>` : ''}
-            </div>
-            <div class="rating">
-              <div class="stars">${'★'.repeat(Math.floor(product.rating || 0))}${'☆'.repeat(5 - Math.floor(product.rating || 0))}</div>
-              <span>(${product.reviews_count || 0})</span>
-            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('categoryModal')">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Kategori</button>
           </div>
-        `;
+        </form>
+      </div>
+    </div>
+  </div>
 
-        grid.appendChild(productCard);
-      });
-    }
+  <div class="modal-overlay" id="inquiryModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Tambah Inquiry</h3>
+        <button class="modal-close" onclick="closeModal('inquiryModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="inquiryForm" onsubmit="saveInquiry(event)">
+          <div class="form-grid">
+            <div class="form-group"><label for="iqNama">Nama Pelanggan</label><input id="iqNama" class="form-input" required /></div>
+            <div class="form-group"><label for="iqWA">Nomor WA</label><input id="iqWA" class="form-input" required /></div>
+            <div class="form-group"><label for="iqProduk">Produk Diminati</label><input id="iqProduk" class="form-input" /></div>
+            <div class="form-group full"><label for="iqPesan">Pesan</label><textarea id="iqPesan" class="form-input" rows="4"></textarea></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('inquiryModal')">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Inquiry</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-    // Update stats
-    function updateStats(products) {
-      document.getElementById('totalProducts').textContent = products.length;
-      document.getElementById('mouseCount').textContent = products.filter(p => p.category === 'mouse').length;
-      document.getElementById('keyboardCount').textContent = products.filter(p => p.category === 'keyboard').length;
-      document.getElementById('headsetCount').textContent = products.filter(p => p.category === 'headset').length;
-    }
-
-    // Add new product
-    async function addProduct(event) {
-      event.preventDefault();
-
-      const formData = {
-        name: document.getElementById('name').value,
-        category: document.getElementById('category').value,
-        brand: document.getElementById('brand').value,
-        price: parseInt(document.getElementById('price').value),
-        old_price: document.getElementById('old_price').value ? parseInt(document.getElementById('old_price').value) : null,
-        description: document.getElementById('description').value,
-        specs: document.getElementById('specs').value,
-        image_url: document.getElementById('image_url').value,
-        badge: document.getElementById('badge').value
-      };
-
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:5000/api/products', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(formData)
-        });
-
-        if (response.ok) {
-          alert('Product added successfully!');
-          document.getElementById('addProductForm').reset();
-          loadProducts(); // Reload products
-        } else {
-          const error = await response.json();
-          alert('Error: ' + error.error);
-        }
-      } catch (error) {
-        alert('Error: ' + error.message);
-      }
-    }
-
-    // Edit product
-    async function editProduct(id) {
-      try {
-        const response = await fetch(`http://localhost:5000/api/products/${id}`);
-        const product = await response.json();
-
-        // Fill edit form
-        document.getElementById('editId').value = product.id;
-        document.getElementById('editName').value = product.name;
-        document.getElementById('editCategory').value = product.category;
-        document.getElementById('editBrand').value = product.brand;
-        document.getElementById('editPrice').value = product.price;
-        document.getElementById('editOldPrice').value = product.old_price || '';
-        document.getElementById('editDescription').value = product.description;
-        document.getElementById('editSpecs').value = product.specs || '';
-        document.getElementById('editImageUrl').value = product.image_url;
-        document.getElementById('editBadge').value = product.badge || '';
-
-        // Show modal
-        document.getElementById('editModal').style.display = 'flex';
-      } catch (error) {
-        alert('Error loading product: ' + error.message);
-      }
-    }
-
-    // Update product
-    async function updateProduct(event) {
-      event.preventDefault();
-
-      const id = document.getElementById('editId').value;
-      const formData = {
-        name: document.getElementById('editName').value,
-        category: document.getElementById('editCategory').value,
-        brand: document.getElementById('editBrand').value,
-        price: parseInt(document.getElementById('editPrice').value),
-        old_price: document.getElementById('editOldPrice').value ? parseInt(document.getElementById('editOldPrice').value) : null,
-        description: document.getElementById('editDescription').value,
-        specs: document.getElementById('editSpecs').value,
-        image_url: document.getElementById('editImageUrl').value,
-        badge: document.getElementById('editBadge').value
-      };
-
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:5000/api/products/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(formData)
-        });
-
-        if (response.ok) {
-          alert('Product updated successfully!');
-          closeEditModal();
-          loadProducts();
-        } else {
-          const error = await response.json();
-          alert('Error: ' + error.error);
-        }
-      } catch (error) {
-        alert('Error: ' + error.message);
-      }
-    }
-
-    // Delete product
-    async function deleteProduct(id) {
-      if (!confirm('Are you sure you want to delete this product?')) return;
-
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:5000/api/products/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        if (response.ok) {
-          alert('Product deleted successfully!');
-          loadProducts();
-        } else {
-          const error = await response.json();
-          alert('Error: ' + error.error);
-        }
-      } catch (error) {
-        alert('Error: ' + error.message);
-      }
-    }
-
-    // Close edit modal
-    function closeEditModal() {
-      document.getElementById('editModal').style.display = 'none';
-    }
-
-    // Filter products
-    function filterProducts(query) {
-      const cards = document.querySelectorAll('.product-card');
-      cards.forEach(card => {
-        const name = card.querySelector('h3').textContent.toLowerCase();
-        const brand = card.querySelector('.brand').textContent.toLowerCase();
-        card.style.display = (name.includes(query.toLowerCase()) || brand.includes(query.toLowerCase())) ? '' : 'none';
-      });
-    }
-  </script>
-
+  <script src="admin.js"></script>
 </body>
 </html>

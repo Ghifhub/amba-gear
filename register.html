@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Register AMBA GEAR - Buat akun customer atau admin" />
+  <title>Register – AMBA GEAR</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/Dingin, tetapi tidak kejam.jpg" alt="amba gear" />
+        <span class="logo-text"><span class="amba-text">AMBA</span> GEAR</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="produk.html">Shop</a></li>
+        <li><a href="tentang.html">Tentang Kami</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+        <li class="mobile-only"><a href="#" onclick="toggleWishlist()">Wishlist</a></li>
+        <li class="mobile-only"><a href="login.html">Akun</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fas fa-search"></i></button>
+        <button class="icon-btn" onclick="toggleWishlist()" title="Wishlist" style="position: relative;"><i class="fas fa-heart"></i> <span id="wishlistCount" class="cart-count">0</span></button>
+        <button class="icon-btn" onclick="toggleCart()" title="Cart" style="position: relative;"><i class="fas fa-shopping-cart"></i> <span id="cartCount" class="cart-count">0</span></button>
+        <button class="icon-btn" onclick="window.location.href='login.html'" title="Login"><i class="fas fa-user"></i></button>
+        <button class="hamburger icon-btn" id="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <input type="text" placeholder="Cari produk gaming..." />
+      <button onclick="performSearch()"><i class="fas fa-search"></i></button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>DAFTAR <span class="accent">AKUN</span></h1>
+    <p class="breadcrumb"><a href="index.html">Home</a> / Register</p>
+  </section>
+
+  <!-- REGISTER FORM -->
+  <section class="section" style="background: var(--bg-2);">
+    <div class="container">
+      <div style="max-width: 520px; margin: 0 auto;">
+        <div style="background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-card);">
+          <h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">Buat Akun Baru</h3>
+          <form id="registerForm" onsubmit="registerUser(event)">
+            <div class="form-group">
+              <label for="name">Nama Lengkap</label>
+              <input type="text" id="name" name="name" placeholder="Nama lengkap" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="Email" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="Password" required />
+            </div>
+            <div class="form-group">
+              <label for="role">Role</label>
+              <select id="role" name="role" required>
+                <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 12px;">Daftar</button>
+          </form>
+          <p style="text-align: center; margin-top: 14px; color: var(--text-muted); font-size: 0.95rem;">Sudah punya akun? <a href="login.html" style="color: var(--pink);">Masuk di sini</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" style="margin-top: 40px;"></footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

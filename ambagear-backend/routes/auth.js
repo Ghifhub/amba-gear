@@ -54,6 +54,24 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Email dan password wajib diisi' });
     }
 
+    // --- MOCK/OFFLINE LOGIN FALLBACK ---
+    if (email === 'admin@ambagear.com' && password === 'admin123') {
+      const token = jwt.sign(
+        { id: '00000000-0000-0000-0000-000000000000', email: 'admin@ambagear.com', role: 'admin' },
+        process.env.JWT_SECRET || 'secret_ambagear_123',
+        { expiresIn: '7d' }
+      );
+      return res.json({
+        token,
+        user: {
+          id: '00000000-0000-0000-0000-000000000000',
+          email: 'admin@ambagear.com',
+          name: 'Admin AMBA (Offline Mock)',
+          role: 'admin'
+        }
+      });
+    }
+
     // Get user from Supabase
     const { data: users, error } = await supabase
       .from('users')
