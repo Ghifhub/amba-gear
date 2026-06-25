@@ -465,7 +465,7 @@ function displayProducts(products) {
       <div class="product-info">
         <h4 onclick="viewProduct('${product.id}')" style="cursor: pointer;">${product.name}</h4>
         <p class="product-desc" style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px;line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;">${product.description}</p>
-        <div class="stars">${generateStars(product.rating || 5)} (${product.reviews_count || 0})</div>
+        
         <div class="product-card-footer">
           <div class="price">Rp${parseInt(product.price).toLocaleString('id-ID')}</div>
           <button class="btn btn-primary btn-add-cart" onclick="addToCart('${product.id}')" title="Tambah ke Keranjang">
@@ -495,10 +495,8 @@ function showComingSoon(name) {
 }
 
 function generateStars(rating) {
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 !== 0;
-  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-  return '<i class="fas fa-star"></i>'.repeat(fullStars) + (hasHalfStar ? '<i class="fas fa-star-half-alt"></i>' : '') + '<i class="far fa-star"></i>'.repeat(emptyStars);
+  // Ratings/stars removed — keep function to avoid breaking callers elsewhere
+  return '';
 }
 
 async function filterProducts(category) {
